@@ -1,14 +1,16 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
+import js from '@eslint/js';
+import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import tseslint from 'typescript-eslint';
 import pluginTailwindCSS from 'eslint-plugin-tailwindcss';
 import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
 import pluginImport from 'eslint-plugin-import';
+import pluginPrettier from 'eslint-plugin-prettier';
+import configPrettier from 'eslint-config-prettier';
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'node_modules', 'build', 'coverage', 'public'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
@@ -19,12 +21,15 @@ export default tseslint.config(
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
-      'tailwindcss': pluginTailwindCSS,
-      'import': pluginImport,
+      tailwindcss: pluginTailwindCSS,
+      import: pluginImport,
       'jsx-a11y': pluginJsxA11y,
+      prettier: pluginPrettier,
+      'react-refresh': reactRefresh,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
+      'prettier/prettier': 'error',
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
@@ -82,4 +87,4 @@ export default tseslint.config(
       ],
     },
   },
-)
+);
