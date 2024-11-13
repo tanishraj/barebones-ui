@@ -25,6 +25,7 @@ export default tseslint.config(
       import: pluginImport,
       'jsx-a11y': pluginJsxA11y,
       prettier: pluginPrettier,
+      'react-refresh': reactRefresh,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
