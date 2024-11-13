@@ -8,6 +8,7 @@ import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
 import pluginImport from 'eslint-plugin-import';
 import pluginPrettier from 'eslint-plugin-prettier';
 import configPrettier from 'eslint-config-prettier';
+import pluginReactPerf from 'eslint-plugin-react-perf';
 
 export default tseslint.config(
   { ignores: ['dist', 'node_modules', 'build', 'coverage', 'public'] },
@@ -30,6 +31,7 @@ export default tseslint.config(
       'jsx-a11y': pluginJsxA11y,
       prettier: pluginPrettier,
       'react-refresh': reactRefresh,
+      'react-perf': pluginReactPerf,
     },
     settings: {
       react: {
@@ -94,6 +96,8 @@ export default tseslint.config(
         'error',
         { functions: false },
       ],
+      'react-perf/jsx-no-new-object-as-prop': 'warn',
+      'react-perf/jsx-no-new-array-as-prop': 'warn',
     },
   },
 );
