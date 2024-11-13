@@ -4,8 +4,8 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import pluginTailwindCSS from 'eslint-plugin-tailwindcss';
+import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
 import pluginImport from 'eslint-plugin-import';
-
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -20,7 +20,8 @@ export default tseslint.config(
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       'tailwindcss': pluginTailwindCSS,
-      'import': pluginImport
+      'import': pluginImport,
+      'jsx-a11y': pluginJsxA11y,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -30,6 +31,15 @@ export default tseslint.config(
       ],
       'tailwindcss/classnames-order': 'warn',
       'tailwindcss/no-custom-classname': 'off',
+      'jsx-a11y/click-events-have-key-events': 'off',
+      'jsx-a11y/no-noninteractive-element-to-interactive-role': 'off',
+      'jsx-a11y/anchor-is-valid': [
+        'error',
+        {
+          components: ['Link', 'RouterLink'],
+          aspects: ['invalidHref'],
+        },
+      ],
       'import/no-duplicates': 'error',
       'import/no-self-import': 'error',
       'import/order': [
