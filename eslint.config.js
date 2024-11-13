@@ -27,6 +27,11 @@ export default tseslint.config(
       prettier: pluginPrettier,
       'react-refresh': reactRefresh,
     },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
     rules: {
       ...reactHooks.configs.recommended.rules,
       'prettier/prettier': 'error',
