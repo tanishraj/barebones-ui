@@ -9,6 +9,7 @@ import pluginImport from 'eslint-plugin-import';
 import pluginPrettier from 'eslint-plugin-prettier';
 import configPrettier from 'eslint-config-prettier';
 import pluginReactPerf from 'eslint-plugin-react-perf';
+import pluginReact from 'eslint-plugin-react';
 
 export default tseslint.config(
   { ignores: ['dist', 'node_modules', 'build', 'coverage', 'public'] },
@@ -32,6 +33,7 @@ export default tseslint.config(
       prettier: pluginPrettier,
       'react-refresh': reactRefresh,
       'react-perf': pluginReactPerf,
+      react: pluginReact,
     },
     settings: {
       react: {
@@ -98,6 +100,12 @@ export default tseslint.config(
       ],
       'react-perf/jsx-no-new-object-as-prop': 'warn',
       'react-perf/jsx-no-new-array-as-prop': 'warn',
+      'react/jsx-no-target-blank': 'warn',
+      'react/jsx-no-duplicate-props': ['error', { ignoreCase: true }],
+      'react/no-array-index-key': 'warn',
+      'react/no-danger': 'warn',
+      'react/no-deprecated': 'error',
+      'react/no-direct-mutation-state': 'error',
     },
   },
 );
