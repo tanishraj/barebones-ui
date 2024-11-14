@@ -1,34 +1,34 @@
-# 🚀 Pull Request
+# 🚀 Pull Request Title
+
+`<Content>`
 
 ## 📄 Description
 
-Please include a summary of the changes and the motivation behind them. List any dependencies that are required for this change.
-
-- **Relevant Issues:** (e.g., Closes #123)
+`<Content>`
 
 ## ✅ Checklist
 
 - [ ] My code follows the style guidelines of this project.
-- [ ] I have performed a self-review of my own code.
-- [ ] I have commented my code, particularly in hard-to-understand areas.
-- [ ] I have made corresponding changes to the documentation.
+- [ ] I have performed a self-review of my code.
+- [ ] I have commented my code where necessary.
+- [ ] I have formatted the code using the project's formatter (e.g., Prettier).
 - [ ] My changes generate no new warnings or errors.
-- [ ] I have added tests that prove my fix is effective or that my feature works.
+- [ ] I have added tests that prove my changes work.
 - [ ] New and existing unit tests pass locally with my changes.
 
 ## 🔍 Types of Changes
 
-What types of changes does your code introduce? _Put an `x` in all the boxes that apply:_
+- [ ] 🐛 **Bug Fix**: A non-breaking change that fixes an issue.
+- [ ] ✨ **New Feature**: A non-breaking change that adds functionality.
+- [ ] 💥 **Breaking Change**: A fix or feature that would cause existing functionality to change.
+- [ ] 📝 **Documentation Update**: Changes to documentation only.
+- [ ] 🛠 **Refactoring**: Code changes that neither fix a bug nor add a feature.
+- [ ] ⚙️ **Build or CI**: Changes to build process or continuous integration.
 
-- [ ] 🐞 Bugfix (non-breaking change which fixes an issue)
-- [ ] ✨ New feature (non-breaking change which adds functionality)
-- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] 📝 Documentation update
 
-## 💡 Further Comments
+## 📸 Screenshots (if applicable)
 
-If this is a relatively large or complex change, kick off the discussion by explaining why you chose the solution you did and what alternatives you considered.
-
-## 📷 Screenshots (if applicable)
-
+<!--
 Include screenshots to help explain the changes made in this PR.
+-->
+
