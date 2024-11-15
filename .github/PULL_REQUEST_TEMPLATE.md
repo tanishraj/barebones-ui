@@ -25,10 +25,8 @@
 - [ ] 🛠 **Refactoring**: Code changes that neither fix a bug nor add a feature.
 - [ ] ⚙️ **Build or CI**: Changes to build process or continuous integration.
 
-
 ## 📸 Screenshots (if applicable)
 
 <!--
 Include screenshots to help explain the changes made in this PR.
 -->
-
