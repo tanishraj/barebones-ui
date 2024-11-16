@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo } from 'react';
 
 import './button.css';
 
@@ -23,12 +23,17 @@ export const Button = ({
   label,
   ...props
 }: ButtonProps) => {
-  const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
+  const mode = primary
+    ? 'storybook-button--primary'
+    : 'storybook-button--secondary';
+  const buttonStyle = useMemo(() => ({ backgroundColor }), [backgroundColor]);
   return (
     <button
-      type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
-      style={{ backgroundColor }}
+      type='button'
+      className={['storybook-button', `storybook-button--${size}`, mode].join(
+        ' ',
+      )}
+      style={buttonStyle}
       {...props}
     >
       {label}
