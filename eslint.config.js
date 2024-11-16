@@ -10,7 +10,7 @@ import pluginPrettier from 'eslint-plugin-prettier';
 import configPrettier from 'eslint-config-prettier';
 import pluginReactPerf from 'eslint-plugin-react-perf';
 import pluginReact from 'eslint-plugin-react';
-import storybook from 'storybook';
+import storybook from 'eslint-plugin-storybook';
 
 export default tseslint.config(
   { ignores: ['dist', 'node_modules', 'build', 'coverage', 'public'] },
@@ -18,7 +18,6 @@ export default tseslint.config(
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommended,
-      ...storybook.recommended,
       configPrettier,
     ],
     files: ['**/*.{ts,tsx}'],
@@ -112,6 +111,14 @@ export default tseslint.config(
       'react/no-danger': 'warn',
       'react/no-deprecated': 'error',
       'react/no-direct-mutation-state': 'error',
+    },
+  },
+  ...storybook.configs['flat/recommended'],
+  {
+    files: ['**/*.stories.@(ts|tsx|js|jsx|mjs|cjs)'],
+    rules: {
+      'storybook/hierarchy-separator': 'error',
+      'storybook/default-exports': 'off',
     },
   },
 );

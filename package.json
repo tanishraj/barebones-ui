@@ -1,6 +1,5 @@
 {
-  "name": "barebones-ui",
-  "description": "A modern, customizable React UI library built with TypeScript and Tailwind CSS.",
+  "name": "my-react-ui-library",
   "private": true,
   "version": "0.0.0",
   "type": "module",
