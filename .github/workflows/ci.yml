@@ -35,3 +35,6 @@ jobs:
 
       - name: Run Tests
         run: yarn test:coverage
+
+      - name: Build Storybook
+        run: yarn build-storybook
