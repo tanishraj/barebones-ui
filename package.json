@@ -1,5 +1,6 @@
 {
-  "name": "my-react-ui-library",
+  "name": "barebones-ui",
+  "description": "A modern, customizable React UI library built with TypeScript and Tailwind CSS.",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -68,10 +69,5 @@
   },
   "engines": {
     "node": ">=20"
-  },
-  "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
   }
 }

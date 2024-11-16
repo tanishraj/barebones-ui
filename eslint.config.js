@@ -10,6 +10,7 @@ import pluginPrettier from 'eslint-plugin-prettier';
 import configPrettier from 'eslint-config-prettier';
 import pluginReactPerf from 'eslint-plugin-react-perf';
 import pluginReact from 'eslint-plugin-react';
+import storybook from 'storybook';
 
 export default tseslint.config(
   { ignores: ['dist', 'node_modules', 'build', 'coverage', 'public'] },
@@ -17,6 +18,7 @@ export default tseslint.config(
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommended,
+      ...storybook.recommended,
       configPrettier,
     ],
     files: ['**/*.{ts,tsx}'],
