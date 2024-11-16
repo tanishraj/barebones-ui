@@ -726,7 +726,7 @@
     "@storybook/addon-highlight" "8.4.4"
     axe-core "^4.2.0"
 
-"@storybook/addon-actions@8.4.4":
+"@storybook/addon-actions@8.4.4", "@storybook/addon-actions@^8.4.4":
   version "8.4.4"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-8.4.4.tgz#905f14e37eaf53196cf70245994d7bb083378b10"
   integrity sha512-+Dd6alcieS6UN7IKhXLuhyQYQMu9HG/Tdr790a4EOQKpJM1NxIMuPuUH3fAoKfa9VhtI1BxTBr7zNtzg9Akqhg==
@@ -746,7 +746,7 @@
     memoizerific "^1.11.3"
     ts-dedent "^2.0.0"
 
-"@storybook/addon-controls@8.4.4":
+"@storybook/addon-controls@8.4.4", "@storybook/addon-controls@^8.4.4":
   version "8.4.4"
   resolved "https://registry.yarnpkg.com/@storybook/addon-controls/-/addon-controls-8.4.4.tgz#26454b8daa9bbec6a034d510e1a2b8c772638e3a"
   integrity sha512-FbZRbwJQggLz6M3zB6scCp1SDGwQ5zdiD6sjBilZzgGO5rBFqG0A8PoOyr4iPrLU2y/NZBdRrJBD+6MkaJ+yzw==
