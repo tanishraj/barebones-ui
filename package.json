@@ -68,10 +68,5 @@
   },
   "engines": {
     "node": ">=20"
-  },
-  "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
   }
 }
