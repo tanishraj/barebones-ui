@@ -1,11 +1,22 @@
 {
-  "name": "my-react-ui-library",
+  "name": "barebones-ui",
+  "description": "A barebones React UI library built with TypeScript and Tailwind CSS.",
+  "author": {
+    "name": "Tanish Raj",
+    "email": "learn.tanishraj@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:tanishraj/barebones-ui.git"
+  },
+  "homepage": "https://tanishraj.github.io/barebones-ui/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "rm -rf dist && tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest",
     "test:watch": "vitest --watch",
@@ -16,6 +27,12 @@
     "format:check": "prettier --check .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
+  },
+  "peerDependencies": {
+    "react": "18.x",
+    "react-dom": "18.x",
+    "tailwindcss": "3.x",
+    "classnames": "2.x"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -68,6 +85,6 @@
     "vitest": "^2.1.5"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=18"
   }
 }
