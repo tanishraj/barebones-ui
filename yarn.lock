@@ -672,11 +672,6 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.27.3.tgz#ab2c78c43e4397fba9a80ea93907de7a144f3149"
   integrity sha512-EzxVSkIvCFxUd4Mgm4xR9YXrcp976qVaHnqom/Tgm+vU79k4vV4eYTjmRvGfeoW8m9LVcsAy/lGjcgVegKEhLQ==
 
-"@rollup/rollup-android-arm64@4.26.0":
-  version "4.26.0"
-  resolved "https://registry.yarnpkg.com/@rollup/rollup-android-arm64/-/rollup-android-arm64-4.26.0.tgz#196a2379d81011422fe1128e512a8811605ede16"
-  integrity sha512-YJa5Gy8mEZgz5JquFruhJODMq3lTHWLm1fOy+HIANquLzfIOzE9RA5ie3JjCdVb9r46qfAQY/l947V0zfGJ0OQ==
-
 "@rollup/rollup-android-arm64@4.27.3":
   version "4.27.3"
   resolved "https://registry.yarnpkg.com/@rollup/rollup-android-arm64/-/rollup-android-arm64-4.27.3.tgz#de840660ab65cf73bd6d4bc62d38acd9fc94cd6c"
@@ -3639,14 +3634,7 @@ magic-string@^0.27.0:
   dependencies:
     "@jridgewell/sourcemap-codec" "^1.4.13"
 
-magic-string@^0.30.0, magic-string@^0.30.12:
-  version "0.30.13"
-  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.30.13.tgz#92438e3ff4946cf54f18247c981e5c161c46683c"
-  integrity sha512-8rYBO+MsWkgjDSOvLomYnzhdwEG51olQ4zL5KXnNJWV5MNmrb4rTZdrtkhxjnD/QyZUqR/Z/XDsUs/4ej2nx0g==
-  dependencies:
-    "@jridgewell/sourcemap-codec" "^1.5.0"
-
-magic-string@^0.30.3:
+magic-string@^0.30.0, magic-string@^0.30.12, magic-string@^0.30.3:
   version "0.30.13"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.30.13.tgz#92438e3ff4946cf54f18247c981e5c161c46683c"
   integrity sha512-8rYBO+MsWkgjDSOvLomYnzhdwEG51olQ4zL5KXnNJWV5MNmrb4rTZdrtkhxjnD/QyZUqR/Z/XDsUs/4ej2nx0g==
@@ -4614,34 +4602,7 @@ rollup-pluginutils@^2.8.2:
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@^4.20.0:
-  version "4.27.3"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-4.27.3.tgz#078ecb20830c1de1f5486607f3e2f490269fb98a"
-  integrity sha512-SLsCOnlmGt9VoZ9Ek8yBK8tAdmPHeppkw+Xa7yDlCEhDTvwYei03JlWo1fdc7YTfLZ4tD8riJCUyAgTbszk1fQ==
-  dependencies:
-    "@types/estree" "1.0.6"
-  optionalDependencies:
-    "@rollup/rollup-android-arm-eabi" "4.27.3"
-    "@rollup/rollup-android-arm64" "4.27.3"
-    "@rollup/rollup-darwin-arm64" "4.27.3"
-    "@rollup/rollup-darwin-x64" "4.27.3"
-    "@rollup/rollup-freebsd-arm64" "4.27.3"
-    "@rollup/rollup-freebsd-x64" "4.27.3"
-    "@rollup/rollup-linux-arm-gnueabihf" "4.27.3"
-    "@rollup/rollup-linux-arm-musleabihf" "4.27.3"
-    "@rollup/rollup-linux-arm64-gnu" "4.27.3"
-    "@rollup/rollup-linux-arm64-musl" "4.27.3"
-    "@rollup/rollup-linux-powerpc64le-gnu" "4.27.3"
-    "@rollup/rollup-linux-riscv64-gnu" "4.27.3"
-    "@rollup/rollup-linux-s390x-gnu" "4.27.3"
-    "@rollup/rollup-linux-x64-gnu" "4.27.3"
-    "@rollup/rollup-linux-x64-musl" "4.27.3"
-    "@rollup/rollup-win32-arm64-msvc" "4.27.3"
-    "@rollup/rollup-win32-ia32-msvc" "4.27.3"
-    "@rollup/rollup-win32-x64-msvc" "4.27.3"
-    fsevents "~2.3.2"
-
-rollup@^4.27.3:
+rollup@^4.20.0, rollup@^4.27.3:
   version "4.27.3"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-4.27.3.tgz#078ecb20830c1de1f5486607f3e2f490269fb98a"
   integrity sha512-SLsCOnlmGt9VoZ9Ek8yBK8tAdmPHeppkw+Xa7yDlCEhDTvwYei03JlWo1fdc7YTfLZ4tD8riJCUyAgTbszk1fQ==
