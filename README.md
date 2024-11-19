@@ -1,7 +1,7 @@
-# My React UI Library
+# barebones-ui Library
 
 ![Build Status](https://github.com/your-username/your-repo/actions/workflows/ci.yml/badge.svg)
-![npm version](https://img.shields.io/npm/v/your-ui-library)
+![npm version](https://img.shields.io/npm/v/barebones-ui)
 ![License](https://img.shields.io/github/license/your-username/your-repo)
 
 A modern, customizable React UI library built with TypeScript and Tailwind CSS.
@@ -30,8 +30,8 @@ Install the library using npm or yarn:
 
 ```bash
 # Using npm
-npm install your-ui-library
+npm install barebones-ui
 
 # Using yarn
-yarn add your-ui-library
+yarn add barebones-ui
 ```
