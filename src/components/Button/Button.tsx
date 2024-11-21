@@ -1,16 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'link';
-export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  disabled?: boolean;
-  icon?: React.ReactNode;
-}
+import { ButtonProps, ButtonSize, ButtonVariant } from './types';
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-600',
