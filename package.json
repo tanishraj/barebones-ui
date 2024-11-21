@@ -12,15 +12,13 @@
   },
   "homepage": "https://tanishraj.github.io/barebones-ui/",
   "private": false,
-  "version": "0.1.1-beta.4",
+  "version": "0.1.1-beta.5",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "files": [
-    "dist",
-    "src",
-    "LICENSE",
-    "README.md"
+    "dist"
   ],
   "scripts": {
     "build": "rm -rf dist && rollup -c",
@@ -37,9 +35,7 @@
     "build-storybook": "storybook build"
   },
   "peerDependencies": {
-    "react": "18.x",
-    "react-dom": "18.x",
-    "tailwindcss": "3.x"
+    "react": ">=16"
   },
   "dependencies": {
     "react": "^18.3.1",
