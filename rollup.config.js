@@ -23,26 +23,27 @@ export default [
     plugins: [
       resolve({
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        skip: ['react', 'react-dom'],
       }),
       commonjs(),
       typescript({
         tsconfig: './tsconfig.app.json',
         exclude: [
-          '**/*/test.tsx',
-          '**/*/test.ts',
-          '**/*/stories.tsx',
-          '**/*/stories.ts',
+          '**/*.test.tsx',
+          '**/*.test.ts',
+          '**/*.stories.ts',
+          '**/*.stories.tsx',
         ],
       }),
-      postcss({
-        extract: true,
-      }),
+      postcss({ extensions: ['.css'], inject: true, extract: false }),
     ],
+    external: ['react', 'react-dom', 'react/jsx-runtime'],
   },
-  {
-    input: 'dist/esm/types/index.d.ts',
-    output: [{ file: 'dist/index.d.ts', format: 'esm' }],
-    plugins: [dts()],
-    external: [/\.css$/],
-  },
+  // Todo: Add this back to generate types
+  // {
+  //   input: 'dist/esm/types/index.d.ts',
+  //   output: [{ file: 'dist/index.d.ts', format: 'esm' }],
+  //   plugins: [dts()],
+  //   external: [/\.css$/],
+  // },
 ];
