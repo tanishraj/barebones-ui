@@ -1,4 +1,5 @@
 import resolve from '@rollup/plugin-node-resolve';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import dts from 'rollup-plugin-dts';
@@ -25,6 +26,7 @@ export default [
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
         skip: ['react', 'react-dom'],
       }),
+      peerDepsExternal(),
       commonjs(),
       typescript({
         tsconfig: './tsconfig.app.json',
