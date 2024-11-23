@@ -1,25 +1,13 @@
 {
   "name": "barebones-ui",
   "description": "A barebones React UI library built with TypeScript and Tailwind CSS.",
+  "version": "0.1.1-beta.5",
+  "license": "MIT",
+  "private": false,
   "author": {
     "name": "Tanish Raj",
     "email": "learn.tanishraj@gmail.com"
   },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:tanishraj/barebones-ui.git"
-  },
-  "homepage": "https://tanishraj.github.io/barebones-ui/",
-  "private": false,
-  "version": "0.1.1-beta.5",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "rm -rf dist && rollup -c",
     "watch": "rollup -c -w",
@@ -33,9 +21,6 @@
     "format:check": "prettier --check .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
-  },
-  "peerDependencies": {
-    "react": ">=16"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -98,9 +83,25 @@
   "engines": {
     "node": ">=18"
   },
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:tanishraj/barebones-ui.git"
+  },
+  "homepage": "https://tanishraj.github.io/barebones-ui/",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
   "keywords": [
+    "barebones-ui",
     "react",
-    "ui",
+    "ui library",
     "components",
     "typescript",
     "tailwindcss"

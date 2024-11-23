@@ -28,7 +28,7 @@ const sizeClasses: Record<ButtonSize, string> = {
   '2xl': 'px-10 py-5 text-2xl',
 };
 
-export const Button: React.FC<ButtonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
   disabled = false,
@@ -58,3 +58,5 @@ export const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
+
+export default Button;

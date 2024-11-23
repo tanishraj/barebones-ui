@@ -28,24 +28,15 @@ export default [
       }),
       peerDepsExternal(),
       commonjs(),
-      typescript({
-        tsconfig: './tsconfig.app.json',
-        exclude: [
-          '**/*.test.tsx',
-          '**/*.test.ts',
-          '**/*.stories.ts',
-          '**/*.stories.tsx',
-        ],
-      }),
+      typescript(),
       postcss({ extensions: ['.css'], inject: true, extract: false }),
     ],
     external: ['react', 'react-dom', 'react/jsx-runtime'],
   },
-  // Todo: Add this back to generate types
-  // {
-  //   input: 'dist/esm/types/index.d.ts',
-  //   output: [{ file: 'dist/index.d.ts', format: 'esm' }],
-  //   plugins: [dts()],
-  //   external: [/\.css$/],
-  // },
+  {
+    input: 'src/index.ts',
+    output: [{ file: 'dist/index.d.ts', format: 'esm' }],
+    plugins: [dts()],
+    external: [/\.css$/],
+  },
 ];
