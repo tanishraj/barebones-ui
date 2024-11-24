@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'link';
 export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl';
@@ -37,7 +37,7 @@ const Button: React.FC<ButtonProps> = ({
   className,
   ...props
 }) => {
-  const classes = classNames(
+  const classes = clsx(
     'flex items-center justify-center rounded border-0 focus:outline-none focus:ring-1 focus:ring-offset-2',
     variantClasses[variant],
     sizeClasses[size],
