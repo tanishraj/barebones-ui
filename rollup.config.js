@@ -1,6 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import typescript from '@rollup/plugin-typescript';
+import typescript from 'rollup-plugin-typescript2';
 import commonjs from '@rollup/plugin-commonjs';
 import dts from 'rollup-plugin-dts';
 import postcss from 'rollup-plugin-postcss';
@@ -14,6 +14,7 @@ export default [
         file: packageJson.main,
         format: 'cjs',
         sourcemap: true,
+        exports: 'named',
       },
       {
         file: packageJson.module,
@@ -28,8 +29,16 @@ export default [
       }),
       peerDepsExternal(),
       commonjs(),
-      typescript(),
-      postcss({ extensions: ['.css'], inject: true, extract: false }),
+      typescript({
+        tsconfig: './tsconfig.json',
+        useTsconfigDeclarationDir: true,
+        clean: true,
+      }),
+      postcss({
+        extensions: ['.css'],
+        inject: true,
+        extract: false,
+      }),
     ],
     external: ['react', 'react-dom', 'react/jsx-runtime'],
   },
