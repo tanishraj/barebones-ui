@@ -31,6 +31,7 @@
     "@eslint/js": "^9.13.0",
     "@rollup/plugin-commonjs": "^28.0.1",
     "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-typescript": "^12.1.1",
     "@storybook/addon-a11y": "^8.4.4",
     "@storybook/addon-actions": "^8.4.4",
     "@storybook/addon-controls": "^8.4.4",
@@ -87,9 +88,7 @@
     "node": ">=18"
   },
   "peerDependencies": {
-    "react": ">=16",
-    "rollup": ">=1.19.0",
-    "tailwindcss": "^1.0.0"
+    "react": ">=16"
   },
   "repository": {
     "type": "git",
@@ -97,9 +96,8 @@
   },
   "homepage": "https://tanishraj.github.io/barebones-ui/",
   "main": "dist/cjs/index.cjs",
-  "module": "dist/es/index.js",
+  "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
-  "style": "dist/styles.css",
   "type": "module",
   "files": [
     "dist"

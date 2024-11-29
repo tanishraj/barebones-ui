@@ -21,7 +21,6 @@ export default [
         format: 'esm',
         sourcemap: true,
       },
-      { file: 'dist/index.css', format: 'es' },
     ],
     plugins: [
       resolve({
@@ -30,7 +29,11 @@ export default [
       }),
       peerDepsExternal(),
       commonjs(),
-      typescript(),
+      typescript({
+        tsconfig: './tsconfig.json',
+        useTsconfigDeclarationDir: true,
+        clean: true,
+      }),
       postcss({
         extensions: ['.css'],
         inject: true,
