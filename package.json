@@ -31,7 +31,6 @@
     "@eslint/js": "^9.13.0",
     "@rollup/plugin-commonjs": "^28.0.1",
     "@rollup/plugin-node-resolve": "^15.3.0",
-    "@rollup/plugin-typescript": "^12.1.1",
     "@storybook/addon-a11y": "^8.4.4",
     "@storybook/addon-actions": "^8.4.4",
     "@storybook/addon-controls": "^8.4.4",
@@ -88,7 +87,9 @@
     "node": ">=18"
   },
   "peerDependencies": {
-    "react": ">=16"
+    "react": ">=16",
+    "rollup": ">=1.19.0",
+    "tailwindcss": "^1.0.0"
   },
   "repository": {
     "type": "git",
