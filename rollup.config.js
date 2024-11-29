@@ -29,11 +29,7 @@ export default [
       }),
       peerDepsExternal(),
       commonjs(),
-      typescript({
-        tsconfig: './tsconfig.json',
-        useTsconfigDeclarationDir: true,
-        clean: true,
-      }),
+      typescript(),
       postcss({
         extract: true,
         minimize: false,
