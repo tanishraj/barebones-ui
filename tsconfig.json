@@ -10,11 +10,13 @@
       "@/*": ["./src/*"]
     },
     /* Bundler mode */
-    "moduleResolution": "Bundler",
-    "isolatedModules": true,
-    "moduleDetection": "force",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
-    "noEmit": true,
+    "allowJs": true,
+    "emitDeclarationOnly": false,
+    "isolatedModules": true,
+    "noEmit": false,
 
     /* Linting */
     "strict": true,
@@ -22,17 +24,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    "src",
-    "*.ts",
-    "*.tsx",
-    ".storybook/main.ts",
-    ".storybook/preview.ts",
-    "vite.config.ts",
-    "setupTests.ts",
-    "vitest.config.ts",
-    "rollup.config.js"
-  ],
+  "include": ["src", "*.ts", ".storybook/*.ts", "*.config.ts"],
   "exclude": [
     "node_modules",
     "dist",
