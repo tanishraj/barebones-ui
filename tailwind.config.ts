@@ -1,7 +1,9 @@
+import type { Config } from 'tailwindcss';
+
 import { colors } from './src/styles/tokens';
 // tailwind.config.js
 export default {
-  content: ['./src/**/*.{js,ts,jsx,tsx}', './stories/**/*.{js,jsx,ts,tsx}'],
+  content: ['./src/**/*.{html,js,ts,jsx,tsx}'],
   theme: {
     colors: {
       ...colors,
@@ -9,4 +11,4 @@ export default {
     extend: {},
   },
   plugins: [],
-};
+} satisfies Config;
