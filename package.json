@@ -1,7 +1,7 @@
 {
   "name": "barebones-ui",
   "description": "A barebones React UI library built with TypeScript and Tailwind CSS.",
-  "version": "0.1.1-beta-16",
+  "version": "0.1.1-beta-17",
   "license": "MIT",
   "private": false,
   "author": {
@@ -31,7 +31,6 @@
     "@eslint/js": "^9.13.0",
     "@rollup/plugin-commonjs": "^28.0.1",
     "@rollup/plugin-node-resolve": "^15.3.0",
-    "@rollup/plugin-typescript": "^12.1.1",
     "@storybook/addon-a11y": "^8.4.4",
     "@storybook/addon-actions": "^8.4.4",
     "@storybook/addon-controls": "^8.4.4",
@@ -72,8 +71,8 @@
     "rollup": "^4.27.3",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-tailwindcss": "^1.0.0",
+    "rollup-plugin-typescript2": "^0.36.0",
     "storybook": "^8.4.4",
     "tailwind-merge": "^2.5.4",
     "tailwindcss": "^3.4.14",
@@ -88,7 +87,9 @@
     "node": ">=18"
   },
   "peerDependencies": {
-    "react": ">=16"
+    "react": ">=16",
+    "rollup": ">=1.19.0",
+    "tailwindcss": "^1.0.0"
   },
   "repository": {
     "type": "git",
