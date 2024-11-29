@@ -20,6 +20,7 @@ export default [
         format: 'esm',
         sourcemap: true,
       },
+      { file: 'dist/index.css', format: 'es' },
     ],
     plugins: [
       resolve({
@@ -28,8 +29,15 @@ export default [
       }),
       peerDepsExternal(),
       commonjs(),
-      typescript(),
-      postcss({ extensions: ['.css'], inject: true, extract: false }),
+      typescript({
+        tsconfig: './tsconfig.json',
+        useTsconfigDeclarationDir: true,
+        clean: true,
+      }),
+      postcss({
+        extract: true,
+        minimize: false,
+      }),
     ],
     external: ['react', 'react-dom', 'react/jsx-runtime'],
   },
