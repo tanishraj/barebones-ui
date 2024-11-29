@@ -35,9 +35,11 @@ export default [
         clean: true,
       }),
       postcss({
+        config: {
+          path: './postcss.config.js',
+        },
         extensions: ['.css'],
-        inject: true,
-        extract: false,
+        minimize: true,
       }),
     ],
     external: ['react', 'react-dom', 'react/jsx-runtime'],
