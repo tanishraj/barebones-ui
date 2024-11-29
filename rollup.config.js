@@ -21,6 +21,7 @@ export default [
         format: 'esm',
         sourcemap: true,
       },
+      { file: 'dist/index.css', format: 'es' },
     ],
     plugins: [
       resolve({
