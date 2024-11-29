@@ -1,7 +1,7 @@
 {
   "name": "barebones-ui",
   "description": "A barebones React UI library built with TypeScript and Tailwind CSS.",
-  "version": "0.1.1-beta.17",
+  "version": "0.1.1-beta.18",
   "license": "MIT",
   "private": false,
   "author": {
@@ -47,6 +47,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
+    "@types/node": "^22.10.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",
