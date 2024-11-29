@@ -98,7 +98,7 @@
   "main": "dist/cjs/index.cjs",
   "module": "dist/es/index.js",
   "types": "dist/index.d.ts",
-  "style": "dist/styles/index.css",
+  "style": "dist/styles.css",
   "type": "module",
   "files": [
     "dist"
