@@ -1,7 +1,7 @@
 {
   "name": "barebones-ui",
   "description": "A barebones React UI library built with TypeScript and Tailwind CSS.",
-  "version": "0.1.1-beta.18",
+  "version": "0.1.1-beta-19",
   "license": "MIT",
   "private": false,
   "author": {
@@ -99,6 +99,7 @@
   "main": "dist/cjs/index.cjs",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
+  "style": "dist/cjs/index.css",
   "type": "module",
   "files": [
     "dist"
