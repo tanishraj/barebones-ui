@@ -9,6 +9,8 @@
     "email": "learn.tanishraj@gmail.com"
   },
   "scripts": {
+    "dev": "vite",
+    "serve": "vite preview",
     "build": "rm -rf dist && rollup -c",
     "watch": "rollup -c -w",
     "prepublishOnly": "npm run build",
