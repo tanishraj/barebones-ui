@@ -1,4 +1,6 @@
 export const colors = {
+  white: '#FFFFFF',
+  black: '#000000',
   purple: {
     900: '#060546',
     800: '#141483',
@@ -34,64 +36,5 @@ export const colors = {
     200: '#E0E0E0',
     100: '#F0F0F0',
     50: '#FAFAFA',
-  },
-};
-
-export const semanticColors = {
-  'primary-bg': {
-    light: '#694ED6',
-    dark: '#AFA0E2',
-  },
-  'secondary-bg': {
-    light: '#C137A2',
-    dark: '#E453BF',
-  },
-  'neutral-bg': {
-    light: '#FAFAFA',
-    dark: '#191919',
-  },
-  'surface-bg': {
-    light: '##FFFFFF',
-    dark: '#242424',
-  },
-  'success-bg': {
-    light: '#008744',
-    dark: '#26D07C',
-  },
-  'error-bg': {
-    light: '#D60040',
-    dark: '#FF4F5C',
-  },
-  'warning-bg': {
-    light: '#FF600A',
-    dark: '#FF880A',
-  },
-  'primary-fg': {
-    light: '#FFFFFF',
-    dark: '#000000',
-  },
-  'secondary-fg': {
-    light: '#FFFFFF',
-    dark: '#000000',
-  },
-  'neutral-fg': {
-    light: '#000000',
-    dark: '#FFFFFF',
-  },
-  'surface-fg': {
-    light: '#000000',
-    dark: '#FFFFFF',
-  },
-  'success-fg': {
-    light: '#FFFFFF',
-    dark: '#000000',
-  },
-  'error-fg': {
-    light: '#FFFFFF',
-    dark: '#000000',
-  },
-  'warning-fg': {
-    light: '#000000',
-    dark: '#000000',
   },
 };
