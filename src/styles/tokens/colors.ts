@@ -1,6 +1,7 @@
-export const colors = {
+export const baseColors = {
   white: '#FFFFFF',
   black: '#000000',
+
   purple: {
     900: '#060546',
     800: '#141483',
@@ -36,5 +37,65 @@ export const colors = {
     200: '#E0E0E0',
     100: '#F0F0F0',
     50: '#FAFAFA',
+  },
+};
+
+export const semanticColors = {
+  colors: {
+    primary: '#694ED6',
+    secondary: '#C137A2',
+    neutral: '#FAFAFA',
+    surface: '#FFFFFF',
+    success: '#008744',
+    error: '#D60040',
+  },
+  textColor: {
+    primary: '#FFFFFF',
+    secondary: '#FFFFFF',
+    neutral: '#000000',
+    surface: '#000000',
+    success: '#FFFFFF',
+    error: '#FFFFFF',
+  },
+  gradientColorStops: {
+    'primary-start': '#694ED6',
+    'primary-end': '#1379C4',
+    'secondary-start': '#F04E98',
+    'secondary-end': '#C34DD5',
+  },
+};
+
+export const themeColors = {
+  light: {
+    primary: '#694ed6',
+    secondary: '#c137a2',
+    neutral: '#fafafa',
+    surface: '#ffffff',
+    success: '#008744',
+    error: '#d60040',
+    warning: '#ff600a',
+    'primary-fg': '#ffffff',
+    'secondary-fg': '#ffffff',
+    'neutral-fg': '#000000',
+    'surface-fg': '#000000',
+    'success-fg': '#ffffff',
+    'error-fg': '#ffffff',
+    'warning-fg': '#000000',
+  },
+  dark: {
+    primary: '#afa0e2',
+    secondary: '#e453bf',
+    neutral: '#191919',
+    surface: '#242424',
+    success: '#26d07c',
+    error: '#ff4f5c',
+    warning: '#ff880a',
+    'primary-fg': '#000000',
+    'secondary-fg': '#000000',
+    'neutral-fg': '#ffffff',
+    'surface-fg': '#ffffff',
+    'success-fg': '#000000',
+    'error-fg': '#000000',
+    'warning-fg': '#000000',
   },
 };
