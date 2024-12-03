@@ -10,6 +10,9 @@ export default {
     },
     extend: {
       ...semanticColors,
+      fontFamily: {
+        sans: ['IBM Plex Sans', 'sans-serif'],
+      },
     },
   },
   plugins: [],
