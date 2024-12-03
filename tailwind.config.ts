@@ -11,7 +11,8 @@ export default {
     extend: {
       ...semanticColors,
       fontFamily: {
-        sans: ['IBM Plex Sans', 'sans-serif'],
+        sans: ['Roboto', 'sans-serif'],
+        spartan: ['League Spartan', 'sans-serif'],
       },
     },
   },
