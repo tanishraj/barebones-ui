@@ -5,7 +5,7 @@ import {
   baseColors,
   typography,
   spaces,
-  radii,
+  radius,
 } from './src/styles/tokens';
 
 export default {
@@ -18,7 +18,7 @@ export default {
       ...semanticColors,
       ...typography,
       ...spaces,
-      ...radii,
+      ...radius,
     },
   },
   plugins: [],

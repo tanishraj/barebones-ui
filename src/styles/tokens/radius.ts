@@ -1,4 +1,4 @@
-export const radii = {
+export const radius = {
   none: '0',
   '2xs': '0.0625rem',
   xs: '0.125rem',
