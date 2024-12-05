@@ -1,6 +1,12 @@
 import type { Config } from 'tailwindcss';
 
-import { semanticColors, baseColors, typography } from './src/styles/tokens';
+import {
+  semanticColors,
+  baseColors,
+  typography,
+  spaces,
+  radii,
+} from './src/styles/tokens';
 
 export default {
   content: ['./src/**/*.{html,js,ts,jsx,tsx}'],
@@ -11,6 +17,8 @@ export default {
     extend: {
       ...semanticColors,
       ...typography,
+      ...spaces,
+      ...radii,
     },
   },
   plugins: [],
