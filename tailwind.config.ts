@@ -1,25 +1,18 @@
 import type { Config } from 'tailwindcss';
-
-import {
-  semanticColors,
-  baseColors,
-  typography,
-  spaces,
-  radius,
-} from './src/styles/tokens';
+import daisyui from 'daisyui';
 
 export default {
   content: ['./src/**/*.{html,js,ts,jsx,tsx}'],
-  theme: {
-    colors: {
-      ...baseColors,
-    },
-    extend: {
-      ...semanticColors,
-      ...typography,
-      ...spaces,
-      ...radius,
-    },
+  darkMode: ['selector', '[data-theme="dark"]'],
+  daisyui: {
+    styled: true,
+    themes: ['light', 'dark'],
+    base: true,
+    utils: true,
+    logs: true,
+    rtl: false,
+    prefix: '',
+    darkTheme: 'dark',
   },
-  plugins: [],
+  plugins: [daisyui],
 } satisfies Config;
