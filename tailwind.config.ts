@@ -6,7 +6,7 @@ export default {
   darkMode: ['selector', '[data-theme="dark"]'],
   daisyui: {
     styled: true,
-    themes: ['light', 'dark'],
+    themes: true,
     base: true,
     utils: true,
     logs: true,

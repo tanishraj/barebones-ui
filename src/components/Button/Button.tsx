@@ -13,9 +13,8 @@ export interface ButtonProps
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: 'bg-blue-600 text-primary-fg hover:bg-blue-700 focus:ring-blue-600',
-  secondary:
-    'bg-purple-600 text-white hover:bg-purple-700 focus:ring-purple-600',
+  primary: 'btn btn-primary hover:bg-blue-700 focus:ring-blue-600',
+  secondary: 'btn btn-secondary hover:bg-purple-700 focus:ring-purple-600',
   ghost: 'bg-transparent text-blue-500 hover:bg-blue-50',
   link: 'bg-transparent text-blue-500 underline hover:text-blue-600',
 };
