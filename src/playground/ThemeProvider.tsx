@@ -21,17 +21,22 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const root = window.document.documentElement;
 
-    // Handle system preference if "system" mode is selected
+    // Determine the active theme
+    let activeTheme = theme;
+
     if (theme === 'system') {
       const systemPrefersDark = window.matchMedia(
         '(prefers-color-scheme: dark)',
       ).matches;
-      root.classList.toggle('dark', systemPrefersDark);
-    } else {
-      root.classList.toggle('dark', theme === 'dark');
+      activeTheme = systemPrefersDark ? 'dark' : 'light';
     }
 
-    localStorage.setItem('theme', theme); // Persist theme in localStorage
+    // Update HTML attributes
+    root.classList.toggle('dark', activeTheme === 'dark');
+    root.setAttribute('data-theme', activeTheme);
+
+    // Persist the user's theme choice
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
   return (

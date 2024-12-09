@@ -1,7 +1,7 @@
 {
   "name": "barebones-ui",
   "description": "A barebones React UI library built with TypeScript and Tailwind CSS.",
-  "version": "0.1.1-beta-19",
+  "version": "0.1.1-beta-20",
   "license": "MIT",
   "private": false,
   "author": {
@@ -21,10 +21,12 @@
     "lint:fix": "eslint . --fix && prettier --write .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "build:css": "node src/plugins/build.js",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "daisyui": "^4.12.14",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
@@ -68,6 +70,7 @@
     "eslint-plugin-react-refresh": "^0.4.14",
     "eslint-plugin-storybook": "^0.11.0",
     "eslint-plugin-tailwindcss": "^3.17.5",
+    "fs": "^0.0.1-security",
     "globals": "^15.11.0",
     "jsdom": "^25.0.1",
     "postcss": "^8.4.49",

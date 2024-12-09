@@ -1,7 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'link';
+export type ButtonVariant =
+  | 'default'
+  | 'neutral'
+  | 'primary'
+  | 'secondary'
+  | 'accent'
+  | 'ghost'
+  | 'link';
 export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
 export interface ButtonProps
@@ -13,11 +20,13 @@ export interface ButtonProps
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: 'bg-blue-600 text-primary-fg hover:bg-blue-700 focus:ring-blue-600',
-  secondary:
-    'bg-purple-600 text-white hover:bg-purple-700 focus:ring-purple-600',
-  ghost: 'bg-transparent text-blue-500 hover:bg-blue-50',
-  link: 'bg-transparent text-blue-500 underline hover:text-blue-600',
+  default: 'btn',
+  neutral: 'btn btn-neutral',
+  primary: 'btn btn-primary',
+  secondary: 'btn btn-secondary',
+  accent: 'btn btn-accent',
+  ghost: 'btn btn-ghost',
+  link: 'btn btn-link',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
