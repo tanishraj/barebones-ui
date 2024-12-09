@@ -14,7 +14,15 @@ export const HelloWorld = ({ msg }: HelloWorldProps) => {
       <h1>{msg}</h1>
 
       <div>
+        <Button>Click me</Button>
+        <Button variant='primary'>Click me</Button>
+        <Button variant='neutral'>Click me</Button>
+        <Button variant='primary'>Click me</Button>
         <Button variant='secondary'>Click me</Button>
+        <Button variant='accent'>Click me</Button>
+        <Button variant='ghost'>Click me</Button>
+        <Button variant='link'>Click me</Button>
+
         <button type='button' onClick={() => setCount(count => count + 1)}>
           count is {count}
         </button>
