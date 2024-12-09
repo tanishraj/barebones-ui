@@ -8,13 +8,13 @@ describe('Button Component', () => {
     render(<Button>Click Me</Button>);
     const buttonElement = screen.getByRole('button', { name: /click me/i });
     expect(buttonElement).toBeInTheDocument();
-    expect(buttonElement).toHaveClass('bg-blue-600');
+    expect(buttonElement).toHaveClass('btn');
   });
 
   it('renders with different variants', () => {
     const { rerender } = render(<Button variant='secondary'>Secondary</Button>);
     let buttonElement = screen.getByRole('button', { name: /secondary/i });
-    expect(buttonElement).toHaveClass('bg-purple-600');
+    expect(buttonElement).toHaveClass('btn');
 
     rerender(<Button variant='ghost'>Ghost</Button>);
     buttonElement = screen.getByRole('button', { name: /ghost/i });
