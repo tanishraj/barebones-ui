@@ -18,11 +18,11 @@ describe('Button Component', () => {
 
     rerender(<Button variant='ghost'>Ghost</Button>);
     buttonElement = screen.getByRole('button', { name: /ghost/i });
-    expect(buttonElement).toHaveClass('bg-transparent');
+    expect(buttonElement).toHaveClass('btn-ghost');
 
     rerender(<Button variant='link'>Link</Button>);
     buttonElement = screen.getByRole('button', { name: /link/i });
-    expect(buttonElement).toHaveClass('underline');
+    expect(buttonElement).toHaveClass('btn-link');
   });
 
   it('renders with different sizes', () => {
