@@ -8,8 +8,12 @@ export type ButtonVariant =
   | 'secondary'
   | 'accent'
   | 'ghost'
-  | 'link';
-export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  | 'link'
+  | 'success'
+  | 'warning'
+  | 'error'
+  | 'info';
+export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -27,18 +31,21 @@ const variantClasses: Record<ButtonVariant, string> = {
   accent: 'btn btn-accent',
   ghost: 'btn btn-ghost',
   link: 'btn btn-link',
+  success: 'btn btn-success',
+  warning: 'btn btn-warning',
+  error: 'btn btn-error',
+  info: 'btn btn-info',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: 'px-2 py-1 text-sm',
-  md: 'px-4 py-2 text-base',
-  lg: 'px-6 py-3 text-lg',
-  xl: 'px-8 py-4 text-xl',
-  '2xl': 'px-10 py-5 text-2xl',
+  xs: 'btn btn-xs',
+  sm: 'btn btn-sm',
+  md: 'btn',
+  lg: 'btn btn-lg',
 };
 
 const Button: React.FC<ButtonProps> = ({
-  variant = 'primary',
+  variant = 'default',
   size = 'md',
   disabled = false,
   icon,

@@ -16,12 +16,19 @@ export const HelloWorld = ({ msg }: HelloWorldProps) => {
       <div>
         <Button>Click me</Button>
         <Button variant='primary'>Click me</Button>
-        <Button variant='neutral'>Click me</Button>
-        <Button variant='primary'>Click me</Button>
         <Button variant='secondary'>Click me</Button>
         <Button variant='accent'>Click me</Button>
         <Button variant='ghost'>Click me</Button>
         <Button variant='link'>Click me</Button>
+        <Button variant='success'>Click me</Button>
+        <Button variant='warning'>Click me</Button>
+        <Button variant='error'>Click me</Button>
+        <Button variant='info'>Click me</Button>
+
+        <Button size='xs'>Click me</Button>
+        <Button size='sm'>Click me</Button>
+        <Button size='md'>Click me</Button>
+        <Button size='lg'>Click me</Button>
 
         <button type='button' onClick={() => setCount(count => count + 1)}>
           count is {count}
