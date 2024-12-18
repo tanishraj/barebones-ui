@@ -8,69 +8,74 @@ export default {
   argTypes: {
     variant: {
       control: {
-        type: 'select',
-        options: ['primary', 'secondary', 'ghost', 'link'],
+        type: 'select', // Dropdown for variants
       },
+      options: [
+        'primary',
+        'secondary',
+        'accent',
+        'neutral',
+        'info',
+        'success',
+        'warning',
+        'error',
+        'ghost',
+        'link',
+        'outline',
+      ],
+      description: 'Select the button variant',
     },
     size: {
       control: {
-        type: 'select',
-        options: ['sm', 'md', 'lg', 'xl', '2xl'],
+        type: 'select', // Dropdown for sizes
       },
+      options: ['xs', 'sm', 'md', 'lg'],
+      description: 'Select the button size',
     },
-    disabled: { control: 'boolean' },
-    icon: { control: 'boolean' },
+    icon: {
+      control: 'text',
+      description:
+        'Provide an ASCII icon like "★" or "✦". If left empty, a default icon will be used.',
+    },
+    showIcon: {
+      control: 'boolean', // Toggle to show/hide the icon
+      description: 'Show or hide the icon.',
+    },
+    iconPosition: {
+      control: {
+        type: 'inline-radio', // Inline radio for icon position
+      },
+      options: ['left', 'right'],
+      description: 'Position the icon to the left or right of the button text',
+    },
+    disabled: {
+      control: 'boolean', // Toggle for disabled state
+      description: 'Disable the button',
+    },
+    children: {
+      control: 'text',
+      description: 'Set the button label',
+    },
   },
 } as Meta;
 
-const Template: StoryFn<ButtonProps & { showIcon: boolean }> = ({
+const Template: StoryFn<ButtonProps & { showIcon?: boolean }> = ({
+  showIcon,
+  icon,
   ...args
-}) => <Button {...args}> Button</Button>;
+}) => (
+  <Button icon={showIcon ? icon || '★' : undefined} {...args}>
+    {args.children}
+  </Button>
+);
 
 export const Primary = Template.bind({});
 Primary.args = {
   variant: 'primary',
   size: 'md',
   disabled: false,
-  showIcon: false,
-};
-
-export const Secondary = Template.bind({});
-Secondary.args = {
-  variant: 'secondary',
-  size: 'md',
-  disabled: false,
-  showIcon: false,
-};
-
-export const Ghost = Template.bind({});
-Ghost.args = {
-  variant: 'ghost',
-  size: 'md',
-  disabled: false,
-  showIcon: false,
-};
-
-export const Link = Template.bind({});
-Link.args = {
-  variant: 'link',
-  size: 'md',
-  disabled: false,
-  showIcon: false,
-};
-
-export const WithIcon = Template.bind({});
-WithIcon.args = {
-  variant: 'primary',
-  size: 'md',
-  disabled: false,
-  showIcon: true,
-};
-
-export const Disabled = Template.bind({});
-Disabled.args = {
-  variant: 'primary',
-  size: 'md',
-  disabled: true,
-  showIcon: false,
+  showIcon: true, // Default to show the icon
+  icon: '', // Use default icon if empty
+  iconPosition: 'left',
+  children: 'Button',
 };

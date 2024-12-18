@@ -1,76 +1,68 @@
 import React from 'react';
+import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 
-export type ButtonVariant =
-  | 'default'
-  | 'neutral'
-  | 'primary'
-  | 'secondary'
-  | 'accent'
-  | 'ghost'
-  | 'link'
-  | 'success'
-  | 'warning'
-  | 'error'
-  | 'info';
-export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
-
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  disabled?: boolean;
+export interface ButtonProps extends VariantProps<typeof buttonClasses> {
   icon?: React.ReactNode;
+  iconPosition?: 'left' | 'right';
+  disabled?: boolean;
+  children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
 }
 
-const variantClasses: Record<ButtonVariant, string> = {
-  default: 'btn',
-  neutral: 'btn btn-neutral',
-  primary: 'btn btn-primary',
-  secondary: 'btn btn-secondary',
-  accent: 'btn btn-accent',
-  ghost: 'btn btn-ghost',
-  link: 'btn btn-link',
-  success: 'btn btn-success',
-  warning: 'btn btn-warning',
-  error: 'btn btn-error',
-  info: 'btn btn-info',
-};
-
-const sizeClasses: Record<ButtonSize, string> = {
-  xs: 'btn btn-xs',
-  sm: 'btn btn-sm',
-  md: 'btn',
-  lg: 'btn btn-lg',
-};
+const buttonClasses = cva('btn', {
+  variants: {
+    variant: {
+      primary: 'btn-primary',
+      secondary: 'btn-secondary',
+      accent: 'btn-accent',
+      neutral: 'btn-neutral',
+      info: 'btn-info',
+      success: 'btn-success',
+      warning: 'btn-warning',
+      error: 'btn-error',
+      ghost: 'btn-ghost',
+      link: 'btn-link',
+      outline: 'btn-outline',
+    },
+    size: {
+      xs: 'btn-xs',
+      sm: 'btn-sm',
+      md: 'btn-md',
+      lg: 'btn-lg',
+    },
+    disabled: {
+      true: 'btn-disabled',
+    },
+  },
+  defaultVariants: {
+    size: 'md',
+  },
+});
 
 const Button: React.FC<ButtonProps> = ({
-  variant = 'default',
-  size = 'md',
-  disabled = false,
+  variant,
+  size,
   icon,
+  iconPosition = 'left',
+  disabled = false,
   children,
-  className,
-  ...props
+  className = '',
+  onClick,
 }) => {
-  const classes = clsx(
-    'flex items-center justify-center rounded border-0 focus:outline-none focus:ring-1 focus:ring-offset-2',
-    variantClasses[variant],
-    sizeClasses[size],
-    {
-      'opacity-50 cursor-not-allowed': disabled,
-    },
-    className,
-  );
-
   return (
-    <button className={classes} disabled={disabled} {...props}>
-      {icon && (
-        <span className='mr-2' data-testid='icon'>
-          {icon}
-        </span>
+    <button
+      className={clsx(
+        buttonClasses({ variant, size, disabled: disabled }),
+        icon && iconPosition === 'right' ? 'flex-row-reverse' : 'flex-row',
+        className,
       )}
-      {children}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {icon && <span>{icon}</span>}
+      <span>{children}</span>
     </button>
   );
 };

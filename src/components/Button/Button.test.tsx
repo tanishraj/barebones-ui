@@ -14,7 +14,7 @@ describe('Button Component', () => {
   it('renders with different variants', () => {
     const { rerender } = render(<Button variant='secondary'>Secondary</Button>);
     let buttonElement = screen.getByRole('button', { name: /secondary/i });
-    expect(buttonElement).toHaveClass('btn');
+    expect(buttonElement).toHaveClass('btn-secondary');
 
     rerender(<Button variant='ghost'>Ghost</Button>);
     buttonElement = screen.getByRole('button', { name: /ghost/i });
@@ -28,11 +28,33 @@ describe('Button Component', () => {
   it('renders with different sizes', () => {
     const { rerender } = render(<Button size='sm'>Small</Button>);
     let buttonElement = screen.getByRole('button', { name: /small/i });
-    expect(buttonElement).toHaveClass('px-2 py-1 text-sm');
+    expect(buttonElement).toHaveClass('btn-sm');
 
     rerender(<Button size='lg'>Large</Button>);
     buttonElement = screen.getByRole('button', { name: /large/i });
-    expect(buttonElement).toHaveClass('px-6 py-3 text-lg');
+    expect(buttonElement).toHaveClass('btn-lg');
+  });
+
+  it('renders with an icon on the left', () => {
+    render(
+      <Button icon={<span data-testid='icon'>⭐</span>}>Icon Button</Button>,
+    );
+    const buttonElement = screen.getByRole('button', { name: /icon button/i });
+    const iconElement = screen.getByTestId('icon');
+    expect(buttonElement).toContainElement(iconElement);
+    expect(buttonElement).toHaveClass('flex-row');
+  });
+
+  it('renders with an icon on the right', () => {
+    render(
+      <Button icon={<span data-testid='icon'>⭐</span>} iconPosition='right'>
+        Icon Button
+      </Button>,
+    );
+    const buttonElement = screen.getByRole('button', { name: /icon button/i });
+    const iconElement = screen.getByTestId('icon');
+    expect(buttonElement).toContainElement(iconElement);
+    expect(buttonElement).toHaveClass('flex-row-reverse');
   });
 
   it('handles disabled state', () => {
