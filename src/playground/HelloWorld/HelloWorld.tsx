@@ -14,22 +14,41 @@ export const HelloWorld = ({ msg }: HelloWorldProps) => {
       <h1>{msg}</h1>
 
       <div>
-        <Button>Click me</Button>
-        <Button variant='primary'>Click me</Button>
-        <Button variant='secondary'>Click me</Button>
-        <Button variant='accent'>Click me</Button>
-        <Button variant='ghost'>Click me</Button>
-        <Button variant='link'>Click me</Button>
-        <Button variant='success'>Click me</Button>
-        <Button variant='warning'>Click me</Button>
-        <Button variant='error'>Click me</Button>
-        <Button variant='info'>Click me</Button>
+        <Button>Default</Button>
+        <Button variant='primary'>Primary</Button>
+        <Button variant='secondary'>Secondary</Button>
+        <Button variant='accent'>Accent</Button>
+        <Button variant='neutral'>Neutral</Button>
 
-        <Button size='xs'>Click me</Button>
-        <Button size='sm'>Click me</Button>
-        <Button size='md'>Click me</Button>
-        <Button size='lg'>Click me</Button>
+        <Button size='xs' variant='primary'>
+          Extra Small
+        </Button>
+        <Button size='sm' variant='primary'>
+          Small
+        </Button>
+        <Button size='md' variant='primary'>
+          Medium
+        </Button>
+        <Button size='lg' variant='primary'>
+          Large
+        </Button>
 
+        <Button variant='primary' icon={'Icon'} iconPosition='left'>
+          Icon Left
+        </Button>
+        <Button variant='primary' icon={'Icon'} iconPosition='right'>
+          Icon Right
+        </Button>
+
+        <Button variant='secondary' disabled>
+          Disabled
+        </Button>
+
+        <Button variant='ghost'>Ghost</Button>
+        <Button variant='link'>Link</Button>
+      </div>
+
+      <div>
         <button type='button' onClick={() => setCount(count => count + 1)}>
           count is {count}
         </button>
