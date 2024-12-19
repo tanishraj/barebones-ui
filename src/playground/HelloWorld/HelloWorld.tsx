@@ -1,86 +1,83 @@
-import { useState } from 'react';
+import { Dropdown, Button } from '@/components';
 
-import Button from '@/components/Button';
-
-interface HelloWorldProps {
-  msg: string;
-}
-
-export const HelloWorld = ({ msg }: HelloWorldProps) => {
-  const [count, setCount] = useState(0);
-
+export const HelloWorld = () => {
   return (
-    <div>
-      <h1>{msg}</h1>
+    <div className='flex flex-col space-y-4'>
+      <div className='card card-bordered p-4 shadow-sm'>
+        <div className='card-title'>Buttons:</div>
+        <div className='card-body flex flex-row flex-wrap gap-2'>
+          <Button>Default</Button>
+          <Button variant='primary'>Primary</Button>
+          <Button variant='secondary'>Secondary</Button>
+          <Button variant='accent'>Accent</Button>
+          <Button variant='neutral'>Neutral</Button>
 
-      <div>
-        <Button>Default</Button>
-        <Button variant='primary'>Primary</Button>
-        <Button variant='secondary'>Secondary</Button>
-        <Button variant='accent'>Accent</Button>
-        <Button variant='neutral'>Neutral</Button>
+          <Button size='xs' variant='primary'>
+            Extra Small
+          </Button>
+          <Button size='sm' variant='primary'>
+            Small
+          </Button>
+          <Button size='md' variant='primary'>
+            Medium
+          </Button>
+          <Button size='lg' variant='primary'>
+            Large
+          </Button>
 
-        <Button size='xs' variant='primary'>
-          Extra Small
-        </Button>
-        <Button size='sm' variant='primary'>
-          Small
-        </Button>
-        <Button size='md' variant='primary'>
-          Medium
-        </Button>
-        <Button size='lg' variant='primary'>
-          Large
-        </Button>
+          <Button variant='primary' icon={'🌼'} iconPosition='left'>
+            Icon Left
+          </Button>
+          <Button variant='primary' icon={'🌼'} iconPosition='right'>
+            Icon Right
+          </Button>
 
-        <Button variant='primary' icon={'Icon'} iconPosition='left'>
-          Icon Left
-        </Button>
-        <Button variant='primary' icon={'Icon'} iconPosition='right'>
-          Icon Right
-        </Button>
+          <Button variant='secondary' disabled>
+            Disabled
+          </Button>
 
-        <Button variant='secondary' disabled>
-          Disabled
-        </Button>
-
-        <Button variant='ghost'>Ghost</Button>
-        <Button variant='link'>Link</Button>
+          <Button variant='ghost'>Ghost</Button>
+          <Button variant='link'>Link</Button>
+        </div>
       </div>
 
-      <div>
-        <button type='button' onClick={() => setCount(count => count + 1)}>
-          count is {count}
-        </button>
-        <ul>
-          <li>
-            <span>Home</span>
-          </li>
-          <li>
-            <span>About</span>
-          </li>
-        </ul>
-      </div>
-      <p>
-        Edit <code>components/HelloWorld.jsx</code> to test HMR (Hot Module
-        Replacement)
-      </p>
+      <div className='card card-bordered p-4 shadow-sm'>
+        <div className='card-title'>Dropdown:</div>
+        <div className='card-body flex flex-row flex-wrap gap-2'>
+          <Dropdown
+            items={[
+              { label: 'Item 1', onClick: () => alert('Clicked Item 1') },
+              { label: 'Item 2', onClick: () => alert('Clicked Item 2') },
+            ]}
+            position='bottom'
+            alignment='start'
+            behavior='toggle'
+          />
 
-      <p>
-        Check out{' '}
-        <a href='https://vitejs.dev/guide/' target='_blank' rel='noreferrer'>
-          create-react
-        </a>
-        , the official React + Vite starter
-      </p>
-      <p>
-        Learn more about IDE Support for Vue in the{' '}
-        <a href='https://react.dev/learn' target='_blank' rel='noreferrer'>
-          React Docs Scaling up Guide
-        </a>
-        .
-      </p>
-      <p>Click on the Vite and Vue logos to learn more</p>
+          <Dropdown position='top' alignment='end' behavior='hover'>
+            <div className='flex flex-col p-2'>
+              <p className='mb-2'>Custom Content</p>
+              <button className='btn btn-primary'>Custom Button</button>
+            </div>
+          </Dropdown>
+
+          <Dropdown
+            items={[
+              { label: 'Always Open Item 1' },
+              { label: 'Always Open Item 2' },
+            ]}
+            behavior='forceOpen'
+          />
+
+          <Dropdown
+            items={[
+              { label: 'Close on Outside Click 1' },
+              { label: 'Close on Outside Click 2' },
+            ]}
+            behavior='clickOutsideClose'
+          />
+        </div>
+      </div>
     </div>
   );
 };
