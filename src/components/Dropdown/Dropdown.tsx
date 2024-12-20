@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
-import clsx from 'clsx';
 
 interface DropdownItem {
   label: string;
@@ -50,6 +49,7 @@ const dropdownMenuClasses = cva(
 );
 
 const Dropdown: React.FC<DropdownProps> = ({
+  buttonLabel,
   position,
   alignment,
   items,
@@ -58,61 +58,23 @@ const Dropdown: React.FC<DropdownProps> = ({
   menuClassName = '',
   behavior = 'toggle',
 }) => {
-  const [isOpen, setIsOpen] = useState(behavior === 'forceOpen');
-
-  const handleToggle = () => {
-    if (behavior === 'toggle') {
-      setIsOpen(prev => !prev);
-    }
-  };
-
-  const handleClose = () => {
-    if (behavior === 'clickOutsideClose' && isOpen) {
-      setIsOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    if (behavior === 'clickOutsideClose') {
-      document.addEventListener('click', handleClose);
-    }
-    return () => document.removeEventListener('click', handleClose);
-  }, [isOpen, behavior]);
-
   return (
-    <div className={dropdownClasses({ position, alignment })}>
-      {/* Trigger */}
-      <div
-        tabIndex={0}
-        role='button'
-        className={clsx('btn m-1', triggerClassName)}
-        onClick={behavior === 'toggle' ? handleToggle : undefined}
-      >
-        Trigger
+    <div className='dropdown'>
+      <div tabIndex={0} role='button' className='btn m-1'>
+        Click
       </div>
-
-      {/* Dropdown Menu */}
-      <ul
-        className={clsx(
-          dropdownMenuClasses({
-            isVisible: isOpen || behavior === 'forceOpen',
-          }),
-          menuClassName,
-        )}
-      >
-        {items
-          ? items.map((item, index) => (
-              <li key={index}>
-                <a
-                  className={clsx('cursor-pointer', item.className)}
-                  onClick={item.onClick}
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))
-          : children}
-      </ul>
+      {items && items.length > 0 && (
+        <ul
+          tabIndex={0}
+          className='menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow'
+        >
+          {items.map((item, index) => (
+            <li key={index}>
+              <a onClick={item.onClick}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

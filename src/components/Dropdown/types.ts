@@ -21,6 +21,7 @@ export type DropdownOpenBehavior =
   | 'clickOutsideClose';
 
 export interface DropdownProps {
+  label: React.ReactNode;
   children: React.ReactNode;
   position?: DropdownPosition;
   alignment?: DropdownAlignment;
