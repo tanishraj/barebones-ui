@@ -48,69 +48,143 @@ export const HelloWorld = () => {
 
       <div className='card card-bordered p-4 shadow-sm'>
         <div className='card-title'>Dropdown:</div>
-        <div className='card-body flex flex-row flex-wrap gap-2'>
-          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
-          <Dropdown
-            label='Primary Dropdown'
-            variant='primary'
-            items={MOCK_DROPDOWN_ITEMS}
-          />
-          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
-          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
-          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
-          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
-          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
-          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
-          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
-          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
-          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
-          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
-          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
-          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
-          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
-          <Dropdown
-            label='Toggle Top Dropdown'
-            items={MOCK_DROPDOWN_ITEMS}
-            position='top'
-          />
-          <Dropdown
-            label='Toggle Left Dropdown'
-            items={MOCK_DROPDOWN_ITEMS}
-            position='left'
-          />
-          <Dropdown
-            label='Toggle Right Dropdown'
-            items={MOCK_DROPDOWN_ITEMS}
-            position='right'
-          />
-          <Dropdown
-            label='Toggle Start Dropdown'
-            items={MOCK_DROPDOWN_ITEMS}
-            alignment='start'
-          />
-          <Dropdown
-            label='Toggle End Dropdown'
-            items={MOCK_DROPDOWN_ITEMS}
-            alignment='end'
-          />
 
-          <Dropdown
-            label='Hover Dropdown'
-            behavior='hover'
-            items={MOCK_DROPDOWN_ITEMS}
-          />
+        <div className='card-body flex flex-col flex-wrap gap-2'>
+          <div className='card card-bordered p-4 shadow-sm'>
+            <div className='card-title'>Deafult:</div>
+            <div className='card-body flex flex-row flex-wrap gap-2'>
+              <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
+            </div>
+          </div>
 
-          <Dropdown
-            label='Force Open Dropdown'
-            behavior='forceOpen'
-            items={MOCK_DROPDOWN_ITEMS}
-          />
+          <div className='card card-bordered p-4 shadow-sm'>
+            <div className='card-title'>Variants:</div>
+            <div className='card-body flex flex-row flex-wrap gap-2'>
+              <Dropdown
+                label='Primary Dropdown'
+                variant='primary'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='Secondary Dropdown'
+                variant='secondary'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='Accent Dropdown'
+                variant='accent'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='Neutral Dropdown'
+                variant='neutral'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='Info Dropdown'
+                variant='info'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='Success Dropdown'
+                variant='success'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='Warning Dropdown'
+                variant='warning'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='Error Dropdown'
+                variant='error'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='Ghost Dropdown'
+                variant='ghost'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='Link Dropdown'
+                variant='link'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='Outline Dropdown'
+                variant='outline'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+            </div>
+          </div>
 
-          <Dropdown
-            label='Click Outside Dropdown'
-            behavior='clickOutsideClose'
-            items={MOCK_DROPDOWN_ITEMS}
-          />
+          <div className='card card-bordered p-4 shadow-sm'>
+            <div className='card-title'>Sizes:</div>
+            <div className='card-body flex flex-row flex-wrap gap-2'>
+              <Dropdown
+                label='xs Dropdown'
+                size={'xs'}
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='sm Dropdown'
+                size={'sm'}
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='md Dropdown'
+                size={'md'}
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='lg Dropdown'
+                size={'lg'}
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+            </div>
+          </div>
+
+          <div className='card card-bordered p-4 shadow-sm'>
+            <div className='card-title'>Menu Alignment:</div>
+            <div className='card-body flex flex-row flex-wrap gap-2'>
+              <Dropdown
+                label='Start Menu'
+                alignment='start'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='End Menu'
+                alignment='end'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+            </div>
+          </div>
+
+          <div className='card card-bordered p-4 shadow-sm'>
+            <div className='card-title'>Menu Position:</div>
+            <div className='card-body flex flex-row flex-wrap gap-2'>
+              <Dropdown
+                label='Top Menu'
+                position='top'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='Bottom Menu'
+                position='bottom'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='Left Menu'
+                position='left'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+              <Dropdown
+                label='Right Menu'
+                position='right'
+                items={MOCK_DROPDOWN_ITEMS}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
