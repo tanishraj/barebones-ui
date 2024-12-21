@@ -20,6 +20,12 @@ export type DropdownOpenBehavior =
   | 'force'
   | 'clickOutsideClose';
 
+type DropdownMenuItem = {
+  label: React.ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
+};
+
 export interface DropdownProps {
   label: React.ReactNode;
   children: React.ReactNode;

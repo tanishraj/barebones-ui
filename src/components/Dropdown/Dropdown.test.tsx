@@ -5,6 +5,6 @@ import Dropdown from './Dropdown';
 
 describe('Button Component', () => {
   it('renders with default props', () => {
-    render(<Dropdown />);
+    render(<Dropdown buttonLabel={'Dropdown'} />);
   });
 });

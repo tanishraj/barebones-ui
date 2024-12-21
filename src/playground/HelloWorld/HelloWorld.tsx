@@ -1,5 +1,10 @@
 import { Dropdown, Button } from '@/components';
 
+const MOCK_DROPDOWN_ITEMS = [
+  { label: 'Item 1', onClick: () => alert('Clicked Item 1') },
+  { label: 'Item 2', onClick: () => alert('Clicked Item 2') },
+];
+
 export const HelloWorld = () => {
   return (
     <div className='flex flex-col space-y-4'>
@@ -44,37 +49,49 @@ export const HelloWorld = () => {
       <div className='card card-bordered p-4 shadow-sm'>
         <div className='card-title'>Dropdown:</div>
         <div className='card-body flex flex-row flex-wrap gap-2'>
+          <Dropdown buttonLabel='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
           <Dropdown
-            items={[
-              { label: 'Item 1', onClick: () => alert('Clicked Item 1') },
-              { label: 'Item 2', onClick: () => alert('Clicked Item 2') },
-            ]}
-            position='bottom'
+            buttonLabel='Toggle Dropdown'
+            items={MOCK_DROPDOWN_ITEMS}
+            position='top'
+          />
+          <Dropdown
+            buttonLabel='Toggle Dropdown'
+            items={MOCK_DROPDOWN_ITEMS}
+            position='left'
+          />
+          <Dropdown
+            buttonLabel='Toggle Dropdown'
+            items={MOCK_DROPDOWN_ITEMS}
+            position='right'
+          />
+          <Dropdown
+            buttonLabel='Toggle Dropdown'
+            items={MOCK_DROPDOWN_ITEMS}
             alignment='start'
-            behavior='toggle'
+          />
+          <Dropdown
+            buttonLabel='Toggle Dropdown'
+            items={MOCK_DROPDOWN_ITEMS}
+            alignment='end'
           />
 
-          <Dropdown position='top' alignment='end' behavior='hover'>
-            <div className='flex flex-col p-2'>
-              <p className='mb-2'>Custom Content</p>
-              <button className='btn btn-primary'>Custom Button</button>
-            </div>
-          </Dropdown>
+          <Dropdown
+            buttonLabel='Hover Dropdown'
+            behavior='hover'
+            items={MOCK_DROPDOWN_ITEMS}
+          />
 
           <Dropdown
-            items={[
-              { label: 'Always Open Item 1' },
-              { label: 'Always Open Item 2' },
-            ]}
+            buttonLabel='Force Open Dropdown'
             behavior='forceOpen'
+            items={MOCK_DROPDOWN_ITEMS}
           />
 
           <Dropdown
-            items={[
-              { label: 'Close on Outside Click 1' },
-              { label: 'Close on Outside Click 2' },
-            ]}
+            buttonLabel='Click Outside Dropdown'
             behavior='clickOutsideClose'
+            items={MOCK_DROPDOWN_ITEMS}
           />
         </div>
       </div>
