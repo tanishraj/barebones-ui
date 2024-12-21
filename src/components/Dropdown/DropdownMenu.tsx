@@ -1,11 +1,12 @@
 import clsx from 'clsx';
 import { cva, VariantProps } from 'class-variance-authority';
 
-import { MenuItems } from './Dropdown';
+import { DropdownMenuItem } from './types';
 
 interface DropdownMenuProps extends VariantProps<typeof dropdownMenuStyles> {
-  items: MenuItems[];
+  items: DropdownMenuItem[];
   menuClassName?: string;
+  tabIndex?: number;
 }
 
 const dropdownMenuStyles = cva(
@@ -23,9 +24,11 @@ const dropdownMenuStyles = cva(
 export const DropdownMenu = ({
   items,
   menuClassName = '',
+  tabIndex,
 }: DropdownMenuProps) => {
   return (
     <ul
+      tabIndex={tabIndex}
       className={clsx(
         'menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow',
         dropdownMenuStyles({ isVisible: true }),
@@ -33,7 +36,7 @@ export const DropdownMenu = ({
       )}
     >
       {items.map(item => (
-        <li key={item.label}>
+        <li>
           <a onClick={item.onClick}>{item.label}</a>
         </li>
       ))}

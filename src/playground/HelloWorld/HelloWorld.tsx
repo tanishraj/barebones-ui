@@ -49,47 +49,65 @@ export const HelloWorld = () => {
       <div className='card card-bordered p-4 shadow-sm'>
         <div className='card-title'>Dropdown:</div>
         <div className='card-body flex flex-row flex-wrap gap-2'>
-          <Dropdown buttonLabel='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
+          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
           <Dropdown
-            buttonLabel='Toggle Dropdown'
+            label='Primary Dropdown'
+            variant='primary'
+            items={MOCK_DROPDOWN_ITEMS}
+          />
+          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
+          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
+          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
+          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
+          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
+          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
+          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
+          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
+          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
+          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
+          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
+          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
+          <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
+          <Dropdown
+            label='Toggle Top Dropdown'
             items={MOCK_DROPDOWN_ITEMS}
             position='top'
           />
           <Dropdown
-            buttonLabel='Toggle Dropdown'
+            label='Toggle Left Dropdown'
             items={MOCK_DROPDOWN_ITEMS}
             position='left'
           />
           <Dropdown
-            buttonLabel='Toggle Dropdown'
+            label='Toggle Right Dropdown'
             items={MOCK_DROPDOWN_ITEMS}
             position='right'
           />
           <Dropdown
-            buttonLabel='Toggle Dropdown'
+            label='Toggle Start Dropdown'
             items={MOCK_DROPDOWN_ITEMS}
             alignment='start'
           />
           <Dropdown
-            buttonLabel='Toggle Dropdown'
+            label='Toggle End Dropdown'
             items={MOCK_DROPDOWN_ITEMS}
             alignment='end'
           />
 
           <Dropdown
-            buttonLabel='Hover Dropdown'
+            label='Hover Dropdown'
             behavior='hover'
             items={MOCK_DROPDOWN_ITEMS}
           />
 
           <Dropdown
-            buttonLabel='Force Open Dropdown'
+            label='Force Open Dropdown'
             behavior='forceOpen'
             items={MOCK_DROPDOWN_ITEMS}
           />
 
           <Dropdown
-            buttonLabel='Click Outside Dropdown'
+            label='Click Outside Dropdown'
             behavior='clickOutsideClose'
             items={MOCK_DROPDOWN_ITEMS}
           />
