@@ -16,9 +16,8 @@ export const buttonStyles = cva('btn', {
     },
     outline: {
       solid: 'btn-outline',
-      dotted: 'dotted btn-outline',
-      dashed: 'dashed btn-outline',
-      double: 'double btn-outline',
+      dotted: 'btn-outline border-dotted',
+      dashed: 'dashed btn-outline border-dashed',
     },
     size: {
       xs: 'btn-xs',
@@ -27,8 +26,8 @@ export const buttonStyles = cva('btn', {
       lg: 'btn-lg',
     },
     iconPosition: {
-      left: 'flex-row-reverse',
-      right: 'flex-row',
+      left: 'flex-row',
+      right: 'flex-row-reverse',
     },
     disabled: {
       true: 'btn-disabled',

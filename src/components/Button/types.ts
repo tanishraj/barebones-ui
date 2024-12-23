@@ -1,11 +1,12 @@
 import { VariantProps } from 'class-variance-authority';
+import { ReactNode } from 'react';
 
 import { buttonStyles } from './variants';
 
 export interface ButtonProps extends VariantProps<typeof buttonStyles> {
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   disabled?: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   onClick?: () => void;
 }

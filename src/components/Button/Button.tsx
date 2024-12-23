@@ -10,6 +10,7 @@ const Button: React.FC<ButtonProps> = ({
   icon,
   iconPosition,
   disabled,
+  outline,
   children,
   className = '',
   onClick,
@@ -17,7 +18,13 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={clsx(
-        buttonStyles({ variant, size, iconPosition, disabled: disabled }),
+        buttonStyles({
+          variant,
+          size,
+          iconPosition,
+          outline,
+          disabled: disabled,
+        }),
         className,
       )}
       disabled={disabled}
