@@ -22,7 +22,6 @@ export default {
         'error',
         'ghost',
         'link',
-        'outline',
       ],
       description: 'Select the button variant',
     },
