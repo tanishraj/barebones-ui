@@ -16,6 +16,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   triggerClassName = '',
   menuClassName = '',
   behavior = 'toggle',
+  disabled,
 }) => {
   return (
     <>
@@ -23,7 +24,11 @@ const Dropdown: React.FC<DropdownProps> = ({
         <details
           className={clsx(
             'dropdown',
-            dropdownStyles({ position, alignment, behavior }),
+            dropdownStyles({
+              position,
+              alignment,
+              behavior: disabled ? 'toggle' : behavior,
+            }),
           )}
           data-testid='dropdown'
         >
@@ -31,9 +36,10 @@ const Dropdown: React.FC<DropdownProps> = ({
             role='button'
             className={clsx(
               'btn m-1',
-              dropdownStyles({ variant, size }),
+              dropdownStyles({ variant, size, disabled }),
               triggerClassName,
             )}
+            aria-disabled={disabled}
           >
             {label}
           </summary>
@@ -48,7 +54,11 @@ const Dropdown: React.FC<DropdownProps> = ({
         <div
           className={clsx(
             'dropdown',
-            dropdownStyles({ position, alignment, behavior }),
+            dropdownStyles({
+              position,
+              alignment,
+              behavior: disabled ? 'toggle' : behavior,
+            }),
           )}
           data-testid='dropdown'
         >
@@ -57,9 +67,10 @@ const Dropdown: React.FC<DropdownProps> = ({
             role='button'
             className={clsx(
               'btn m-1',
-              dropdownStyles({ variant, size }),
+              dropdownStyles({ variant, size, disabled }),
               triggerClassName,
             )}
+            aria-disabled={disabled}
           >
             {label}
           </div>

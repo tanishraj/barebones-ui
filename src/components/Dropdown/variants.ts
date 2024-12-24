@@ -37,6 +37,9 @@ export const dropdownStyles = cva('', {
       forceOpen: 'dropdown-open',
       clickOutsideClose: 'dropdown-close',
     },
+    disabled: {
+      true: 'btn-disabled',
+    },
   },
   defaultVariants: {
     position: 'bottom',

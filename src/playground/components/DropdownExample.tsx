@@ -19,6 +19,17 @@ export const DropdownExample = () => {
         </div>
 
         <div className='card card-bordered p-4 shadow-sm'>
+          <div className='card-title'>Disabled:</div>
+          <div className='card-body flex flex-row flex-wrap gap-2'>
+            <Dropdown
+              label='Disabled Dropdown'
+              disabled
+              items={MOCK_DROPDOWN_ITEMS}
+            />
+          </div>
+        </div>
+
+        <div className='card card-bordered p-4 shadow-sm'>
           <div className='card-title'>Variants:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
             <Dropdown
