@@ -141,6 +141,32 @@ export const DropdownExample = () => {
             />
           </div>
         </div>
+
+        <div className='card card-bordered p-4 shadow-sm'>
+          <div className='card-title'>Menu Behavior:</div>
+          <div className='card-body flex flex-row flex-wrap gap-2'>
+            <Dropdown
+              label='Toggle'
+              behavior='toggle'
+              items={MOCK_DROPDOWN_ITEMS}
+            />
+            <Dropdown
+              label='Hover'
+              behavior='hover'
+              items={MOCK_DROPDOWN_ITEMS}
+            />
+            <Dropdown
+              label='Force Open'
+              behavior='forceOpen'
+              items={MOCK_DROPDOWN_ITEMS}
+            />
+            <Dropdown
+              label='Click Outside to Close'
+              behavior='clickOutsideClose'
+              items={MOCK_DROPDOWN_ITEMS}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
