@@ -62,14 +62,9 @@ export default {
 
 const Template: StoryFn<DropdownProps> = args => <Dropdown {...args} />;
 
-export const Playground = Template.bind({});
-Playground.args = {
+export const Default = Template.bind({});
+Default.args = {
   label: 'Dropdown',
-  position: 'bottom',
-  alignment: 'start',
-  variant: 'primary',
-  size: 'md',
-  behavior: 'toggle',
   items: [
     { label: 'Item 1', onClick: () => alert('Clicked Item 1') },
     { label: 'Item 2', onClick: () => alert('Clicked Item 2') },
@@ -80,9 +75,11 @@ export const WithChildren = Template.bind({});
 WithChildren.args = {
   label: 'Dropdown with Children',
   children: (
-    <div className='p-4'>
-      <p>Custom Content</p>
-      <button className='btn btn-primary'>Click Me</button>
+    <div className='card dropdown-content card-compact z-[1] w-64 bg-primary p-2 text-primary-content shadow'>
+      <div className='card-body'>
+        <h3 className='card-title'>Card title!</h3>
+        <p>you can use any element as a dropdown.</p>
+      </div>
     </div>
   ),
 };
