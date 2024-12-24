@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-export const dropdownStyles = cva('dropdown inline-flex', {
+export const dropdownStyles = cva('', {
   variants: {
     variant: {
       primary: 'btn-primary',
@@ -40,7 +40,6 @@ export const dropdownStyles = cva('dropdown inline-flex', {
   },
   defaultVariants: {
     position: 'bottom',
-    alignment: 'end',
     behavior: 'toggle',
   },
 });

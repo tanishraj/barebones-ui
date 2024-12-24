@@ -71,11 +71,6 @@ export const DropdownExample = () => {
               variant='link'
               items={MOCK_DROPDOWN_ITEMS}
             />
-            <Dropdown
-              label='Outline Dropdown'
-              variant='outline'
-              items={MOCK_DROPDOWN_ITEMS}
-            />
           </div>
         </div>
 
