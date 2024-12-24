@@ -24,7 +24,11 @@ const Dropdown: React.FC<DropdownProps> = ({
         <details
           className={clsx(
             'dropdown',
-            dropdownStyles({ position, alignment, behavior }),
+            dropdownStyles({
+              position,
+              alignment,
+              behavior: disabled ? 'toggle' : behavior,
+            }),
           )}
           data-testid='dropdown'
         >
@@ -50,7 +54,11 @@ const Dropdown: React.FC<DropdownProps> = ({
         <div
           className={clsx(
             'dropdown',
-            dropdownStyles({ position, alignment, behavior }),
+            dropdownStyles({
+              position,
+              alignment,
+              behavior: disabled ? 'toggle' : behavior,
+            }),
           )}
           data-testid='dropdown'
         >
