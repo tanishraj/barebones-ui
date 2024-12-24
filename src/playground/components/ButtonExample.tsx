@@ -14,6 +14,13 @@ export const ButtonExample = () => {
         </div>
 
         <div className='card card-bordered p-4 shadow-sm'>
+          <div className='card-title'>Disabled:</div>
+          <div className='card-body flex flex-row flex-wrap gap-2'>
+            <Button disabled>Disabled</Button>
+          </div>
+        </div>
+
+        <div className='card card-bordered p-4 shadow-sm'>
           <div className='card-title'>Variant:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
             <Button variant='primary'>Primary</Button>
