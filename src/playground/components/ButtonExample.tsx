@@ -22,11 +22,25 @@ export const ButtonExample = () => {
             <Button variant='neutral'>Neutral</Button>
             <Button variant='ghost'>Ghost</Button>
             <Button variant='link'>Link</Button>
-            <Button variant='outline'>Outline</Button>
             <Button variant='success'>Success</Button>
             <Button variant='warning'>Warning</Button>
             <Button variant='error'>Error</Button>
             <Button variant='info'>Info</Button>
+          </div>
+        </div>
+
+        <div className='card card-bordered p-4 shadow-sm'>
+          <div className='card-title'>Outline:</div>
+          <div className='card-body flex flex-row flex-wrap gap-2'>
+            <Button variant='primary' outline='solid'>
+              Solid Primary
+            </Button>
+            <Button variant='secondary' outline='dotted'>
+              Dotted Secondary
+            </Button>
+            <Button variant='accent' outline='dashed'>
+              Dashed Accent
+            </Button>
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 import { Meta, StoryFn } from '@storybook/react';
 
-import Button, { ButtonProps } from './Button';
+import Button from './Button';
+import { ButtonProps } from './types';
 
 export default {
   title: 'Components/Button',
@@ -8,7 +9,7 @@ export default {
   argTypes: {
     variant: {
       control: {
-        type: 'select', // Dropdown for variants
+        type: 'select',
       },
       options: [
         'primary',
@@ -21,13 +22,19 @@ export default {
         'error',
         'ghost',
         'link',
-        'outline',
       ],
       description: 'Select the button variant',
     },
+    outline: {
+      control: {
+        type: 'select',
+      },
+      options: ['solid', 'dotted', 'dashed'],
+      description: 'Select the outline style',
+    },
     size: {
       control: {
-        type: 'select', // Dropdown for sizes
+        type: 'select',
       },
       options: ['xs', 'sm', 'md', 'lg'],
       description: 'Select the button size',
@@ -38,18 +45,18 @@ export default {
         'Provide an ASCII icon like "★" or "✦". If left empty, a default icon will be used.',
     },
     showIcon: {
-      control: 'boolean', // Toggle to show/hide the icon
+      control: 'boolean',
       description: 'Show or hide the icon.',
     },
     iconPosition: {
       control: {
-        type: 'inline-radio', // Inline radio for icon position
+        type: 'inline-radio',
       },
       options: ['left', 'right'],
       description: 'Position the icon to the left or right of the button text',
     },
     disabled: {
-      control: 'boolean', // Toggle for disabled state
+      control: 'boolean',
       description: 'Disable the button',
     },
     children: {
@@ -59,23 +66,16 @@ export default {
   },
 } as Meta;
 
-const Template: StoryFn<ButtonProps & { showIcon?: boolean }> = ({
-  showIcon,
-  icon,
-  ...args
-}) => (
-  <Button icon={showIcon ? icon || '★' : undefined} {...args}>
+const Template: StoryFn<ButtonProps> = ({ icon, ...args }) => (
+  <Button icon={icon} {...args}>
     {args.children}
   </Button>
 );
 
-export const Primary = Template.bind({});
-Primary.args = {
-  variant: 'primary',
+export const DefaultButton = Template.bind({});
+DefaultButton.args = {
   size: 'md',
   disabled: false,
-  showIcon: true, // Default to show the icon
-  icon: '', // Use default icon if empty
-  iconPosition: 'left',
+  icon: '★',
   children: 'Button',
 };

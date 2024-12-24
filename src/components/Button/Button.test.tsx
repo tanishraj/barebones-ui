@@ -4,77 +4,91 @@ import { describe, it, expect, vi } from 'vitest';
 import Button from './Button';
 
 describe('Button Component', () => {
-  it('renders with default props', () => {
-    render(<Button>Click Me</Button>);
-    const buttonElement = screen.getByRole('button', { name: /click me/i });
-    expect(buttonElement).toBeInTheDocument();
-    expect(buttonElement).toHaveClass('btn');
+  it('renders correctly with default props', () => {
+    render(<Button>Default Button</Button>);
+    const button = screen.getByRole('button', { name: /default button/i });
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveClass('btn btn-md flex-row');
+    expect(button).not.toBeDisabled();
   });
 
-  it('renders with different variants', () => {
-    const { rerender } = render(<Button variant='secondary'>Secondary</Button>);
-    let buttonElement = screen.getByRole('button', { name: /secondary/i });
-    expect(buttonElement).toHaveClass('btn-secondary');
-
-    rerender(<Button variant='ghost'>Ghost</Button>);
-    buttonElement = screen.getByRole('button', { name: /ghost/i });
-    expect(buttonElement).toHaveClass('btn-ghost');
-
-    rerender(<Button variant='link'>Link</Button>);
-    buttonElement = screen.getByRole('button', { name: /link/i });
-    expect(buttonElement).toHaveClass('btn-link');
+  it('applies the correct variant class', () => {
+    render(<Button variant='primary'>Primary Button</Button>);
+    const button = screen.getByRole('button', { name: /primary button/i });
+    expect(button).toHaveClass('btn-primary');
   });
 
-  it('renders with different sizes', () => {
-    const { rerender } = render(<Button size='sm'>Small</Button>);
-    let buttonElement = screen.getByRole('button', { name: /small/i });
-    expect(buttonElement).toHaveClass('btn-sm');
-
-    rerender(<Button size='lg'>Large</Button>);
-    buttonElement = screen.getByRole('button', { name: /large/i });
-    expect(buttonElement).toHaveClass('btn-lg');
+  it('applies the correct outline class', () => {
+    render(<Button outline='dotted'>Dotted Outline</Button>);
+    const button = screen.getByRole('button', { name: /dotted outline/i });
+    expect(button).toHaveClass('btn-outline border-dotted');
   });
 
-  it('renders with an icon on the left', () => {
+  it('applies the correct size class', () => {
+    render(<Button size='lg'>Large Button</Button>);
+    const button = screen.getByRole('button', { name: /large button/i });
+    expect(button).toHaveClass('btn-lg');
+  });
+
+  it('handles the icon and iconPosition props', () => {
+    const Icon = <span data-testid='icon'>⭐</span>;
     render(
-      <Button icon={<span data-testid='icon'>⭐</span>}>Icon Button</Button>,
-    );
-    const buttonElement = screen.getByRole('button', { name: /icon button/i });
-    const iconElement = screen.getByTestId('icon');
-    expect(buttonElement).toContainElement(iconElement);
-    expect(buttonElement).toHaveClass('flex-row');
-  });
-
-  it('renders with an icon on the right', () => {
-    render(
-      <Button icon={<span data-testid='icon'>⭐</span>} iconPosition='right'>
-        Icon Button
+      <Button icon={Icon} iconPosition='right'>
+        Button with Icon
       </Button>,
     );
-    const buttonElement = screen.getByRole('button', { name: /icon button/i });
-    const iconElement = screen.getByTestId('icon');
-    expect(buttonElement).toContainElement(iconElement);
-    expect(buttonElement).toHaveClass('flex-row-reverse');
+    const button = screen.getByRole('button', { name: /button with icon/i });
+    expect(button).toHaveClass('flex-row-reverse');
+    expect(screen.getByTestId('icon')).toBeInTheDocument();
   });
 
-  it('handles disabled state', () => {
+  it('disables the button when the disabled prop is true', () => {
+    render(<Button disabled>Disabled Button</Button>);
+    const button = screen.getByRole('button', { name: /disabled button/i });
+    expect(button).toBeDisabled();
+    expect(button).toHaveClass('btn-disabled');
+  });
+
+  it('triggers the onClick handler when clicked', () => {
+    const handleClick = vi.fn();
+    render(<Button onClick={handleClick}>Clickable Button</Button>);
+    const button = screen.getByRole('button', { name: /clickable button/i });
+    fireEvent.click(button);
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not trigger onClick when the button is disabled', () => {
     const handleClick = vi.fn();
     render(
-      <Button disabled onClick={handleClick}>
-        Disabled
+      <Button onClick={handleClick} disabled>
+        Non-Clickable Button
       </Button>,
     );
-    const buttonElement = screen.getByRole('button', { name: /disabled/i });
-    expect(buttonElement).toBeDisabled();
-    fireEvent.click(buttonElement);
+    const button = screen.getByRole('button', {
+      name: /non-clickable button/i,
+    });
+    fireEvent.click(button);
     expect(handleClick).not.toHaveBeenCalled();
   });
 
-  it('handles click events', () => {
-    const handleClick = vi.fn();
-    render(<Button onClick={handleClick}>Click Me</Button>);
-    const buttonElement = screen.getByRole('button', { name: /click me/i });
-    fireEvent.click(buttonElement);
-    expect(handleClick).toHaveBeenCalledTimes(1);
+  it('applies custom className', () => {
+    render(<Button className='custom-class'>Custom Button</Button>);
+    const button = screen.getByRole('button', { name: /custom button/i });
+    expect(button).toHaveClass('custom-class');
+  });
+
+  it('renders correctly with icon only', () => {
+    const Icon = <span data-testid='icon'>⭐</span>;
+    render(<Button icon={Icon} />);
+    const icon = screen.getByTestId('icon');
+    expect(icon).toBeInTheDocument();
+  });
+
+  it('applies default classes when no props are provided', () => {
+    render(<Button>Default Classes Button</Button>);
+    const button = screen.getByRole('button', {
+      name: /default classes button/i,
+    });
+    expect(button).toHaveClass('btn btn-md flex-row');
   });
 });
