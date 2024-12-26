@@ -1,37 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import clsx from 'clsx';
-import { cva, VariantProps } from 'class-variance-authority';
 
-export interface ModalProps extends VariantProps<typeof modalStyles> {
-  title?: string;
-  content?: React.ReactNode;
-  triggerLabel?: string;
-  isOpen?: boolean;
-  onClose?: () => void;
-  closeOnBackdropClick?: boolean;
-  hasCloseButton?: boolean;
-  triggerClassName?: string;
-  modalClassName?: string;
-}
-
-const modalStyles = cva('modal', {
-  variants: {
-    size: {
-      small: 'max-w-md',
-      medium: 'max-w-lg',
-      large: 'max-w-2xl',
-      full: 'w-full',
-    },
-    responsive: {
-      true: 'modal-bottom sm:modal-middle',
-      false: '',
-    },
-  },
-  defaultVariants: {
-    size: 'medium',
-    responsive: false,
-  },
-});
+import { ModalProps } from './types';
+import { modalStyles } from './variants';
 
 const Modal: React.FC<ModalProps> = ({
   title,
