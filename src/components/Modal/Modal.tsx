@@ -1,67 +1,33 @@
-import React, { useEffect, useRef } from 'react';
-import clsx from 'clsx';
+import React, { useRef } from 'react';
 
 import { ModalProps } from './types';
-import { modalStyles } from './variants';
 
-const Modal: React.FC<ModalProps> = ({
-  title,
-  content,
-  triggerLabel,
-  isOpen = false,
-  onClose,
-  closeOnBackdropClick = true,
-  hasCloseButton = false,
-  size,
-  responsive,
-  triggerClassName,
-  modalClassName,
-}) => {
+const Modal: React.FC<ModalProps> = () => {
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
-  useEffect(() => {
-    if (modalRef.current && isOpen) {
+  const handleClick = () => {
+    if (modalRef.current) {
       modalRef.current.showModal();
-    } else if (modalRef.current && !isOpen) {
-      modalRef.current.close();
-    }
-  }, [isOpen]);
-
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (closeOnBackdropClick && e.target === modalRef.current && onClose) {
-      onClose();
     }
   };
 
   return (
     <>
-      {/* Trigger Button */}
-      {triggerLabel && (
-        <button
-          className={clsx('btn', triggerClassName)}
-          onClick={() => modalRef.current?.showModal()}
-        >
-          {triggerLabel}
-        </button>
-      )}
-
-      {/* Modal */}
-      <dialog
-        ref={modalRef}
-        className={clsx(modalStyles({ size, responsive }), modalClassName)}
-        onClick={handleBackdropClick}
-      >
+      <button className='btn' onClick={handleClick}>
+        open modal
+      </button>
+      <dialog ref={modalRef} className='modal'>
         <div className='modal-box'>
-          {hasCloseButton && (
-            <button
-              className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'
-              onClick={onClose}
-            >
-              ✕
-            </button>
-          )}
-          {title && <h3 className='text-lg font-bold'>{title}</h3>}
-          <div className='py-4'>{content}</div>
+          <h3 className='text-lg font-bold'>Hello!</h3>
+          <p className='py-4'>
+            Press ESC key or click the button below to close
+          </p>
+          <div className='modal-action'>
+            <form method='dialog'>
+              {/* if there is a button in form, it will close the modal */}
+              <button className='btn'>Close</button>
+            </form>
+          </div>
         </div>
       </dialog>
     </>
