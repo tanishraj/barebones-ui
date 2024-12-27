@@ -10,8 +10,7 @@ export const ModalExample = () => {
           <div className='card-title'>Basic Modal:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
             <Modal
-              triggerLabel='Open Modal'
-              title='Basic Modal'
+              closeButton
               content='This is a basic modal.'
               onClose={() => console.log('Modal closed')}
             />

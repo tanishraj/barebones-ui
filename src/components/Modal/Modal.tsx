@@ -2,7 +2,15 @@ import React, { useRef } from 'react';
 
 import { ModalProps } from './types';
 
-const Modal: React.FC<ModalProps> = () => {
+const CloseButton = () => {
+  return (
+    <button className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'>
+      ✕
+    </button>
+  );
+};
+
+const Modal: React.FC<ModalProps> = ({ closeButton }) => {
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const handleClick = () => {
@@ -24,7 +32,7 @@ const Modal: React.FC<ModalProps> = () => {
           </p>
           <div className='modal-action'>
             <form method='dialog'>
-              {/* if there is a button in form, it will close the modal */}
+              {closeButton && <CloseButton />}
               <button className='btn'>Close</button>
             </form>
           </div>
