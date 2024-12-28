@@ -3,10 +3,19 @@ import { cva } from 'class-variance-authority';
 export const modalStyles = cva('', {
   variants: {
     size: {
-      small: 'max-w-md',
-      medium: 'max-w-lg',
-      large: 'max-w-2xl',
+      sm: 'max-w-md',
+      md: 'max-w-lg',
+      lg: 'max-w-2xl',
       full: 'w-full',
+    },
+    position: {
+      top: 'modal-top',
+      bottom: 'modal-bottom',
+      middle: 'modal-middle',
+    },
+    open: {
+      true: 'modal-open',
+      false: '',
     },
     responsive: {
       true: 'modal-bottom sm:modal-middle',
@@ -14,7 +23,6 @@ export const modalStyles = cva('', {
     },
   },
   defaultVariants: {
-    size: 'medium',
     responsive: false,
   },
 });

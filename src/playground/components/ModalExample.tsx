@@ -9,11 +9,7 @@ export const ModalExample = () => {
         <div className='card card-bordered p-4 shadow-sm'>
           <div className='card-title'>Basic Modal:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
-            <Modal
-              closeButton
-              content='This is a basic modal.'
-              onClose={() => console.log('Modal closed')}
-            />
+            <Modal size='full' />
           </div>
         </div>
       </div>
