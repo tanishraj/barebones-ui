@@ -9,7 +9,7 @@ export const ModalExample = () => {
         <div className='card card-bordered p-4 shadow-sm'>
           <div className='card-title'>Basic Modal:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
-            <Modal size='full' />
+            <Modal clickOutsideToClose />
           </div>
         </div>
       </div>
