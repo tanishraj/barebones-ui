@@ -10,6 +10,8 @@ const Modal: React.FC<ModalProps> = ({
   closeIcon,
   responsive,
   clickOutsideToClose,
+  children,
+  footer,
 }) => {
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
@@ -29,10 +31,7 @@ const Modal: React.FC<ModalProps> = ({
         className={clsx('modal', modalStyles({ position, open, responsive }))}
       >
         <div className='modal-box'>
-          <h3 className='text-lg font-bold'>Hello!</h3>
-          <p className='py-4'>
-            Press ESC key or click the button below to close
-          </p>
+          {children}
           <div className='modal-action'>
             <form method='dialog'>
               {closeIcon && (
@@ -40,7 +39,7 @@ const Modal: React.FC<ModalProps> = ({
                   ✕
                 </button>
               )}
-              <button className='btn'>Close</button>
+              {footer}
             </form>
           </div>
         </div>

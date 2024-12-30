@@ -9,7 +9,15 @@ export const ModalExample = () => {
         <div className='card card-bordered p-4 shadow-sm'>
           <div className='card-title'>Basic Modal:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
-            <Modal clickOutsideToClose />
+            <Modal
+              clickOutsideToClose
+              footer={<button className='btn'>Close</button>}
+            >
+              <h3 className='text-lg font-bold'>Hello!</h3>
+              <p className='py-4'>
+                Press ESC key or click the button below to close
+              </p>
+            </Modal>
           </div>
         </div>
       </div>
