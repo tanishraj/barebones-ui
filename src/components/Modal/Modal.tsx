@@ -5,6 +5,7 @@ import { ModalProps } from './types';
 import { modalStyles } from './variants';
 
 const Modal: React.FC<ModalProps> = ({
+  size,
   position,
   isOpen,
   showCloseButton,
@@ -50,7 +51,7 @@ const Modal: React.FC<ModalProps> = ({
           modalStyles({ position, isOpen, isResponsive }),
         )}
       >
-        <div className='modal-box'>
+        <div className={clsx('modal-box', modalStyles({ size }))}>
           {showCloseButton && (
             <button
               className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'
