@@ -12,12 +12,22 @@ const Modal: React.FC<ModalProps> = ({
   closeOnBackdropClick,
   children,
   footerContent,
+  onClose,
 }) => {
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const openModal = () => {
     if (modalRef.current) {
       modalRef.current.showModal();
+    }
+  };
+
+  const closeModal = () => {
+    if (modalRef.current) {
+      modalRef.current.close();
+    }
+    if (onClose) {
+      onClose();
     }
   };
 
@@ -47,10 +57,7 @@ const Modal: React.FC<ModalProps> = ({
           </div>
         </div>
         {closeOnBackdropClick && (
-          <label
-            className='modal-backdrop'
-            onClick={() => modalRef.current?.close()}
-          >
+          <label className='modal-backdrop' onClick={closeModal}>
             Close
           </label>
         )}
