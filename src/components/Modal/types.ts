@@ -4,8 +4,8 @@ import { ReactNode } from 'react';
 import { modalStyles } from './variants';
 
 export interface ModalProps extends VariantProps<typeof modalStyles> {
-  clickOutsideToClose?: boolean;
-  closeIcon?: boolean | ReactNode;
-  footer?: ReactNode;
+  closeOnBackdropClick?: boolean;
+  showCloseButton?: boolean | ReactNode;
+  footerContent?: ReactNode;
   children?: ReactNode;
 }

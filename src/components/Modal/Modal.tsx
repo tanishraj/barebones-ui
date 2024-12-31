@@ -6,16 +6,16 @@ import { modalStyles } from './variants';
 
 const Modal: React.FC<ModalProps> = ({
   position,
-  open,
-  closeIcon,
-  responsive,
-  clickOutsideToClose,
+  isOpen,
+  showCloseButton,
+  isResponsive,
+  closeOnBackdropClick,
   children,
-  footer,
+  footerContent,
 }) => {
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
-  const handleClick = () => {
+  const openModal = () => {
     if (modalRef.current) {
       modalRef.current.showModal();
     }
@@ -23,27 +23,30 @@ const Modal: React.FC<ModalProps> = ({
 
   return (
     <>
-      <button className='btn' onClick={handleClick}>
-        open modal
+      <button className='btn' onClick={openModal}>
+        Open Modal
       </button>
       <dialog
         ref={modalRef}
-        className={clsx('modal', modalStyles({ position, open, responsive }))}
+        className={clsx(
+          'modal',
+          modalStyles({ position, isOpen, isResponsive }),
+        )}
       >
         <div className='modal-box'>
           {children}
           <div className='modal-action'>
             <form method='dialog'>
-              {closeIcon && (
+              {showCloseButton && (
                 <button className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'>
                   ✕
                 </button>
               )}
-              {footer}
+              {footerContent}
             </form>
           </div>
         </div>
-        {clickOutsideToClose && (
+        {closeOnBackdropClick && (
           <label
             className='modal-backdrop'
             onClick={() => modalRef.current?.close()}

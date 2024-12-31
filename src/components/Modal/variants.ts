@@ -5,18 +5,18 @@ export const modalStyles = cva('', {
     position: {
       top: 'modal-top',
       bottom: 'modal-bottom',
-      middle: 'modal-middle',
+      center: 'modal-middle',
     },
-    open: {
+    isOpen: {
       true: 'modal-open',
       false: '',
     },
-    responsive: {
+    isResponsive: {
       true: 'modal-bottom sm:modal-middle',
       false: '',
     },
   },
   defaultVariants: {
-    responsive: false,
+    isResponsive: false,
   },
 });
