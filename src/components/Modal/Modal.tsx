@@ -1,58 +1,75 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 
 import { ModalProps } from './types';
 import { modalStyles } from './variants';
 
-const CloseButton = () => {
-  return (
-    <button className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'>
-      ✕
-    </button>
-  );
-};
-
 const Modal: React.FC<ModalProps> = ({
-  size = 'md',
+  size,
   position,
+  isOpen,
+  showCloseButton,
+  isResponsive,
+  closeOnBackdropClick,
+  children,
+  footerContent,
+  onClose,
   open,
-  responsive,
+  close,
 }) => {
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
-  const handleClick = () => {
+  const openModal = () => {
     if (modalRef.current) {
       modalRef.current.showModal();
     }
   };
 
+  const closeModal = useCallback(() => {
+    if (modalRef.current) {
+      modalRef.current.close();
+    }
+    if (onClose) {
+      onClose();
+    }
+  }, [onClose]);
+
+  useEffect(() => {
+    if (open) {
+      openModal();
+    } else if (close) {
+      closeModal();
+    }
+  }, [open, close, closeModal]);
+
   return (
     <>
-      <button className='btn' onClick={handleClick}>
-        open modal
-      </button>
       <dialog
         ref={modalRef}
-        className={clsx('modal', modalStyles({ position, open, responsive }))}
+        className={clsx(
+          'modal',
+          modalStyles({ position, isOpen, isResponsive }),
+        )}
       >
         <div className={clsx('modal-box', modalStyles({ size }))}>
-          <h3 className='text-lg font-bold'>Hello!</h3>
-          <p className='py-4'>
-            Press ESC key or click the button below to close
-          </p>
+          {showCloseButton && (
+            <button
+              className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'
+              onClick={closeModal}
+            >
+              ✕
+            </button>
+          )}
+          {children}
           <div className='modal-action'>
-            <form method='dialog'>
-              {/* {closeButton && <CloseButton />} */}
-              <button className='btn'>Close</button>
-            </form>
+            <form method='dialog'>{footerContent}</form>
           </div>
         </div>
-        <label
-          className='modal-backdrop'
-          onClick={() => modalRef.current?.close()}
-        >
-          Close
-        </label>
+        {closeOnBackdropClick && (
+          <label className='modal-backdrop' onClick={closeModal}>
+            Close
+          </label>
+        )}
       </dialog>
     </>
   );
