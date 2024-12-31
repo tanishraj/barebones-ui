@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 
 import { ModalProps } from './types';
@@ -13,6 +13,8 @@ const Modal: React.FC<ModalProps> = ({
   children,
   footerContent,
   onClose,
+  open,
+  close,
 }) => {
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
@@ -22,20 +24,25 @@ const Modal: React.FC<ModalProps> = ({
     }
   };
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     if (modalRef.current) {
       modalRef.current.close();
     }
     if (onClose) {
       onClose();
     }
-  };
+  }, [onClose]);
+
+  useEffect(() => {
+    if (open) {
+      openModal();
+    } else if (close) {
+      closeModal();
+    }
+  }, [open, close, closeModal]);
 
   return (
     <>
-      <button className='btn' onClick={openModal}>
-        Open Modal
-      </button>
       <dialog
         ref={modalRef}
         className={clsx(
@@ -44,16 +51,17 @@ const Modal: React.FC<ModalProps> = ({
         )}
       >
         <div className='modal-box'>
+          {showCloseButton && (
+            <button
+              className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'
+              onClick={closeModal}
+            >
+              ✕
+            </button>
+          )}
           {children}
           <div className='modal-action'>
-            <form method='dialog'>
-              {showCloseButton && (
-                <button className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'>
-                  ✕
-                </button>
-              )}
-              {footerContent}
-            </form>
+            <form method='dialog'>{footerContent}</form>
           </div>
         </div>
         {closeOnBackdropClick && (
