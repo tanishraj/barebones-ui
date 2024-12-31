@@ -20,7 +20,6 @@ export const ModalExample = () => {
           </button>
           <Modal
             isOpen={isModalOpen}
-            onClose={handleClose}
             size='full'
             showCloseButton
             closeOnBackdropClick

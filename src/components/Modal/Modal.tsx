@@ -13,7 +13,6 @@ const Modal: React.FC<ModalProps> = ({
   closeOnBackdropClick,
   children,
   footerContent,
-  onClose,
   open,
   close,
 }) => {
@@ -29,10 +28,7 @@ const Modal: React.FC<ModalProps> = ({
     if (modalRef.current) {
       modalRef.current.close();
     }
-    if (onClose) {
-      onClose();
-    }
-  }, [onClose]);
+  }, []);
 
   useEffect(() => {
     if (open) {
