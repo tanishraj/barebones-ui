@@ -21,7 +21,7 @@ export const ModalExample = () => {
           <Modal
             isOpen={isModalOpen}
             onClose={handleClose}
-            size={'md'}
+            size='full'
             showCloseButton
             closeOnBackdropClick
             footerContent={
