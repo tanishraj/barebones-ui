@@ -11,8 +11,8 @@ export type ModalResponsive = VariantProps<typeof modalStyles>['isResponsive'];
 export interface ModalProps extends VariantProps<typeof modalStyles> {
   closeOnBackdropClick?: boolean;
   showCloseButton?: boolean | ReactNode;
-  footerContent?: ReactNode;
+  footer?: ReactNode;
   children?: ReactNode;
-  open?: () => void;
-  close?: () => void;
+  onClose: () => void;
+  title?: ReactNode;
 }
