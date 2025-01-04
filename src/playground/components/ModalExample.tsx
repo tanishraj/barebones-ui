@@ -74,7 +74,8 @@ export const ModalExample = () => {
               isOpen={isModalOpen}
               position={position}
               size={size}
-              footerContent={
+              showCloseButton
+              footer={
                 <button className='btn' onClick={handleClose}>
                   Close
                 </button>
