@@ -1,57 +1,60 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React from 'react';
+import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
 
-import { ModalProps } from './types';
-import { modalStyles } from './variants';
+type ModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  showCloseButton?: boolean;
+  closeOnBackdropClick?: boolean;
+  footerContent?: React.ReactNode;
+  children?: React.ReactNode;
+};
+
+const modalBoxStyles = cva('modal-box', {
+  variants: {
+    isOpen: {
+      true: 'translate-y-0 scale-100',
+      false: 'scale-90',
+    },
+  },
+});
 
 const Modal: React.FC<ModalProps> = ({
-  size,
-  position,
   isOpen,
-  showCloseButton,
-  isResponsive,
-  closeOnBackdropClick,
+  onClose,
+  showCloseButton = true,
+  closeOnBackdropClick = true,
+  footerContent,
   children,
-  footer,
 }) => {
-  const modalRef = useRef<HTMLDialogElement | null>(null);
-
-  const closeModal = useCallback(() => {
-    if (modalRef.current) {
-      modalRef.current.close();
-    }
-  }, []);
+  const handleBackdropClick = () => {
+    if (closeOnBackdropClick) onClose();
+  };
 
   return (
-    <>
-      <dialog
-        ref={modalRef}
-        className={clsx(
-          'modal',
-          modalStyles({ position, isOpen, isResponsive }),
-        )}
+    <dialog
+      className={clsx('modal', { 'modal-open': isOpen })}
+      onClick={handleBackdropClick}
+      aria-hidden={!isOpen}
+    >
+      <div
+        className={modalBoxStyles({ isOpen })}
+        onClick={e => e.stopPropagation()} // Prevent backdrop click when interacting with modal
       >
-        <div className={clsx('modal-box', modalStyles({ size }))}>
-          {showCloseButton && (
-            <button
-              className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'
-              onClick={closeModal}
-            >
-              ✕
-            </button>
-          )}
-          {children}
-          <div className='modal-action'>
-            <form method='dialog'>{footer}</form>
-          </div>
-        </div>
-        {closeOnBackdropClick && (
-          <label className='modal-backdrop' onClick={closeModal}>
-            Close
-          </label>
+        {showCloseButton && (
+          <button
+            onClick={onClose}
+            className='absolute right-2 top-2 text-gray-400 hover:text-gray-600'
+            aria-label='Close Modal'
+          >
+            ✕
+          </button>
         )}
-      </dialog>
-    </>
+        <div className='modal-content'>{children}</div>
+        {footerContent && <div className='modal-action'>{footerContent}</div>}
+      </div>
+    </dialog>
   );
 };
 
