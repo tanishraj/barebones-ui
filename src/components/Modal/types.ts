@@ -14,6 +14,5 @@ export interface ModalProps extends VariantProps<typeof modalStyles> {
   footer?: ReactNode;
   children?: ReactNode;
   title?: ReactNode;
-  openModal?: () => void;
-  closeModal?: () => void;
+  onClose?: () => void;
 }

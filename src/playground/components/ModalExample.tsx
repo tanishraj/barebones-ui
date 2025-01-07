@@ -75,7 +75,7 @@ export const ModalExample = () => {
               onClose={() => setIsModalOpen(false)}
               showCloseButton={true}
               closeOnBackdropClick={true}
-              footerContent={
+              footer={
                 <>
                   <button
                     className='btn btn-secondary'

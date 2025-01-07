@@ -1,47 +1,24 @@
 import React from 'react';
-import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
 
-type ModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  showCloseButton?: boolean;
-  closeOnBackdropClick?: boolean;
-  footerContent?: React.ReactNode;
-  children?: React.ReactNode;
-};
-
-const modalBoxStyles = cva('modal-box', {
-  variants: {
-    isOpen: {
-      true: 'translate-y-0 scale-100',
-      false: 'scale-90',
-    },
-  },
-});
+import { ModalProps } from './types';
+import { modalStyles } from './variants';
 
 const Modal: React.FC<ModalProps> = ({
   isOpen,
+  size,
   onClose,
   showCloseButton = true,
   closeOnBackdropClick = true,
-  footerContent,
+  footer,
   children,
 }) => {
-  const handleBackdropClick = () => {
-    if (closeOnBackdropClick) onClose();
-  };
-
   return (
     <dialog
-      className={clsx('modal', { 'modal-open': isOpen })}
-      onClick={handleBackdropClick}
-      aria-hidden={!isOpen}
+      className={clsx('modal', modalStyles({ isOpen }))}
+      onClick={closeOnBackdropClick ? onClose : undefined}
     >
-      <div
-        className={modalBoxStyles({ isOpen })}
-        onClick={e => e.stopPropagation()} // Prevent backdrop click when interacting with modal
-      >
+      <div className={clsx(modalStyles({ size }))}>
         {showCloseButton && (
           <button
             onClick={onClose}
@@ -52,7 +29,7 @@ const Modal: React.FC<ModalProps> = ({
           </button>
         )}
         <div className='modal-content'>{children}</div>
-        {footerContent && <div className='modal-action'>{footerContent}</div>}
+        {footer && <div className='modal-action'>{footer}</div>}
       </div>
     </dialog>
   );
