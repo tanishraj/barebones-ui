@@ -4,7 +4,7 @@ type UseClickOutsideOptions = {
   onClickOutside: (event: MouseEvent | TouchEvent) => void;
 };
 
-export const useClickOutside = <T extends HTMLElement>({
+const useClickOutside = <T extends HTMLElement>({
   onClickOutside,
 }: UseClickOutsideOptions) => {
   const ref = useRef<T | null>(null);
@@ -27,3 +27,5 @@ export const useClickOutside = <T extends HTMLElement>({
 
   return ref;
 };
+
+export default useClickOutside;
