@@ -54,8 +54,7 @@ export const ModalExample = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [position, setPosition] =
     useState<VariantProps<typeof modalStyles>['position']>('center');
-  const [size, setSize] =
-    useState<VariantProps<typeof modalStyles>['size']>('md');
+  const [size, setSize] = useState<VariantProps<typeof modalStyles>['size']>();
 
   return (
     <div className='card card-bordered p-4 shadow-sm'>
@@ -72,22 +71,14 @@ export const ModalExample = () => {
             </button>
             <Modal
               isOpen={isModalOpen}
+              size={size}
+              position={position}
+              closeButton
+              footer={true}
               onClose={() => setIsModalOpen(false)}
-              showCloseButton={true}
-              closeOnBackdropClick={true}
-              footer={
-                <>
-                  <button
-                    className='btn btn-secondary'
-                    onClick={() => setIsModalOpen(false)}
-                  >
-                    Close
-                  </button>
-                  <button className='btn btn-primary'>Another Action</button>
-                </>
-              }
             >
-              <p>This is the modal content.</p>
+              <h3 className='text-lg font-bold'>Hello!</h3>
+              <p className='py-4'>This modal works with a hidden checkbox!</p>
             </Modal>
           </div>
           <PropsOptions setPosition={setPosition} setSize={setSize} />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import clsx from 'clsx';
 
 import { ModalProps } from './types';
@@ -7,31 +7,80 @@ import { modalStyles } from './variants';
 const Modal: React.FC<ModalProps> = ({
   isOpen,
   size,
-  onClose,
-  showCloseButton = true,
-  closeOnBackdropClick = true,
+  position = 'center',
+  isResponsive,
+  closeButton,
   footer,
   children,
+  onOpen,
+  onClose,
 }) => {
+  const modalRef = React.useRef<HTMLInputElement>(null);
+
+  const openModal = useCallback(() => {
+    if (modalRef.current) {
+      modalRef.current.checked = true;
+      onOpen?.();
+    }
+  }, [onOpen]);
+
+  const closeModal = useCallback(() => {
+    if (modalRef.current) {
+      modalRef.current.checked = false;
+      onClose?.();
+    }
+  }, [onClose]);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      openModal();
+    } else {
+      closeModal();
+    }
+  }, [closeModal, isOpen, openModal]);
+
   return (
-    <dialog
-      className={clsx('modal', modalStyles({ isOpen }))}
-      onClick={closeOnBackdropClick ? onClose : undefined}
-    >
-      <div className={clsx(modalStyles({ size }))}>
-        {showCloseButton && (
-          <button
-            onClick={onClose}
-            className='absolute right-2 top-2 text-gray-400 hover:text-gray-600'
-            aria-label='Close Modal'
-          >
-            ✕
-          </button>
+    <>
+      <input type='checkbox' ref={modalRef} className='modal-toggle' />
+      <div
+        className={clsx(
+          'modal',
+          modalStyles({ position, isResponsive, isOpen }),
         )}
-        <div className='modal-content'>{children}</div>
-        {footer && <div className='modal-action'>{footer}</div>}
+        role='dialog'
+      >
+        <div className={clsx('modal-box', modalStyles({ size }))}>
+          {children}
+
+          {typeof closeButton === 'boolean' ? (
+            <form method='dialog'>
+              <button
+                className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'
+                onClick={closeModal}
+              >
+                ✕
+              </button>
+            </form>
+          ) : (
+            <>{closeButton}</>
+          )}
+
+          <div className='modal-action'>
+            {typeof footer === 'boolean' ? (
+              <button className='btn' onClick={closeModal}>
+                Close
+              </button>
+            ) : (
+              <>{footer}</>
+            )}
+          </div>
+        </div>
+
+        <label className='modal-backdrop' onClick={closeModal}>
+          Close
+        </label>
       </div>
-    </dialog>
+    </>
   );
 };
 
