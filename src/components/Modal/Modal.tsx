@@ -1,73 +1,37 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import { ModalProps } from './types';
 import { modalStyles } from './variants';
 
 const Modal: React.FC<ModalProps> = ({
-  size,
-  position,
   isOpen,
-  showCloseButton,
-  isResponsive,
-  closeOnBackdropClick,
+  size,
+  onClose,
+  showCloseButton = true,
+  closeOnBackdropClick = true,
+  footer,
   children,
-  footerContent,
-  open,
-  close,
 }) => {
-  const modalRef = useRef<HTMLDialogElement | null>(null);
-
-  const openModal = () => {
-    if (modalRef.current) {
-      modalRef.current.showModal();
-    }
-  };
-
-  const closeModal = useCallback(() => {
-    if (modalRef.current) {
-      modalRef.current.close();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (open) {
-      openModal();
-    } else if (close) {
-      closeModal();
-    }
-  }, [open, close, closeModal]);
-
   return (
-    <>
-      <dialog
-        ref={modalRef}
-        className={clsx(
-          'modal',
-          modalStyles({ position, isOpen, isResponsive }),
+    <dialog
+      className={clsx('modal', modalStyles({ isOpen }))}
+      onClick={closeOnBackdropClick ? onClose : undefined}
+    >
+      <div className={clsx(modalStyles({ size }))}>
+        {showCloseButton && (
+          <button
+            onClick={onClose}
+            className='absolute right-2 top-2 text-gray-400 hover:text-gray-600'
+            aria-label='Close Modal'
+          >
+            ✕
+          </button>
         )}
-      >
-        <div className={clsx('modal-box', modalStyles({ size }))}>
-          {showCloseButton && (
-            <button
-              className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'
-              onClick={closeModal}
-            >
-              ✕
-            </button>
-          )}
-          {children}
-          <div className='modal-action'>
-            <form method='dialog'>{footerContent}</form>
-          </div>
-        </div>
-        {closeOnBackdropClick && (
-          <label className='modal-backdrop' onClick={closeModal}>
-            Close
-          </label>
-        )}
-      </dialog>
-    </>
+        <div className='modal-content'>{children}</div>
+        {footer && <div className='modal-action'>{footer}</div>}
+      </div>
+    </dialog>
   );
 };
 

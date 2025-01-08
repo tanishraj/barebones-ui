@@ -13,6 +13,6 @@ export interface ModalProps extends VariantProps<typeof modalStyles> {
   showCloseButton?: boolean | ReactNode;
   footer?: ReactNode;
   children?: ReactNode;
-  onClose: () => void;
   title?: ReactNode;
+  onClose?: () => void;
 }

@@ -51,14 +51,11 @@ const PropsOptions = ({ setPosition, setSize }: PropsOptionsProps) => {
 };
 
 export const ModalExample = () => {
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [position, setPosition] =
     useState<VariantProps<typeof modalStyles>['position']>('center');
   const [size, setSize] =
     useState<VariantProps<typeof modalStyles>['size']>('md');
-
-  const handleOpen = () => setModalOpen(true);
-  const handleClose = () => setModalOpen(false);
 
   return (
     <div className='card card-bordered p-4 shadow-sm'>
@@ -67,21 +64,30 @@ export const ModalExample = () => {
         <div className='card card-bordered p-4 shadow-sm'>
           <div className='card-title'>Basic Modal:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
-            <button className='btn' onClick={handleOpen}>
+            <button
+              className='btn btn-primary'
+              onClick={() => setIsModalOpen(true)}
+            >
               Open Modal
             </button>
             <Modal
               isOpen={isModalOpen}
-              position={position}
-              size={size}
-              footerContent={
-                <button className='btn' onClick={handleClose}>
-                  Close
-                </button>
+              onClose={() => setIsModalOpen(false)}
+              showCloseButton={true}
+              closeOnBackdropClick={true}
+              footer={
+                <>
+                  <button
+                    className='btn btn-secondary'
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    Close
+                  </button>
+                  <button className='btn btn-primary'>Another Action</button>
+                </>
               }
             >
-              <h3 className='text-lg font-bold'>Hello!</h3>
-              <p>This is a modal triggered by a button.</p>
+              <p>This is the modal content.</p>
             </Modal>
           </div>
           <PropsOptions setPosition={setPosition} setSize={setSize} />
