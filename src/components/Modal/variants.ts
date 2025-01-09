@@ -9,8 +9,8 @@ export const modalStyles = cva('', {
       full: 'h-screen max-h-full w-screen max-w-full rounded-none',
     },
     position: {
-      top: 'modal-top justify-center',
-      bottom: 'modal-bottom justify-center',
+      top: 'modal-top',
+      bottom: 'modal-bottom',
       center: 'modal-middle',
     },
     isOpen: {

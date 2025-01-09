@@ -11,40 +11,66 @@ const sizeOptions = ['sm', 'md', 'lg', 'full'];
 interface PropsOptionsProps {
   setPosition: (position: ModalPosition) => void;
   setSize: (size: ModalSize) => void;
+  isResponsive: boolean;
+  setIsResponsive: (isResponsive: boolean) => void;
 }
 
-const PropsOptions = ({ setPosition, setSize }: PropsOptionsProps) => {
+const PropsOptions = ({
+  setPosition,
+  setSize,
+  isResponsive,
+  setIsResponsive,
+}: PropsOptionsProps) => {
   return (
     <div className='card card-bordered p-4 shadow-sm'>
       <div className='card-title'>Props:</div>
       <div className='card-body flex flex-row flex-wrap gap-2'>
-        <select
-          className='select select-bordered w-full max-w-xs'
-          onChange={e => setPosition(e.target.value as ModalPosition)}
-        >
-          <option disabled selected>
-            Select Position
-          </option>
-          {positionOptions.map(option => (
-            <option key={option} value={option}>
-              {option}
+        <div>
+          Position:
+          <select
+            className='select select-bordered w-full max-w-xs'
+            onChange={e => setPosition(e.target.value as ModalPosition)}
+          >
+            <option disabled selected>
+              Select Position
             </option>
-          ))}
-        </select>
+            {positionOptions.map(option => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <select
-          className='select select-bordered w-full max-w-xs'
-          onChange={e => setSize(e.target.value as ModalSize)}
-        >
-          <option disabled selected>
-            Select Size
-          </option>
-          {sizeOptions.map(option => (
-            <option key={option} value={option}>
-              {option}
+        <div>
+          Size:
+          <select
+            className='select select-bordered w-full max-w-xs'
+            onChange={e => setSize(e.target.value as ModalSize)}
+          >
+            <option disabled selected>
+              Select Size
             </option>
-          ))}
-        </select>
+            {sizeOptions.map(option => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div className='flex flex-row flex-wrap gap-2'>
+        <div>
+          <label className='flex items-center gap-2'>
+            <input
+              type='checkbox'
+              className='checkbox'
+              checked={isResponsive}
+              onClick={() => setIsResponsive(!isResponsive)}
+            />
+            Responsive
+          </label>
+        </div>
       </div>
     </div>
   );
@@ -54,8 +80,8 @@ export const ModalExample = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [position, setPosition] =
     useState<VariantProps<typeof modalStyles>['position']>('center');
-  const [size, setSize] =
-    useState<VariantProps<typeof modalStyles>['size']>('md');
+  const [size, setSize] = useState<VariantProps<typeof modalStyles>['size']>();
+  const [isResponsive, setIsResponsive] = useState(false);
 
   return (
     <div className='card card-bordered p-4 shadow-sm'>
@@ -72,25 +98,23 @@ export const ModalExample = () => {
             </button>
             <Modal
               isOpen={isModalOpen}
+              size={size}
+              position={position}
+              isResponsive={isResponsive}
+              closeButton
+              footer={true}
               onClose={() => setIsModalOpen(false)}
-              showCloseButton={true}
-              closeOnBackdropClick={true}
-              footer={
-                <>
-                  <button
-                    className='btn btn-secondary'
-                    onClick={() => setIsModalOpen(false)}
-                  >
-                    Close
-                  </button>
-                  <button className='btn btn-primary'>Another Action</button>
-                </>
-              }
             >
-              <p>This is the modal content.</p>
+              <h3 className='text-lg font-bold'>Hello!</h3>
+              <p className='py-4'>This modal works with a hidden checkbox!</p>
             </Modal>
           </div>
-          <PropsOptions setPosition={setPosition} setSize={setSize} />
+          <PropsOptions
+            setPosition={setPosition}
+            setSize={setSize}
+            isResponsive={isResponsive}
+            setIsResponsive={setIsResponsive}
+          />
         </div>
       </div>
     </div>
