@@ -46,7 +46,13 @@ const Modal: React.FC<ModalProps> = ({
         className={clsx('modal', modalStyles({ position, isResponsive }))}
         role='dialog'
       >
-        <div className={clsx('modal-box', modalStyles({ size }))}>
+        <div
+          className={clsx(
+            'modal-box',
+            modalStyles({ size }),
+            position !== 'center' && modalStyles({ size, position }),
+          )}
+        >
           {children}
 
           {typeof closeButton === 'boolean' ? (
