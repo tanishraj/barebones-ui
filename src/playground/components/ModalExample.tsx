@@ -31,9 +31,7 @@ const PropsOptions = ({
             className='select select-bordered w-full max-w-xs'
             onChange={e => setPosition(e.target.value as ModalPosition)}
           >
-            <option disabled selected>
-              Select Position
-            </option>
+            <option>Select Position</option>
             {positionOptions.map(option => (
               <option key={option} value={option}>
                 {option}
@@ -48,9 +46,7 @@ const PropsOptions = ({
             className='select select-bordered w-full max-w-xs'
             onChange={e => setSize(e.target.value as ModalSize)}
           >
-            <option disabled selected>
-              Select Size
-            </option>
+            <option>Select Size</option>
             {sizeOptions.map(option => (
               <option key={option} value={option}>
                 {option}
@@ -66,7 +62,7 @@ const PropsOptions = ({
               type='checkbox'
               className='checkbox'
               checked={isResponsive}
-              onClick={() => setIsResponsive(!isResponsive)}
+              onChange={() => setIsResponsive(!isResponsive)}
             />
             Responsive
           </label>

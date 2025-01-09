@@ -36,8 +36,8 @@ export const DropdownMenu = ({
         menuClassName,
       )}
     >
-      {items.map(item => (
-        <li>
+      {items.map((item, index) => (
+        <li key={index}>
           <a onClick={item.onClick}>{item.label}</a>
         </li>
       ))}
