@@ -13,6 +13,8 @@ interface PropsOptionsProps {
   setSize: (size: ModalSize) => void;
   isResponsive: boolean;
   setIsResponsive: (isResponsive: boolean) => void;
+  closeOnBackdropClick: boolean;
+  setCloseOnBackdropClick: (closeOnBackdropClick: boolean) => void;
 }
 
 const PropsOptions = ({
@@ -20,6 +22,8 @@ const PropsOptions = ({
   setSize,
   isResponsive,
   setIsResponsive,
+  closeOnBackdropClick,
+  setCloseOnBackdropClick,
 }: PropsOptionsProps) => {
   return (
     <div className='card card-bordered p-4 shadow-sm'>
@@ -55,18 +59,27 @@ const PropsOptions = ({
           </select>
         </div>
       </div>
+
       <div className='flex flex-row flex-wrap gap-2'>
-        <div>
-          <label className='flex items-center gap-2'>
-            <input
-              type='checkbox'
-              className='checkbox'
-              checked={isResponsive}
-              onChange={() => setIsResponsive(!isResponsive)}
-            />
-            Responsive
-          </label>
-        </div>
+        <label className='flex items-center gap-2'>
+          <input
+            type='checkbox'
+            className='checkbox'
+            checked={isResponsive}
+            onChange={() => setIsResponsive(!isResponsive)}
+          />
+          isResponsive
+        </label>
+
+        <label className='flex items-center gap-2'>
+          <input
+            type='checkbox'
+            className='checkbox'
+            checked={closeOnBackdropClick}
+            onChange={() => setCloseOnBackdropClick(!closeOnBackdropClick)}
+          />
+          closeOnBackdropClick
+        </label>
       </div>
     </div>
   );
@@ -78,6 +91,7 @@ export const ModalExample = () => {
     useState<VariantProps<typeof modalStyles>['position']>('center');
   const [size, setSize] = useState<VariantProps<typeof modalStyles>['size']>();
   const [isResponsive, setIsResponsive] = useState(false);
+  const [closeOnBackdropClick, setCloseOnBackdropClick] = useState(false);
 
   return (
     <div className='card card-bordered p-4 shadow-sm'>
@@ -99,6 +113,7 @@ export const ModalExample = () => {
               isResponsive={isResponsive}
               closeButton
               footer={true}
+              closeOnBackdropClick={closeOnBackdropClick}
               onClose={() => setIsModalOpen(false)}
             >
               <h3 className='text-lg font-bold'>Hello!</h3>
@@ -110,6 +125,8 @@ export const ModalExample = () => {
             setSize={setSize}
             isResponsive={isResponsive}
             setIsResponsive={setIsResponsive}
+            closeOnBackdropClick={closeOnBackdropClick}
+            setCloseOnBackdropClick={setCloseOnBackdropClick}
           />
         </div>
       </div>

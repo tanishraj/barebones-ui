@@ -10,6 +10,7 @@ const Modal: React.FC<ModalProps> = ({
   position = 'center',
   isResponsive,
   closeButton,
+  closeOnBackdropClick,
   footer,
   children,
   onOpen,
@@ -79,9 +80,11 @@ const Modal: React.FC<ModalProps> = ({
           </div>
         </div>
 
-        <label className='modal-backdrop' onClick={closeModal}>
-          Close
-        </label>
+        {closeOnBackdropClick && (
+          <label className='modal-backdrop' onClick={closeModal}>
+            Close
+          </label>
+        )}
       </div>
     </>
   );
