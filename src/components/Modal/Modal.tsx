@@ -56,7 +56,7 @@ const Modal: React.FC<ModalProps> = ({
         >
           {children}
 
-          {typeof closeButton === 'boolean' ? (
+          {typeof closeButton === 'boolean' && closeButton ? (
             <form method='dialog'>
               <button
                 className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'

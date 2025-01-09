@@ -15,6 +15,8 @@ interface PropsOptionsProps {
   setIsResponsive: (isResponsive: boolean) => void;
   closeOnBackdropClick: boolean;
   setCloseOnBackdropClick: (closeOnBackdropClick: boolean) => void;
+  closeButton: boolean;
+  setCloseButton: (closeButton: boolean) => void;
 }
 
 const PropsOptions = ({
@@ -24,6 +26,8 @@ const PropsOptions = ({
   setIsResponsive,
   closeOnBackdropClick,
   setCloseOnBackdropClick,
+  closeButton,
+  setCloseButton,
 }: PropsOptionsProps) => {
   return (
     <div className='card card-bordered p-4 shadow-sm'>
@@ -80,6 +84,16 @@ const PropsOptions = ({
           />
           closeOnBackdropClick
         </label>
+
+        <label className='flex items-center gap-2'>
+          <input
+            type='checkbox'
+            className='checkbox'
+            checked={closeButton}
+            onChange={() => setCloseButton(!closeButton)}
+          />
+          closeButton
+        </label>
       </div>
     </div>
   );
@@ -92,6 +106,7 @@ export const ModalExample = () => {
   const [size, setSize] = useState<VariantProps<typeof modalStyles>['size']>();
   const [isResponsive, setIsResponsive] = useState(false);
   const [closeOnBackdropClick, setCloseOnBackdropClick] = useState(false);
+  const [closeButton, setCloseButton] = useState(false);
 
   return (
     <div className='card card-bordered p-4 shadow-sm'>
@@ -111,7 +126,7 @@ export const ModalExample = () => {
               size={size}
               position={position}
               isResponsive={isResponsive}
-              closeButton
+              closeButton={closeButton}
               footer={true}
               closeOnBackdropClick={closeOnBackdropClick}
               onClose={() => setIsModalOpen(false)}
@@ -127,6 +142,8 @@ export const ModalExample = () => {
             setIsResponsive={setIsResponsive}
             closeOnBackdropClick={closeOnBackdropClick}
             setCloseOnBackdropClick={setCloseOnBackdropClick}
+            closeButton={closeButton}
+            setCloseButton={setCloseButton}
           />
         </div>
       </div>
