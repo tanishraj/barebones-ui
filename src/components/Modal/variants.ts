@@ -26,7 +26,7 @@ export const modalStyles = cva('', {
     {
       size: ['sm', 'md', 'lg'],
       position: ['bottom', 'top'],
-      class: 'justify-self-center',
+      class: 'justify-items-stretch justify-self-center',
     },
   ],
   defaultVariants: {
