@@ -1,6 +1,6 @@
 import { ButtonExample } from './components/ButtonExample';
 import { DropdownExample } from './components/DropdownExample';
-import { ModalExample } from './components/ModalExample';
+import { ModalExample } from './components/ModalExample/ModalExample';
 
 export const Playground = () => {
   return (

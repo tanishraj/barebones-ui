@@ -10,6 +10,7 @@ const Modal: React.FC<ModalProps> = ({
   position = 'center',
   isResponsive,
   closeButton,
+  closeOnBackdropClick,
   footer,
   children,
   onOpen,
@@ -46,10 +47,16 @@ const Modal: React.FC<ModalProps> = ({
         className={clsx('modal', modalStyles({ position, isResponsive }))}
         role='dialog'
       >
-        <div className={clsx('modal-box', modalStyles({ size }))}>
+        <div
+          className={clsx(
+            'modal-box',
+            modalStyles({ size }),
+            position !== 'center' && modalStyles({ size, position }),
+          )}
+        >
           {children}
 
-          {typeof closeButton === 'boolean' ? (
+          {typeof closeButton === 'boolean' && closeButton ? (
             <form method='dialog'>
               <button
                 className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'
@@ -73,9 +80,11 @@ const Modal: React.FC<ModalProps> = ({
           </div>
         </div>
 
-        <label className='modal-backdrop' onClick={closeModal}>
-          Close
-        </label>
+        {closeOnBackdropClick && (
+          <label className='modal-backdrop' onClick={closeModal}>
+            Close
+          </label>
+        )}
       </div>
     </>
   );
