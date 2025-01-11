@@ -11,7 +11,6 @@ export const ModalExample = () => {
   const [position, setPosition] =
     useState<VariantProps<typeof modalStyles>['position']>('center');
   const [size, setSize] = useState<VariantProps<typeof modalStyles>['size']>();
-  const [isResponsive, setIsResponsive] = useState(false);
   const [closeOnBackdropClick, setCloseOnBackdropClick] = useState(false);
   const [closeButton, setCloseButton] = useState(false);
 
@@ -32,7 +31,6 @@ export const ModalExample = () => {
               isOpen={isModalOpen}
               size={size}
               position={position}
-              isResponsive={isResponsive}
               closeButton={closeButton}
               footer={true}
               closeOnBackdropClick={closeOnBackdropClick}
@@ -45,8 +43,6 @@ export const ModalExample = () => {
           <PropsOptions
             setPosition={setPosition}
             setSize={setSize}
-            isResponsive={isResponsive}
-            setIsResponsive={setIsResponsive}
             closeOnBackdropClick={closeOnBackdropClick}
             setCloseOnBackdropClick={setCloseOnBackdropClick}
             closeButton={closeButton}

@@ -17,19 +17,13 @@ export const modalStyles = cva('', {
       true: 'modal-open',
       false: '',
     },
-    isResponsive: {
-      true: 'modal-bottom sm:modal-middle',
-      false: '',
-    },
   },
   compoundVariants: [
     {
-      size: ['sm', 'md', 'lg'],
+      size: ['sm', 'md', 'lg', 'full'],
       position: ['bottom', 'top'],
       class: 'justify-items-stretch justify-self-center',
     },
   ],
-  defaultVariants: {
-    isResponsive: false,
-  },
+  defaultVariants: {},
 });

@@ -6,8 +6,6 @@ const sizeOptions = ['sm', 'md', 'lg', 'full'];
 interface PropsOptionsProps {
   setPosition: (position: ModalPosition) => void;
   setSize: (size: ModalSize) => void;
-  isResponsive: boolean;
-  setIsResponsive: (isResponsive: boolean) => void;
   closeOnBackdropClick: boolean;
   setCloseOnBackdropClick: (closeOnBackdropClick: boolean) => void;
   closeButton: boolean;
@@ -17,8 +15,6 @@ interface PropsOptionsProps {
 const PropsOptions = ({
   setPosition,
   setSize,
-  isResponsive,
-  setIsResponsive,
   closeOnBackdropClick,
   setCloseOnBackdropClick,
   closeButton,
@@ -59,16 +55,6 @@ const PropsOptions = ({
         </div>
 
         <div className='flex flex-row flex-wrap gap-2'>
-          <label className='flex items-center gap-2'>
-            <input
-              type='checkbox'
-              className='checkbox'
-              checked={isResponsive}
-              onChange={() => setIsResponsive(!isResponsive)}
-            />
-            isResponsive
-          </label>
-
           <label className='flex items-center gap-2'>
             <input
               type='checkbox'
