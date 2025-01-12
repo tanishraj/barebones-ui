@@ -1,6 +1,6 @@
 import { Meta, StoryFn } from '@storybook/react';
 
-import Dropdown from './Dropdown';
+import { Dropdown } from './Dropdown';
 import { DropdownProps } from './types';
 
 export default {
