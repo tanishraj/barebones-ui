@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { ButtonProps } from './types';
 import { buttonStyles } from './Button.styles';
 
-const Button: React.FC<ButtonProps> = ({
+export const Button: React.FC<ButtonProps> = ({
   variant,
   size,
   icon,
@@ -35,5 +35,3 @@ const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
-
-export default Button;
