@@ -8,7 +8,6 @@ const Modal: React.FC<ModalProps> = ({
   isOpen,
   size,
   position = 'center',
-  isResponsive,
   closeButton,
   closeOnBackdropClick,
   footer,
@@ -43,10 +42,7 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <>
       <input type='checkbox' ref={modalRef} className='modal-toggle' />
-      <div
-        className={clsx('modal', modalStyles({ position, isResponsive }))}
-        role='dialog'
-      >
+      <div className={clsx('modal', modalStyles({ position }))} role='dialog'>
         <div
           className={clsx(
             'modal-box',
