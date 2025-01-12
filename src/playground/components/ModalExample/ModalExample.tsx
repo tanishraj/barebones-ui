@@ -4,7 +4,7 @@ import { VariantProps } from 'class-variance-authority';
 import PropsOptions from './PropOptions';
 
 import { Modal } from '@/components';
-import { modalStyles } from '@/components/Modal/variants';
+import { modalStyles } from '@/components/Modal/Modal.styles';
 
 export const ModalExample = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

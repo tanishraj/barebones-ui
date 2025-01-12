@@ -1,7 +1,7 @@
 import { VariantProps } from 'class-variance-authority';
 import { HTMLProps } from 'react';
 
-import { dropdownStyles } from './variants';
+import { dropdownStyles } from './Dropdown.styles';
 
 export type DropdownMenuItem = {
   label: React.ReactNode;

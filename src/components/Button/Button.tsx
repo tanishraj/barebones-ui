@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { ButtonProps } from './types';
-import { buttonStyles } from './variants';
+import { buttonStyles } from './Button.styles';
 
 const Button: React.FC<ButtonProps> = ({
   variant,
