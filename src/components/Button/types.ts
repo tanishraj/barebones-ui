@@ -1,7 +1,7 @@
 import { VariantProps } from 'class-variance-authority';
 import { ReactNode } from 'react';
 
-import { buttonStyles } from './variants';
+import { buttonStyles } from './Button.styles';
 
 export interface ButtonProps extends VariantProps<typeof buttonStyles> {
   icon?: ReactNode;

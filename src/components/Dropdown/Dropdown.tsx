@@ -3,9 +3,9 @@ import clsx from 'clsx';
 
 import { DropdownMenu } from './DropdownMenu';
 import { DropdownProps } from './types';
-import { dropdownStyles } from './variants';
+import { dropdownStyles } from './Dropdown.styles';
 
-const Dropdown: React.FC<DropdownProps> = ({
+export const Dropdown: React.FC<DropdownProps> = ({
   label,
   position,
   alignment,
@@ -91,5 +91,3 @@ const Dropdown: React.FC<DropdownProps> = ({
     </>
   );
 };
-
-export default Dropdown;

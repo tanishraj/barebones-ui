@@ -2,11 +2,11 @@ import React, { useCallback } from 'react';
 import clsx from 'clsx';
 
 import { ModalProps } from './types';
-import { modalStyles } from './variants';
+import { modalStyles } from './Modal.styles';
 
-const Modal: React.FC<ModalProps> = ({
+export const Modal: React.FC<ModalProps> = ({
   isOpen,
-  size,
+  size = 'md',
   position = 'center',
   closeButton,
   closeOnBackdropClick,
@@ -85,5 +85,3 @@ const Modal: React.FC<ModalProps> = ({
     </>
   );
 };
-
-export default Modal;

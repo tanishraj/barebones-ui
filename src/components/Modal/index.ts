@@ -1,1 +1,2 @@
-export { default } from './Modal';
+export { Modal } from './Modal';
+export type * from './types';

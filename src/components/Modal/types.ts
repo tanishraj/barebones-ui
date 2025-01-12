@@ -1,7 +1,7 @@
 import { VariantProps } from 'class-variance-authority';
 import { ReactNode } from 'react';
 
-import { modalStyles } from './variants';
+import { modalStyles } from './Modal.styles';
 
 export type ModalPosition = VariantProps<typeof modalStyles>['position'];
 export type ModalSize = VariantProps<typeof modalStyles>['size'];
