@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 
-import Dropdown from './Dropdown';
+import { Dropdown } from './Dropdown';
 
 describe('Dropdown Component', () => {
   it('renders with default props', () => {
