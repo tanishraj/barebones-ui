@@ -6,7 +6,7 @@ import { modalStyles } from './Modal.styles';
 
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
-  size,
+  size = 'md',
   position = 'center',
   closeButton,
   closeOnBackdropClick,
