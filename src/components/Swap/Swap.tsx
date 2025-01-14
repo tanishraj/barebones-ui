@@ -1,14 +1,7 @@
-import React from 'react';
-import { VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 
 import { swapStyles } from './Swap.styles';
-
-export interface SwapProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof swapStyles> {
-  children?: [React.ReactNode, React.ReactNode];
-}
+import { SwapProps } from './types';
 
 export const Swap = ({
   animationType,
