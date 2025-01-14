@@ -5,7 +5,6 @@ import { Swap } from './Swap';
 const meta: Meta<typeof Swap> = {
   title: 'Components/Swap',
   component: Swap,
-  tags: ['autodocs'],
   argTypes: {
     animationType: {
       control: { type: 'select' },
@@ -27,81 +26,10 @@ type Story = StoryObj<typeof Swap>;
 export const Default: Story = {
   args: {
     children: [
-      <div
-        key='first'
-        className='rounded-box bg-primary p-4 text-primary-content'
-      >
-        First Child
-      </div>,
-      <div
-        key='second'
-        className='rounded-box bg-secondary p-4 text-secondary-content'
-      >
-        Second Child
-      </div>,
+      <div key='first'>First Child</div>,
+      <div key='second'>Second Child</div>,
     ],
-  },
-};
 
-export const RotateAnimation: Story = {
-  args: {
-    animationType: 'rotate',
     active: false,
-    children: [
-      <div
-        key='first'
-        className='rounded-box bg-primary p-4 text-primary-content'
-      >
-        First Child
-      </div>,
-      <div
-        key='second'
-        className='rounded-box bg-secondary p-4 text-secondary-content'
-      >
-        Second Child
-      </div>,
-    ],
-  },
-};
-
-export const FlipAnimation: Story = {
-  args: {
-    animationType: 'flip',
-    active: true,
-    children: [
-      <div
-        key='first'
-        className='rounded-box bg-primary p-4 text-primary-content'
-      >
-        First Child
-      </div>,
-      <div
-        key='second'
-        className='rounded-box bg-secondary p-4 text-secondary-content'
-      >
-        Second Child
-      </div>,
-    ],
-  },
-};
-
-export const CustomClassNames: Story = {
-  args: {
-    className: 'custom-class',
-    active: false,
-    children: [
-      <div
-        key='first'
-        className='rounded-box bg-primary p-4 text-primary-content'
-      >
-        First Child
-      </div>,
-      <div
-        key='second'
-        className='rounded-box bg-secondary p-4 text-secondary-content'
-      >
-        Second Child
-      </div>,
-    ],
   },
 };
