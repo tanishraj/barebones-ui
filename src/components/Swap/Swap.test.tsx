@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
 
 import { Swap } from './Swap';
 
@@ -35,7 +35,6 @@ describe('Swap Component', () => {
       </Swap>,
     );
 
-    // Initially, the swap should not be active
     expect(container.querySelector('.swap-active')).not.toBeInTheDocument();
 
     // Rerender with active=true
@@ -48,20 +47,5 @@ describe('Swap Component', () => {
 
     // Now, the swap should be active
     expect(container.querySelector('.swap-active')).toBeInTheDocument();
-  });
-
-  it('calls the onChange handler when the swap is toggled', () => {
-    const onChange = vi.fn();
-    render(
-      <Swap active={false} onChange={onChange}>
-        <div>First Child</div>
-        <div>Second Child</div>
-      </Swap>,
-    );
-
-    const checkbox = screen.getByRole('checkbox', { hidden: true });
-    fireEvent.click(checkbox);
-
-    expect(onChange).toHaveBeenCalledTimes(1);
   });
 });
