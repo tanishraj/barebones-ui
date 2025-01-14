@@ -6,6 +6,10 @@ export const swapStyles = cva('', {
       rotate: 'swap-rotate',
       flip: 'swap-flip',
     },
+    active: {
+      true: 'swap-active',
+      false: '',
+    },
   },
   defaultVariants: {},
 });
