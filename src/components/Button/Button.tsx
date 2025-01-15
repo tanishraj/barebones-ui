@@ -31,7 +31,7 @@ export const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
     >
       {icon && <span>{icon}</span>}
-      <span>{children}</span>
+      {children && <span>{children}</span>}
     </button>
   );
 };
