@@ -6,7 +6,7 @@ export const swapStyles = cva('', {
       rotate: 'swap-rotate',
       flip: 'swap-flip',
     },
-    active: {
+    isActive: {
       true: 'swap-active',
       false: '',
     },
