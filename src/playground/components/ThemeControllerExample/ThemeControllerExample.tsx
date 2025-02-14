@@ -1,9 +1,9 @@
 import { Swap } from '@/components';
-import { themes, useTheme } from '@/hooks/useTheme';
+import { useTheme } from '@/hooks/useTheme';
 
 export const ThemeControllerExample = () => {
   const { currentTheme, toggleTheme } = useTheme({
-    themes: themes,
+    themes: ['light', 'dark'],
     defaultTheme: 'light',
   });
 
@@ -14,10 +14,9 @@ export const ThemeControllerExample = () => {
         <div className='card card-bordered p-4 shadow-sm'>
           <div className='card-body flex gap-2'>
             <p className='mb-4'>Current Theme: {currentTheme}</p>
-            <Swap isActive={currentTheme === 'dark'} onClick={toggleTheme} />
-            <Swap animationType='rotate' className='text-4xl' theme='dark'>
-              <div>🌞</div>
-              <div>🌙</div>
+            <Swap isActive={currentTheme === 'dark'} onClick={toggleTheme}>
+              <div>switch to LIGHT mode</div>
+              <div>switch to DARK mode</div>
             </Swap>
           </div>
         </div>
