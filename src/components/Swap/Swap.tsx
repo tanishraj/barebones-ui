@@ -4,7 +4,7 @@ import { swapStyles } from './Swap.styles';
 import { SwapProps } from './types';
 
 export const Swap = ({
-  animationType,
+  animationType = 'fade',
   children,
   isActive,
   className,

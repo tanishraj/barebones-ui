@@ -5,11 +5,15 @@ export const swapStyles = cva('', {
     animationType: {
       rotate: 'swap-rotate',
       flip: 'swap-flip',
+      fade: '',
     },
     isActive: {
       true: 'swap-active',
       false: '',
     },
   },
-  defaultVariants: {},
+  defaultVariants: {
+    animationType: 'fade',
+    isActive: false,
+  },
 });
