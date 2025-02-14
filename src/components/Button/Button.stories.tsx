@@ -6,6 +6,7 @@ import { ButtonProps } from './types';
 export default {
   title: 'Components/Button',
   component: Button,
+  tags: ['autodocs'],
   argTypes: {
     variant: {
       control: {

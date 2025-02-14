@@ -5,12 +5,13 @@ import { Swap } from './Swap';
 const meta: Meta<typeof Swap> = {
   title: 'Components/Swap',
   component: Swap,
+  tags: ['autodocs'],
   argTypes: {
     animationType: {
       control: { type: 'select' },
-      options: ['rotate', 'flip'],
+      options: ['fade', 'rotate', 'flip'],
     },
-    active: {
+    isActive: {
       control: { type: 'boolean' },
     },
     children: {
@@ -25,11 +26,12 @@ type Story = StoryObj<typeof Swap>;
 
 export const Default: Story = {
   args: {
+    animationType: 'fade',
     children: [
       <div key='first'>First Child</div>,
       <div key='second'>Second Child</div>,
     ],
 
-    active: false,
+    isActive: false,
   },
 };

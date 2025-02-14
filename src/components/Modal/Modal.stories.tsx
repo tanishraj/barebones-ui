@@ -6,37 +6,31 @@ import { Modal } from './Modal';
 export default {
   title: 'Components/Modal',
   component: Modal,
+  tags: ['autodocs'],
   argTypes: {
     isOpen: {
-      control: false, // Controlled internally via the button
-      description: 'Controls the visibility of the modal',
+      control: false,
     },
     size: {
       control: { type: 'select' },
       options: ['sm', 'md', 'lg', 'full'],
-      description: 'Defines the size of the modal',
     },
     position: {
       control: { type: 'select' },
       options: ['top', 'center', 'bottom'],
-      description: 'Defines the position of the modal',
     },
     closeButton: {
       control: 'boolean',
-      description: 'Displays a close button in the modal',
     },
     closeOnBackdropClick: {
       control: 'boolean',
-      description: 'Closes modal on backdrop click',
     },
-    onOpen: { action: 'onOpen', description: 'Callback when the modal opens' },
+    onOpen: { action: 'onOpen' },
     onClose: {
       action: 'onClose',
-      description: 'Callback when the modal closes',
     },
     footer: {
       control: 'text',
-      description: 'Footer content for the modal',
     },
   },
 } as Meta;

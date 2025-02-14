@@ -29,7 +29,7 @@ describe('Swap Component', () => {
 
   it('toggles the active state when `active` prop changes', () => {
     const { rerender, container } = render(
-      <Swap active={false}>
+      <Swap isActive={false}>
         <div>First Child</div>
         <div>Second Child</div>
       </Swap>,
@@ -39,7 +39,7 @@ describe('Swap Component', () => {
 
     // Rerender with active=true
     rerender(
-      <Swap active={true}>
+      <Swap isActive={true}>
         <div>First Child</div>
         <div>Second Child</div>
       </Swap>,

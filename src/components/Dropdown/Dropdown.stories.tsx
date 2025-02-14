@@ -6,6 +6,7 @@ import { DropdownProps } from './types';
 export default {
   title: 'Components/Dropdown',
   component: Dropdown,
+  tags: ['autodocs'],
   argTypes: {
     label: { control: 'text', description: 'Label for the trigger button' },
     position: {
