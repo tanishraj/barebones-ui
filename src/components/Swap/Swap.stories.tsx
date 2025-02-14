@@ -4,8 +4,8 @@ import { Swap } from './Swap';
 
 const meta: Meta<typeof Swap> = {
   title: 'Components/Swap',
-  tags: ['autodocs'],
   component: Swap,
+  tags: ['autodocs'],
   argTypes: {
     animationType: {
       control: { type: 'select' },
