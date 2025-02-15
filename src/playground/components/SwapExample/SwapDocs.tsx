@@ -30,7 +30,7 @@ export const SwapDocs = () => {
           <code className='text-accent'>rotate</code> animation:
         </p>
         <div className='mb-4 rounded-box bg-base-200 p-6'>
-          <Swap animationType='rotate' active={isActive}>
+          <Swap animationType='rotate' isActive={isActive}>
             <div className='rounded-box p-4'>First Child</div>
             <div className='rounded-box p-4'>Second Child</div>
           </Swap>
@@ -51,7 +51,7 @@ export const SwapDocs = () => {
           <div>
             <h3 className='mb-2 text-xl font-semibold'>Rotate Animation</h3>
             <div className='rounded-box bg-base-200 p-6'>
-              <Swap animationType='rotate' active={isActive}>
+              <Swap animationType='rotate' isActive={isActive}>
                 <div className='rounded-box p-4'>First Child</div>
                 <div className='rounded-box p-4'>Second Child</div>
               </Swap>
@@ -60,7 +60,7 @@ export const SwapDocs = () => {
           <div>
             <h3 className='mb-2 text-xl font-semibold'>Flip Animation</h3>
             <div className='rounded-box bg-base-200 p-6'>
-              <Swap animationType='flip' active={isActive}>
+              <Swap animationType='flip' isActive={isActive}>
                 <div className='rounded-box p-4'>First Child</div>
                 <div className='rounded-box p-4'>Second Child</div>
               </Swap>
@@ -146,7 +146,7 @@ export const SwapDocs = () => {
           customize its appearance:
         </p>
         <div className='rounded-box bg-base-200 p-6'>
-          <Swap className='custom-class' active={isActive}>
+          <Swap className='custom-class' isActive={isActive}>
             <div className='rounded-box p-4'>First Child</div>
             <div className='rounded-box p-4'>Second Child</div>
           </Swap>
