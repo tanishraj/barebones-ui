@@ -50,3 +50,41 @@ A customizable select component built with Daisy UI, Tailwind, and React.
 | label      | `string`                                  | -            | Label text displayed above the select      |
 | helperText | `string`                                  | -            | Helper text displayed below the select     |
 | className  | `string`                                  | -            | Additional classes for the select element  |
+
+# Accordion Component
+
+A flexible accordion component built with DaisyUI and React.
+
+## Props
+
+| Prop            | Type                           | Default      | Description                           |
+| --------------- | ------------------------------ | ------------ | ------------------------------------- |
+| `items`         | `AccordionItem[]` (required)   | -            | Array of accordion items              |
+| `activeItem`    | `string \| null`               | -            | Controlled active item ID             |
+| `isDefaultOpen` | `string`                       | -            | Initially open item ID (uncontrolled) |
+| `onChange`      | `(id: string \| null) => void` | -            | Callback when active item changes     |
+| `variant`       | `"bordered" \| "ghost"`        | `"bordered"` | Visual style variant                  |
+| `size`          | `"sm" \| "md" \| "lg"`         | `"md"`       | Size of the accordion                 |
+| `className`     | `string`                       | -            | Additional CSS classes                |
+
+## Usage
+
+```tsx
+const items = [
+  { id: '1', title: 'First Item', content: 'Content 1' },
+  { id: '2', title: 'Second Item', content: 'Content 2' },
+];
+
+// Uncontrolled
+<Accordion items={items} isDefaultOpen='1' />;
+
+// Controlled
+const [active, setActive] = useState<string | null>('1');
+<Accordion
+  items={items}
+  activeItem={active}
+  onChange={setActive}
+  variant='ghost'
+  size='lg'
+/>;
+```
