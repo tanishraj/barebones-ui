@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 
-import { accordionStyles } from './Accordion.styles';
+import { accordionContainerStyles, accordionStyles } from './Accordion.styles';
 import { AccordionItem } from './types';
 
 export interface AccordionProps
@@ -23,13 +23,17 @@ export const Accordion = ({
     defaultOpenIndex ?? null,
   );
 
+  const containerClassName = clsx(accordionContainerStyles, className);
+  const accordionClassName = accordionStyles({
+    bordered,
+    iconStyle,
+    className,
+  });
+
   return (
-    <div className={clsx('join join-vertical w-full', className)}>
+    <div className={containerClassName}>
       {items.map((item, index) => (
-        <div
-          key={index}
-          className={accordionStyles({ bordered, iconStyle, className })}
-        >
+        <div key={index} className={accordionClassName}>
           <input
             type='radio'
             name='accordion'
