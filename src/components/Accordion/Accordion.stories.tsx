@@ -6,6 +6,16 @@ const meta: Meta<typeof Accordion> = {
   title: 'Components/Accordion',
   component: Accordion,
   tags: ['autodocs'],
+  argTypes: {
+    items: {
+      control: { type: 'object' },
+      description: 'Array of accordion items',
+    },
+    defaultOpenIndex: { control: 'number' },
+    bordered: { control: 'boolean' },
+    iconStyle: { control: 'select' },
+    className: { control: 'text' },
+  },
   args: {
     items: [
       { title: 'First Item', content: 'Sample content 1' },
@@ -16,25 +26,8 @@ const meta: Meta<typeof Accordion> = {
 };
 
 export default meta;
-
 type Story = StoryObj<typeof Accordion>;
 
-export const Default: Story = {};
-
-export const Bordered: Story = {
-  args: {
-    bordered: true,
-  },
-};
-
-export const PlusIcon: Story = {
-  args: {
-    iconStyle: 'plus',
-  },
-};
-
-export const DefaultOpen: Story = {
-  args: {
-    defaultOpenIndex: 1,
-  },
+export const Default: Story = {
+  render: args => <Accordion {...args} />,
 };

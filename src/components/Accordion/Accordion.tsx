@@ -42,7 +42,7 @@ export const Accordion = ({
           />
           <div className='collapse-title text-xl font-medium'>{item.title}</div>
           <div className='collapse-content'>
-            <div className='pt-2'>{item.content}</div>
+            <div>{item.content}</div>
           </div>
         </div>
       ))}
