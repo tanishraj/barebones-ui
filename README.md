@@ -33,20 +33,3 @@ npm install barebones-ui
 # Using yarn
 yarn add barebones-ui
 ```
-
-# Select Component
-
-A customizable select component built with Daisy UI, Tailwind, and React.
-
-## Props
-
-| Prop       | Type                                      | Default      | Description                                |
-| ---------- | ----------------------------------------- | ------------ | ------------------------------------------ | ------ | --------- | ---------------------------- | ------- | -------- | ----------- | ---------------------------- |
-| options    | `Array<{ value: string; label: string }>` | **Required** | Array of select options                    |
-| variant    | `'primary'                                | 'secondary'  | 'accent'                                   | 'info' | 'success' | 'warning'                    | 'error' | 'ghost'` | `'primary'` | Visual variant of the select |
-| size       | `'xs'                                     | 'sm'         | 'md'                                       | 'lg'`  | `'md'`    | Size of the select component |
-| bordered   | `boolean`                                 | `true`       | Whether to show a border around the select |
-| disabled   | `boolean`                                 | `false`      | Disables the select interaction            |
-| label      | `string`                                  | -            | Label text displayed above the select      |
-| helperText | `string`                                  | -            | Helper text displayed below the select     |
-| className  | `string`                                  | -            | Additional classes for the select element  |
