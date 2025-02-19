@@ -11,10 +11,12 @@ const meta: Meta<typeof Accordion> = {
       control: { type: 'object' },
       description: 'Array of accordion items',
     },
+    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
     defaultOpenIndex: { control: 'number' },
     bordered: { control: 'boolean' },
-    iconStyle: { control: 'select' },
-    className: { control: 'text' },
+    iconStyle: { control: 'select', options: ['plus', 'chevron'] },
+    expandAll: { control: 'boolean' },
+    merged: { control: 'boolean' },
   },
   args: {
     items: [
@@ -22,6 +24,13 @@ const meta: Meta<typeof Accordion> = {
       { title: 'Second Item', content: 'Sample content 2' },
       { title: 'Third Item', content: 'Sample content 3' },
     ],
+    size: 'md',
+    name: 'accordion',
+    defaultOpenIndex: -1,
+    bordered: true,
+    iconStyle: 'plus',
+    expandAll: false,
+    merged: false,
   },
 };
 
