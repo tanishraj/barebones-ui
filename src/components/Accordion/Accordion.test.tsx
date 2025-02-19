@@ -11,14 +11,14 @@ const testItems = [
 
 describe('Accordion', () => {
   it('renders all items', () => {
-    render(<Accordion items={testItems} />);
+    render(<Accordion name='accordion' items={testItems} />);
     testItems.forEach(item => {
       expect(screen.getByText(item.title)).toBeInTheDocument();
     });
   });
 
   it('shows content when clicked', async () => {
-    render(<Accordion items={testItems} />);
+    render(<Accordion name='accordion' items={testItems} />);
     const firstItem = screen.getByText('Item 1');
 
     fireEvent.click(firstItem);
@@ -31,13 +31,15 @@ describe('Accordion', () => {
   });
 
   it('respects defaultOpenIndex', () => {
-    render(<Accordion items={testItems} defaultOpenIndex={0} />);
+    render(
+      <Accordion name='accordion' items={testItems} defaultOpenIndex={0} />,
+    );
     expect(screen.getByText('Content 1')).toBeVisible();
   });
 
   it('toggles icon style', () => {
     const { container } = render(
-      <Accordion items={testItems} iconStyle='plus' />,
+      <Accordion name='accordion' items={testItems} iconStyle='plus' />,
     );
     expect(container.querySelector('.collapse-plus')).toBeInTheDocument();
   });
