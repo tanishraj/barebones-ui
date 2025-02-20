@@ -10,6 +10,6 @@ export type AvatarStyleProps = VariantProps<typeof sizeAndShapeStyles> &
   VariantProps<typeof statusStyles>;
 
 export type AvatarItem = {
-  url: string;
-  text: string;
+  url?: string;
+  text?: string;
 };
