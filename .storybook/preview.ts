@@ -19,7 +19,7 @@ const preview: Preview = {
       description: 'Global theme for components',
       defaultValue: 'light',
       toolbar: {
-        icon: 'paintbrush',
+        icon: 'photo',
         items: daisyuiThemes.map(theme => ({
           value: theme,
           title: theme.charAt(0).toUpperCase() + theme.slice(1),
