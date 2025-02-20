@@ -7,8 +7,7 @@ const meta: Meta<typeof Avatar> = {
   component: Avatar,
   tags: ['autodocs'],
   argTypes: {
-    url: { control: 'text' },
-    text: { control: 'text' },
+    item: { control: 'object' },
     size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
     shape: {
       control: 'select',
@@ -20,8 +19,10 @@ const meta: Meta<typeof Avatar> = {
     },
   },
   args: {
-    url: 'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp',
-    text: 'D',
+    item: {
+      url: 'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp',
+      text: 'D',
+    },
     size: 'md',
     shape: 'circle',
     status: 'none',

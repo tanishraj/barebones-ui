@@ -3,9 +3,11 @@ import clsx from 'clsx';
 import { sizeAndShapeStyles, statusStyles, textStyles } from './Avatar.styles';
 import { AvatarItem, AvatarStyleProps } from './types';
 
-export type AvatarProps = AvatarStyleProps & AvatarItem;
+export interface AvatarProps extends AvatarStyleProps {
+  item: AvatarItem;
+}
 
-export const Avatar = ({ url, text, size, shape, status }: AvatarProps) => {
+export const Avatar = ({ item, size, shape, status }: AvatarProps) => {
   const avatarClassName = clsx('avatar placeholder', statusStyles({ status }));
   const sizeAndShapeClassName = clsx(
     'rounded',
@@ -16,10 +18,10 @@ export const Avatar = ({ url, text, size, shape, status }: AvatarProps) => {
   return (
     <div className={avatarClassName}>
       <div className={sizeAndShapeClassName}>
-        {url ? (
-          <img src={url} alt={`${text} avatar`} />
-        ) : text ? (
-          <span className={textClassName}>{text}</span>
+        {item.url ? (
+          <img src={item.url} alt={`${item.text} avatar`} />
+        ) : item.text ? (
+          <span className={textClassName}>{item.text}</span>
         ) : null}
       </div>
     </div>

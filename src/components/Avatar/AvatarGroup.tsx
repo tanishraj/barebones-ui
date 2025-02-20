@@ -9,7 +9,7 @@ export const AvatarGroup = ({ items, ...rest }: AvatarGroupProps) => {
   return (
     <div className='avatar-group -space-x-6 rtl:space-x-reverse'>
       {items.map((item, index) => (
-        <Avatar key={index} url={item.url} text={item.text} {...rest} />
+        <Avatar key={index} item={item} {...rest} />
       ))}
     </div>
   );
