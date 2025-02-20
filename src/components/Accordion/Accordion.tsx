@@ -40,6 +40,11 @@ export const Accordion = ({
     iconStyle,
     merged,
   });
+  const titleClassName = clsx(
+    'collapse-title font-bold',
+    titleStyles({ size }),
+  );
+  const contentClassName = clsx('collapse-content', titleStyles({ size }));
 
   return (
     <div className={containerClassName}>
@@ -50,16 +55,12 @@ export const Accordion = ({
             name={expandAll ? '' : name}
             defaultChecked={expandAll || index === openIndex}
             onChange={() => setOpenIndex(index)}
+            style={{ minHeight: '0' }}
           />
-          <div
-            className={clsx(
-              'collapse-title text-lg font-bold',
-              titleStyles({ size }),
-            )}
-          >
+          <div className={titleClassName} style={{ minHeight: '0' }}>
             {item.title}
           </div>
-          <div className='collapse-content'>{item.content}</div>
+          <div className={contentClassName}>{item.content}</div>
         </div>
       ))}
     </div>

@@ -9,7 +9,7 @@ export const accordionContainerStyles = cva('', {
   },
 });
 
-export const titleStyles = cva('collapse-title', {
+export const titleStyles = cva('', {
   variants: {
     size: {
       xs: 'text-xs',
@@ -19,7 +19,7 @@ export const titleStyles = cva('collapse-title', {
     },
   },
   defaultVariants: {
-    size: 'lg',
+    size: 'md',
   },
 });
 
