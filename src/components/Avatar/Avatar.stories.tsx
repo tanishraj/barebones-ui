@@ -1,14 +1,15 @@
-import { Meta, StoryObj } from '@storybook/react/*';
+import { Meta, StoryObj } from '@storybook/react';
 
-import { Avatar } from './Avatar';
+import { Avatar, AvatarGroup } from './Avatar';
 
 const meta: Meta<typeof Avatar> = {
   title: 'Components/Avatar',
-  component: Avatar,
   tags: ['autodocs'],
   argTypes: {
-    item: { control: 'object' },
-    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
+    size: {
+      control: 'select',
+      options: ['xs', 'sm', 'md', 'lg'],
+    },
     shape: {
       control: 'select',
       options: ['squircle', 'hexagon', 'triangle', 'circle', 'square'],
@@ -18,6 +19,15 @@ const meta: Meta<typeof Avatar> = {
       options: ['online', 'offline', 'none'],
     },
   },
+};
+
+export default meta;
+
+type AvatarStory = StoryObj<typeof Avatar>;
+type AvatarGroupStory = StoryObj<typeof AvatarGroup>;
+
+export const SingleAvatar: AvatarStory = {
+  render: args => <Avatar {...args} />,
   args: {
     item: {
       url: 'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp',
@@ -29,10 +39,34 @@ const meta: Meta<typeof Avatar> = {
   },
 };
 
-type Story = StoryObj<typeof Avatar>;
-
-export const Default: Story = {
-  render: args => <Avatar {...args} />,
+export const GroupAvatars: AvatarGroupStory = {
+  render: args => <AvatarGroup {...args} />,
+  args: {
+    items: [
+      {
+        url: 'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp',
+        text: 'D',
+      },
+      {
+        url: '',
+        text: 'DA',
+      },
+      {
+        url: 'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp',
+        text: 'D',
+      },
+      {
+        url: '',
+        text: '+99',
+      },
+    ],
+    size: 'md',
+    shape: 'circle',
+    status: 'none',
+  },
+  parameters: {
+    controls: {
+      exclude: ['url', 'text'],
+    },
+  },
 };
-
-export default meta;
