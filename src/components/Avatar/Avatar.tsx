@@ -7,7 +7,7 @@ export interface AvatarProps extends AvatarStyleProps {
   item: AvatarItem;
 }
 
-export const Avatar = ({ item, size, shape, status }: AvatarProps) => {
+export const Avatar = ({ item, size, shape, status, ...rest }: AvatarProps) => {
   const avatarClassName = clsx('avatar placeholder', statusStyles({ status }));
   const sizeAndShapeClassName = clsx(
     'rounded',
@@ -16,7 +16,7 @@ export const Avatar = ({ item, size, shape, status }: AvatarProps) => {
   const textClassName = textStyles({ size });
 
   return (
-    <div className={avatarClassName}>
+    <div className={avatarClassName} {...rest}>
       <div className={sizeAndShapeClassName}>
         {item.url ? (
           <img src={item.url} alt={`${item.text} avatar`} />
