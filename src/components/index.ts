@@ -5,3 +5,4 @@ export * from './Swap';
 export * from './Select';
 export * from './Accordion';
 export * from './Avatar';
+export * from './Badge';
