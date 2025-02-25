@@ -1,7 +1,9 @@
-import { FC } from 'react';
+import { FC, forwardRef, HTMLAttributes } from 'react';
 import clsx from 'clsx';
+import { VariantProps } from 'class-variance-authority';
 
 import { BodyProps, FooterProps, HeaderProps } from './types';
+import { cardVariants } from './Card.styles';
 
 const Header: FC<HeaderProps> = ({ className, ...props }) => (
   <div className={clsx('card-title', className)} {...props} />
@@ -15,23 +17,31 @@ const Footer: FC<FooterProps> = ({ className, ...props }) => (
   <div className={clsx('card-actions', className)} {...props} />
 );
 
-interface CardComponent {
-  Header: FC<HeaderProps>;
-  Body: FC<BodyProps>;
-  Footer: FC<FooterProps>;
+interface CardProps
+  extends HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof cardVariants> {
+  children?: React.ReactNode;
 }
 
-interface CardProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    CardComponent {}
+const CardRoot = forwardRef<HTMLDivElement, CardProps>(
+  ({ className, children, variant, size, ...props }, ref) => {
+    return (
+      <div
+        className={clsx(cardVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  },
+);
 
-const Card: FC<CardProps> = ({ children }) => {
-  return <div className='card'>{children}</div>;
-};
-
-Card.displayName = 'Card';
+CardRoot.displayName = 'Card';
 Header.displayName = 'Card.Header';
 Body.displayName = 'Card.Body';
 Footer.displayName = 'Card.Footer';
 
-export { Card, Header, Body, Footer };
+const Card = Object.assign(CardRoot, { Header, Body, Footer });
+
+export { Card };
