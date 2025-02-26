@@ -1,15 +1,19 @@
-import { FC, HTMLAttributes } from 'react';
+import { FC, HTMLAttributes, ReactElement, ReactNode } from 'react';
+
+export interface ImageProps {
+  children: ReactElement<HTMLImageElement>;
+}
 
 export interface HeaderProps extends HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export interface BodyProps extends HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export interface FooterProps extends HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export interface CardComponent {

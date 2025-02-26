@@ -25,6 +25,12 @@ export const Default: Story = {
   args: {
     children: (
       <Card>
+        <Card.Image>
+          <img
+            src='https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp'
+            alt='Shoes'
+          />
+        </Card.Image>
         <Card.Header>Card Title</Card.Header>
         <Card.Body>
           <h2 className='card-title'>Hello World</h2>
@@ -56,7 +62,6 @@ export const Compact: Story = {
       <Card>
         <Card.Header>Compact Card</Card.Header>
         <Card.Body>This card has compact padding</Card.Body>
-        <Card.Footer>Footer</Card.Footer>
       </Card>
     ),
   },

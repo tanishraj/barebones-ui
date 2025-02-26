@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-export const cardVariants = cva('card', {
+export const cardStyles = cva('card', {
   variants: {
     variant: {
       default: 'bg-base-100',
