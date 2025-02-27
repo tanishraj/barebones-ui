@@ -25,7 +25,7 @@ const Actions: FC<FooterProps> = ({ className, children, ...props }) => (
   </div>
 );
 
-interface CardProps
+export interface CardProps
   extends HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof cardStyles> {
   children?: React.ReactNode;
