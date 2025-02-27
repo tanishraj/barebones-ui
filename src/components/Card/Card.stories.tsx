@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Card } from './Card';
+import { Button } from '../Button';
 
 const meta: Meta<typeof Card> = {
   title: 'Components/Card',
@@ -9,60 +10,51 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['default', 'bordered', 'image'],
+      options: [
+        'default',
+        'bordered',
+        'full-image',
+        'glass',
+        'primary',
+        'secondary',
+        'neutral',
+        'accent',
+        'info',
+        'success',
+        'warning',
+        'error',
+      ],
     },
     size: {
       control: { type: 'select' },
       options: ['default', 'compact', 'normal', 'side'],
     },
+    shadowSize: {
+      control: { type: 'select' },
+      options: ['none', 'xs', 'sm', 'md', 'lg', 'xl'],
+    },
   },
-} satisfies Meta<typeof Card>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    children: (
-      <Card>
-        <Card.Image>
-          <img
-            src='https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp'
-            alt='Shoes'
-          />
-        </Card.Image>
-        <Card.Header>Card Title</Card.Header>
-        <Card.Body>
-          <h2 className='card-title'>Hello World</h2>
-          <p>This is a sample card content</p>
-        </Card.Body>
-        <Card.Footer>Card Footer</Card.Footer>
-      </Card>
-    ),
-  },
-};
-
-export const Bordered: Story = {
-  args: {
-    variant: 'bordered',
-    children: (
-      <Card>
-        <Card.Header>Bordered Card</Card.Header>
-        <Card.Body>This card has a border</Card.Body>
-        <Card.Footer>Footer</Card.Footer>
-      </Card>
-    ),
-  },
-};
-
-export const Compact: Story = {
-  args: {
-    size: 'compact',
-    children: (
-      <Card>
-        <Card.Header>Compact Card</Card.Header>
-        <Card.Body>This card has compact padding</Card.Body>
-      </Card>
-    ),
-  },
+  render: args => (
+    <Card {...args}>
+      <Card.Image>
+        <img
+          src='https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp'
+          alt='Shoes'
+        />
+      </Card.Image>
+      <Card.Body>
+        <Card.Title>Card Title</Card.Title>
+        <p>This is a sample card content</p>
+        <Card.Actions>
+          <Button variant='primary'>Buy Now</Button>
+        </Card.Actions>
+      </Card.Body>
+    </Card>
+  ),
 };

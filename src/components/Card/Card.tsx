@@ -7,10 +7,10 @@ import { cardStyles } from './Card.styles';
 
 const Image: FC<ImageProps> = ({ children }) => <figure>{children}</figure>;
 
-const Header: FC<HeaderProps> = ({ className, children, ...props }) => (
-  <div className={clsx('card-title', className)} {...props}>
+const Title: FC<HeaderProps> = ({ className, children, ...props }) => (
+  <h2 className={clsx('card-title', className)} {...props}>
     {children}
-  </div>
+  </h2>
 );
 
 const Body: FC<BodyProps> = ({ className, children, ...props }) => (
@@ -19,7 +19,7 @@ const Body: FC<BodyProps> = ({ className, children, ...props }) => (
   </div>
 );
 
-const Footer: FC<FooterProps> = ({ className, children, ...props }) => (
+const Actions: FC<FooterProps> = ({ className, children, ...props }) => (
   <div className={clsx('card-actions', className)} {...props}>
     {children}
   </div>
@@ -32,13 +32,14 @@ interface CardProps
 }
 
 const CardRoot = forwardRef<HTMLDivElement, CardProps>(
-  ({ className, children, variant, size, ...props }, ref) => {
+  ({ className, children, variant, size, shadowSize, ...props }, ref) => {
+    const cardClassName = clsx(
+      className,
+      cardStyles({ variant, size, shadowSize }),
+    );
+
     return (
-      <div
-        className={clsx(cardStyles({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      >
+      <div className={cardClassName} ref={ref} {...props}>
         {children}
       </div>
     );
@@ -46,11 +47,11 @@ const CardRoot = forwardRef<HTMLDivElement, CardProps>(
 );
 
 CardRoot.displayName = 'Card';
-Header.displayName = 'Card.Header';
+Title.displayName = 'Card.Title';
 Body.displayName = 'Card.Body';
-Footer.displayName = 'Card.Footer';
+Actions.displayName = 'Card.Actions';
 Image.displayName = 'Card.Image';
 
-const Card = Object.assign(CardRoot, { Header, Body, Footer, Image });
+const Card = Object.assign(CardRoot, { Title, Body, Actions, Image });
 
 export { Card };
