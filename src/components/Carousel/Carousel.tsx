@@ -1,12 +1,10 @@
-import { VariantProps } from 'class-variance-authority';
-import { Children, FC, HTMLAttributes, ReactNode } from 'react';
+import { Children, FC, ReactNode } from 'react';
 import clsx from 'clsx';
 
 import { carouselStyles } from './Carousel.styles';
+import { CarouselAdditionalProps } from './types';
 
-export interface CarouselProps
-  extends HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof carouselStyles> {
+export interface CarouselProps extends CarouselAdditionalProps {
   children: ReactNode[] | ReactNode;
 }
 
