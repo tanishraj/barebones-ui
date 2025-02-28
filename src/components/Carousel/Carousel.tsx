@@ -1,22 +1,30 @@
-import { FC, ReactNode } from 'react';
+import { VariantProps } from 'class-variance-authority';
+import { Children, FC, HTMLAttributes, ReactNode } from 'react';
+import clsx from 'clsx';
 
-export interface CarouselProps {
-  imageList: string[]a
+import { carouselStyles } from './Carousel.styles';
+
+export interface CarouselProps
+  extends HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof carouselStyles> {
+  children: ReactNode[] | ReactNode;
 }
 
-export const Carousel: FC<CarouselProps> = ({ items }) => {
+export const Carousel: FC<CarouselProps> = ({
+  className,
+  snapPosition,
+  verticalScroll,
+  children,
+}) => {
+  const carouselClassName = clsx(
+    carouselStyles({ snapPosition, verticalScroll }),
+    className,
+  );
   return (
-    <div className='carousel rounded-box'>
-      {items.map((item, index) => (
+    <div className={carouselClassName}>
+      {Children.map(children, (child, index) => (
         <div key={index} className='carousel-item'>
-          {typeof item === 'string' ? (
-            <img
-              src='https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp'
-              alt='Burger'
-            />
-          ) : (
-            item
-          )}
+          {child}
         </div>
       ))}
     </div>
