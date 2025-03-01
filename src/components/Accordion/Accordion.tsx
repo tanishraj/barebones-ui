@@ -5,6 +5,8 @@ import clsx from 'clsx';
 import {
   accordionContainerStyles,
   accordionStyles,
+  bgStyles,
+  borderStyles,
   titleStyles,
 } from './Accordion.styles';
 import { AccordionItem } from './types';
@@ -12,6 +14,7 @@ import { AccordionItem } from './types';
 export interface AccordionProps
   extends VariantProps<typeof accordionStyles>,
     VariantProps<typeof titleStyles>,
+    VariantProps<typeof borderStyles>,
     React.HTMLAttributes<HTMLDivElement> {
   name: string;
   items: AccordionItem[];
@@ -23,6 +26,7 @@ export interface AccordionProps
 export const Accordion = ({
   name,
   items,
+  variant,
   bordered,
   iconStyle,
   defaultOpenIndex,
@@ -35,11 +39,16 @@ export const Accordion = ({
   );
 
   const containerClassName = accordionContainerStyles({ merged });
-  const accordionClassName = accordionStyles({
-    bordered,
-    iconStyle,
-    merged,
-  });
+  const bgOrBordered = bordered
+    ? borderStyles({ variant, bordered })
+    : bgStyles({ variant });
+  const accordionClassName = clsx(
+    accordionStyles({
+      iconStyle,
+      merged,
+    }),
+    bgOrBordered,
+  );
   const titleClassName = clsx(
     'collapse-title font-bold',
     titleStyles({ size }),
@@ -50,13 +59,23 @@ export const Accordion = ({
     <div className={containerClassName}>
       {items.map((item, index) => (
         <div className={accordionClassName}>
-          <input
-            type='radio'
-            name={expandAll ? '' : name}
-            defaultChecked={expandAll || index === openIndex}
-            onChange={() => setOpenIndex(index)}
-            style={{ minHeight: '0' }}
-          />
+          {expandAll ? (
+            <input
+              type='checkbox'
+              name={name}
+              defaultChecked={expandAll || index === openIndex}
+              onChange={() => setOpenIndex(index)}
+              style={{ minHeight: '0' }}
+            />
+          ) : (
+            <input
+              type='radio'
+              name={name}
+              defaultChecked={expandAll || index === openIndex}
+              onChange={() => setOpenIndex(index)}
+              style={{ minHeight: '0' }}
+            />
+          )}
           <div className={titleClassName} style={{ minHeight: '0' }}>
             {item.title}
           </div>
