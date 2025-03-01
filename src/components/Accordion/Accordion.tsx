@@ -50,13 +50,23 @@ export const Accordion = ({
     <div className={containerClassName}>
       {items.map((item, index) => (
         <div className={accordionClassName}>
-          <input
-            type='radio'
-            name={expandAll ? '' : name}
-            defaultChecked={expandAll || index === openIndex}
-            onChange={() => setOpenIndex(index)}
-            style={{ minHeight: '0' }}
-          />
+          {expandAll ? (
+            <input
+              type='checkbox'
+              name={name}
+              defaultChecked={expandAll || index === openIndex}
+              onChange={() => setOpenIndex(index)}
+              style={{ minHeight: '0' }}
+            />
+          ) : (
+            <input
+              type='radio'
+              name={name}
+              defaultChecked={expandAll || index === openIndex}
+              onChange={() => setOpenIndex(index)}
+              style={{ minHeight: '0' }}
+            />
+          )}
           <div className={titleClassName} style={{ minHeight: '0' }}>
             {item.title}
           </div>
