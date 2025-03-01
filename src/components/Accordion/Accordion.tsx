@@ -5,6 +5,8 @@ import clsx from 'clsx';
 import {
   accordionContainerStyles,
   accordionStyles,
+  bgStyles,
+  borderStyles,
   titleStyles,
 } from './Accordion.styles';
 import { AccordionItem } from './types';
@@ -12,6 +14,7 @@ import { AccordionItem } from './types';
 export interface AccordionProps
   extends VariantProps<typeof accordionStyles>,
     VariantProps<typeof titleStyles>,
+    VariantProps<typeof borderStyles>,
     React.HTMLAttributes<HTMLDivElement> {
   name: string;
   items: AccordionItem[];
@@ -23,6 +26,7 @@ export interface AccordionProps
 export const Accordion = ({
   name,
   items,
+  variant,
   bordered,
   iconStyle,
   defaultOpenIndex,
@@ -35,11 +39,16 @@ export const Accordion = ({
   );
 
   const containerClassName = accordionContainerStyles({ merged });
-  const accordionClassName = accordionStyles({
-    bordered,
-    iconStyle,
-    merged,
-  });
+  const bgOrBordered = bordered
+    ? borderStyles({ variant, bordered })
+    : bgStyles({ variant });
+  const accordionClassName = clsx(
+    accordionStyles({
+      iconStyle,
+      merged,
+    }),
+    bgOrBordered,
+  );
   const titleClassName = clsx(
     'collapse-title font-bold',
     titleStyles({ size }),
