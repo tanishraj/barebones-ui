@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-export const chatContainer = cva('chat', {
+export const chatStyles = cva('chat', {
   variants: {
     placement: {
       start: 'chat-start',
@@ -12,9 +12,9 @@ export const chatContainer = cva('chat', {
   },
 });
 
-export const chatBubble = cva('chat-bubble', {
+export const chatBubbleStyles = cva('chat-bubble', {
   variants: {
-    color: {
+    variant: {
       neutral: 'chat-bubble-neutral',
       primary: 'chat-bubble-primary',
       secondary: 'chat-bubble-secondary',

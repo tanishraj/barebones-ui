@@ -1,6 +1,11 @@
 import { VariantProps } from 'class-variance-authority';
 
-import { chatBubble, chatContainer } from './Chat.styles';
+import { chatBubbleStyles, chatStyles } from './Chat.styles';
 
-export type ChatPlacement = VariantProps<typeof chatContainer>['placement'];
-export type ChatColor = VariantProps<typeof chatBubble>['color'];
+export type ChatStyleProps = VariantProps<typeof chatStyles> &
+  VariantProps<typeof chatBubbleStyles>;
+
+export type ChatPlacement = VariantProps<typeof chatStyles>['placement'];
+export type ChatBubbleVariant = VariantProps<
+  typeof chatBubbleStyles
+>['variant'];
