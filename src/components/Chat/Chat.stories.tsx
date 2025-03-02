@@ -6,46 +6,37 @@ const meta: Meta<typeof Chat> = {
   title: 'Components/Chat',
   component: Chat,
   tags: ['autodocs'],
+  argTypes: {
+    placement: {
+      control: { type: 'select' },
+      options: ['start', 'end'],
+    },
+    variant: {
+      control: { type: 'select' },
+      options: [
+        'neutral',
+        'primary',
+        'secondary',
+        'accent',
+        'info',
+        'success',
+        'warning',
+        'error',
+      ],
+    },
+  },
 };
 
 export default meta;
 type Story = StoryObj<typeof Chat>;
 
-export const Basic: Story = {
-  render: () => (
+export const Default: Story = {
+  render: args => (
     <div className='flex flex-col gap-4'>
-      <Chat placement='start'>
-        <Chat.Bubble>Hello from DaisyUI Chat!</Chat.Bubble>
-      </Chat>
-
-      <Chat placement='end'>
-        <Chat.Bubble>Response from other user</Chat.Bubble>
-      </Chat>
-    </div>
-  ),
-};
-
-export const PlacementVariants: Story = {
-  render: () => (
-    <div className='flex flex-col gap-4'>
-      <Chat placement='start'>
-        <Chat.Bubble>Left-aligned chat</Chat.Bubble>
-      </Chat>
-      <Chat placement='end'>
-        <Chat.Bubble>Right-aligned chat</Chat.Bubble>
-      </Chat>
-    </div>
-  ),
-};
-
-export const BubbleVariants: Story = {
-  render: () => (
-    <div className='flex flex-col gap-4'>
-      <Chat placement='start'>
-        <Chat.Bubble variant='primary'>Primary message</Chat.Bubble>
-      </Chat>
-      <Chat placement='end'>
-        <Chat.Bubble variant='error'>Error message</Chat.Bubble>
+      <Chat placement={args.placement}>
+        <Chat.Bubble variant={args.variant}>
+          Hello from DaisyUI Chat!
+        </Chat.Bubble>
       </Chat>
     </div>
   ),
