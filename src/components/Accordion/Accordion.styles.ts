@@ -23,7 +23,7 @@ export const titleStyles = cva('', {
   },
 });
 
-export const bgStyles = cva('', {
+export const bgStyles = cva('bg-base-200', {
   variants: {
     variant: {
       primary: 'bg-primary text-primary-content',
