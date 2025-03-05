@@ -1,13 +1,17 @@
+import clsx from 'clsx';
 import { FC, ReactNode } from 'react';
 
-interface DifferenceProps {
+interface DifferenceProps extends React.HTMLAttributes<HTMLDivElement> {
   children: [ReactNode, ReactNode];
+  className?: string;
 }
 
-export const Difference: FC<DifferenceProps> = ({ children }) => {
+export const Difference: FC<DifferenceProps> = ({ children, className }) => {
   const [firstChild, secondChild] = children || [];
+  const diffClassName = clsx('diff', className);
+
   return (
-    <figure className='diff' tabIndex={0}>
+    <figure className={diffClassName} tabIndex={0}>
       <div className='diff-item-1' role='img'>
         {firstChild}
       </div>
