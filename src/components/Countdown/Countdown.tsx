@@ -1,14 +1,18 @@
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
+import clsx from 'clsx';
 
-interface CountdownProps {
-  children: ReactNode;
+import { countdownStyles } from './Countdown.styles';
+import { CountdownStylesProps } from './types';
+
+interface CountdownProps extends CountdownStylesProps {
+  value: number;
 }
 
-export const Countdown: FC<CountdownProps> = ({ children }) => {
+export const Countdown: FC<CountdownProps> = ({ value, size }) => {
+  const countdownClassName = clsx('countdown', countdownStyles({ size }));
   return (
-    <div>
-      <h1>Countdown Component</h1>
-      <p>{children}</p>
-    </div>
+    <span className={countdownClassName}>
+      <span style={{ '--value': value } as React.CSSProperties}>{value}</span>
+    </span>
   );
 };
