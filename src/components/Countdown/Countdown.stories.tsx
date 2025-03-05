@@ -1,4 +1,5 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
+import { useEffect, useState } from 'react';
 
 import { Countdown } from './Countdown';
 
@@ -6,13 +7,29 @@ const meta: Meta = {
   title: 'Components/Countdown',
   component: Countdown,
   tags: ['autodocs'],
-  argTypes: {},
-  args: {},
+  argTypes: {
+    size: {
+      control: { type: 'select' },
+      options: ['sm', 'md', 'lg', 'xl'],
+    },
+  },
+  args: {
+    size: 'md',
+  },
 };
 
 export default meta;
-type Story = StoryObj<typeof Countdown>;
 
-export const Default: Story = {
-  render: args => <Countdown {...args} />,
+export const Default: StoryFn = args => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCount(prevCount => prevCount + 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return <Countdown {...args} value={count} />;
 };
