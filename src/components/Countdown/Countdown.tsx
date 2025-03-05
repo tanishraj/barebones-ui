@@ -8,7 +8,7 @@ interface CountdownProps extends CountdownStylesProps {
   value: number;
 }
 
-export const Countdown: FC<CountdownProps> = ({ value, size }) => {
+export const Countdown: FC<CountdownProps> = ({ value, size = 'sm' }) => {
   const countdownClassName = clsx('countdown', countdownStyles({ size }));
   return (
     <span className={countdownClassName}>

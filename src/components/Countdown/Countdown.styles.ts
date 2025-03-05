@@ -9,5 +9,7 @@ export const countdownStyles = cva('countdown', {
       xl: 'text-6xl',
     },
   },
-  defaultVariants: {},
+  defaultVariants: {
+    size: 'sm',
+  },
 });
