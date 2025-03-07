@@ -32,10 +32,10 @@ export interface CardProps
 }
 
 const CardRoot = forwardRef<HTMLDivElement, CardProps>(
-  ({ className, children, variant, size, shadowSize, ...props }, ref) => {
+  ({ className, children, variant, size, layout, shadow, ...props }, ref) => {
     const cardClassName = clsx(
+      cardStyles({ variant, size, shadow, layout }),
       className,
-      cardStyles({ variant, size, shadowSize }),
     );
 
     return (

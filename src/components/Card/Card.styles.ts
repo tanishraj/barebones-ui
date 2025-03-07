@@ -3,9 +3,9 @@ import { cva } from 'class-variance-authority';
 export const cardStyles = cva('card', {
   variants: {
     variant: {
-      default: 'bg-base-100',
-      bordered: 'card-bordered',
-      'full-image': 'image-full',
+      default: 'bg-base-200',
+      bordered: 'card-border',
+      dashed: 'card-dash',
       glass: 'glass',
       primary: 'bg-primary text-primary-content',
       secondary: 'bg-secondary text-secondary-content',
@@ -17,12 +17,18 @@ export const cardStyles = cva('card', {
       error: 'bg-error text-error-content',
     },
     size: {
+      xs: 'card-xs',
+      sm: 'card-sm',
+      md: 'card-md',
+      lg: 'card-lg',
+      xl: 'card-xl',
+    },
+    layout: {
       default: '',
-      compact: 'card-compact',
-      normal: 'card-normal',
+      full: 'image-full',
       side: 'card-side',
     },
-    shadowSize: {
+    shadow: {
       none: '',
       xs: 'shadow-xs',
       sm: 'shadow-sm',
@@ -33,6 +39,7 @@ export const cardStyles = cva('card', {
   },
   defaultVariants: {
     variant: 'default',
-    size: 'normal',
+    layout: 'default',
+    size: 'lg',
   },
 });

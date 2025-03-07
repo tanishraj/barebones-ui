@@ -13,7 +13,7 @@ const meta: Meta<typeof Card> = {
       options: [
         'default',
         'bordered',
-        'full-image',
+        'dashed',
         'glass',
         'primary',
         'secondary',
@@ -27,9 +27,13 @@ const meta: Meta<typeof Card> = {
     },
     size: {
       control: { type: 'select' },
-      options: ['default', 'compact', 'normal', 'side'],
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
     },
-    shadowSize: {
+    layout: {
+      control: { type: 'select' },
+      options: ['default', 'full', 'side'],
+    },
+    shadow: {
       control: { type: 'select' },
       options: ['none', 'xs', 'sm', 'md', 'lg', 'xl'],
     },
