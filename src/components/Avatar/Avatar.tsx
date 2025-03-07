@@ -38,8 +38,8 @@ export interface AvatarGroupProps extends AvatarStyleProps {
 export const AvatarGroup = ({ items, ...rest }: AvatarGroupProps) => {
   return (
     <div className='avatar-group -space-x-6 rtl:space-x-reverse'>
-      {items.map((item, index) => (
-        <Avatar key={index} item={item} {...rest} />
+      {items.map(item => (
+        <Avatar key={item.text || item.url} item={item} {...rest} />
       ))}
     </div>
   );

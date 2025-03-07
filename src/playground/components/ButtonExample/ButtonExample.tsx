@@ -2,25 +2,25 @@ import { Button } from '@/components';
 
 export const ButtonExample = () => {
   return (
-    <div className='card card-bordered p-4 shadow-sm'>
+    <div className='card-bordered card p-4 shadow-sm'>
       <div className='card-title'>Button:</div>
 
       <div className='card-body flex flex-col flex-wrap gap-2'>
-        <div className='card card-bordered p-4 shadow-sm'>
+        <div className='card-bordered card p-4 shadow-sm'>
           <div className='card-title'>Deafult:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
             <Button>Default</Button>
           </div>
         </div>
 
-        <div className='card card-bordered p-4 shadow-sm'>
+        <div className='card-bordered card p-4 shadow-sm'>
           <div className='card-title'>Disabled:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
             <Button disabled>Disabled</Button>
           </div>
         </div>
 
-        <div className='card card-bordered p-4 shadow-sm'>
+        <div className='card-bordered card p-4 shadow-sm'>
           <div className='card-title'>Variant:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
             <Button variant='primary'>Primary</Button>
@@ -36,14 +36,11 @@ export const ButtonExample = () => {
           </div>
         </div>
 
-        <div className='card card-bordered p-4 shadow-sm'>
+        <div className='card-bordered card p-4 shadow-sm'>
           <div className='card-title'>Outline:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
             <Button variant='primary' outline='solid'>
               Solid Primary
-            </Button>
-            <Button variant='secondary' outline='dotted'>
-              Dotted Secondary
             </Button>
             <Button variant='accent' outline='dashed'>
               Dashed Accent
@@ -51,7 +48,7 @@ export const ButtonExample = () => {
           </div>
         </div>
 
-        <div className='card card-bordered p-4 shadow-sm'>
+        <div className='card-bordered card p-4 shadow-sm'>
           <div className='card-title'>Size:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
             <Button size='xs'>xs Button</Button>

@@ -21,13 +21,13 @@ const PropsOptions = ({
   setCloseButton,
 }: PropsOptionsProps) => {
   return (
-    <div className='card card-bordered p-4 shadow-sm'>
+    <div className='card-bordered card p-4 shadow-sm'>
       <div className='card-title'>Props:</div>
       <div className='card-body flex flex-row flex-wrap gap-6'>
         <div>
           Position:
           <select
-            className='select select-bordered w-full max-w-xs'
+            className='select-bordered select w-full max-w-xs'
             onChange={e => setPosition(e.target.value as ModalPosition)}
           >
             <option>Select Position</option>
@@ -42,7 +42,7 @@ const PropsOptions = ({
         <div>
           Size:
           <select
-            className='select select-bordered w-full max-w-xs'
+            className='select-bordered select w-full max-w-xs'
             onChange={e => setSize(e.target.value as ModalSize)}
           >
             <option>Select Size</option>
