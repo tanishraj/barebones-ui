@@ -1,7 +1,7 @@
 {
   "name": "barebones-ui",
   "description": "A barebones React UI library built with TypeScript and Tailwind CSS.",
-  "version": "0.1.1-beta-34",
+  "version": "0.1.1-beta-35",
   "license": "MIT",
   "private": false,
   "author": {
@@ -26,7 +26,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "daisyui": "^4.12.14",
+    "daisyui": "4.12.24",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
