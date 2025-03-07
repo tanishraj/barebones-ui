@@ -55,7 +55,7 @@ export const Modal: React.FC<ModalProps> = ({
           {typeof closeButton === 'boolean' && closeButton ? (
             <form method='dialog'>
               <button
-                className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'
+                className='btn btn-ghost btn-sm btn-circle absolute right-2 top-2'
                 onClick={closeModal}
               >
                 ✕

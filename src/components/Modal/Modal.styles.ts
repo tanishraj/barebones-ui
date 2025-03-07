@@ -12,6 +12,8 @@ export const modalStyles = cva('', {
       top: 'modal-top',
       bottom: 'modal-bottom',
       center: 'modal-middle',
+      start: 'modal-start',
+      end: 'modal-end',
     },
     isOpen: {
       true: 'modal-open',

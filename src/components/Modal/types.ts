@@ -5,7 +5,6 @@ import { modalStyles } from './Modal.styles';
 
 export type ModalPosition = VariantProps<typeof modalStyles>['position'];
 export type ModalSize = VariantProps<typeof modalStyles>['size'];
-export type ModalOpen = VariantProps<typeof modalStyles>['isOpen'];
 
 export interface ModalProps extends VariantProps<typeof modalStyles> {
   closeOnBackdropClick?: boolean;
