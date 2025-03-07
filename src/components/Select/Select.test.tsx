@@ -10,27 +10,27 @@ const options = [
 
 describe('Select', () => {
   it('renders correctly', () => {
-    render(<Select options={options} />);
+    render(<Select name='test' options={options} />);
     expect(screen.getByRole('combobox')).toBeInTheDocument();
   });
 
   it('displays label', () => {
-    render(<Select options={options} label='Test Label' />);
+    render(<Select name='test' options={options} label='Test Label' />);
     expect(screen.getByText('Test Label')).toBeInTheDocument();
   });
 
   it('displays helper text', () => {
-    render(<Select options={options} helperText='Helper Text' />);
+    render(<Select name='test' options={options} helperText='Helper Text' />);
     expect(screen.getByText('Helper Text')).toBeInTheDocument();
   });
 
   it('renders all options', () => {
-    render(<Select options={options} />);
+    render(<Select name='test' options={options} />);
     expect(screen.getAllByRole('option')).toHaveLength(2);
   });
 
   it('is disabled when disabled prop is true', () => {
-    render(<Select options={options} disabled />);
+    render(<Select name='test' options={options} disabled />);
     expect(screen.getByRole('combobox')).toBeDisabled();
   });
 });
