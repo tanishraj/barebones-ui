@@ -39,7 +39,7 @@ describe('Avatar Component', () => {
     const avatarElement = container.querySelector('.avatar');
     const shapeElement = container.querySelector('.mask-squircle');
 
-    expect(avatarElement).toHaveClass('online');
+    expect(avatarElement).toHaveClass('avatar-online');
     expect(shapeElement).toBeInTheDocument();
     expect(screen.getByText('T')).toHaveClass('text-3xl');
   });
@@ -49,7 +49,7 @@ describe('Avatar Component', () => {
       <Avatar item={{ text: 'S' }} status='online' size='md' shape='circle' />,
     );
 
-    expect(container.firstChild).toHaveClass('online');
+    expect(container.firstChild).toHaveClass('avatar-online');
   });
 
   test('does not render content when neither url nor text is provided', () => {

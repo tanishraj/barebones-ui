@@ -54,8 +54,8 @@ export const shapeStyles = cva('', {
 export const statusStyles = cva('', {
   variants: {
     status: {
-      online: 'online',
-      offline: 'offline',
+      online: 'avatar-online',
+      offline: 'avatar-offline',
       none: '',
     },
   },
