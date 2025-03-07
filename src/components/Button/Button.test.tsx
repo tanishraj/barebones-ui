@@ -1,94 +1,146 @@
+import { describe, test, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
 
 import { Button } from './Button';
+import type {
+  ButtonVariant,
+  ButtonSize,
+  ButtonOutline,
+  ButtonLayout,
+} from './types';
 
 describe('Button Component', () => {
-  it('renders correctly with default props', () => {
-    render(<Button>Default Button</Button>);
-    const button = screen.getByRole('button', { name: /default button/i });
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveClass('btn btn-md flex-row');
-    expect(button).not.toBeDisabled();
+  // Basic rendering tests
+  test('renders without crashing', () => {
+    render(<Button />);
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
-  it('applies the correct variant class', () => {
-    render(<Button variant='primary'>Primary Button</Button>);
-    const button = screen.getByRole('button', { name: /primary button/i });
-    expect(button).toHaveClass('btn-primary');
+  test('renders children correctly', () => {
+    render(<Button>Test Button</Button>);
+    expect(screen.getByText('Test Button')).toBeInTheDocument();
   });
 
-  it('applies the correct outline class', () => {
-    render(<Button outline='dotted'>Dotted Outline</Button>);
-    const button = screen.getByRole('button', { name: /dotted outline/i });
-    expect(button).toHaveClass('btn-outline border-dotted');
+  // Icon handling tests
+  test('renders icon when provided', () => {
+    render(<Button icon='🚀' />);
+    expect(screen.getByText('🚀')).toBeInTheDocument();
   });
 
-  it('applies the correct size class', () => {
-    render(<Button size='lg'>Large Button</Button>);
-    const button = screen.getByRole('button', { name: /large button/i });
-    expect(button).toHaveClass('btn-lg');
+  test('iconPosition applies correct flex class', () => {
+    const { rerender } = render(<Button icon='🚀' iconPosition='left' />);
+    expect(screen.getByRole('button')).toHaveClass('flex-row');
+
+    rerender(<Button icon='🚀' iconPosition='right' />);
+    expect(screen.getByRole('button')).toHaveClass('flex-row-reverse');
   });
 
-  it('handles the icon and iconPosition props', () => {
-    const Icon = <span data-testid='icon'>⭐</span>;
-    render(
-      <Button icon={Icon} iconPosition='right'>
-        Button with Icon
-      </Button>,
-    );
-    const button = screen.getByRole('button', { name: /button with icon/i });
-    expect(button).toHaveClass('flex-row-reverse');
-    expect(screen.getByTestId('icon')).toBeInTheDocument();
-  });
+  // Disabled state tests
+  test('applies disabled styles and attributes', () => {
+    render(<Button disabled />);
+    const button = screen.getByRole('button');
 
-  it('disables the button when the disabled prop is true', () => {
-    render(<Button disabled>Disabled Button</Button>);
-    const button = screen.getByRole('button', { name: /disabled button/i });
     expect(button).toBeDisabled();
     expect(button).toHaveClass('btn-disabled');
   });
 
-  it('triggers the onClick handler when clicked', () => {
+  test('onClick is not called when disabled', () => {
     const handleClick = vi.fn();
-    render(<Button onClick={handleClick}>Clickable Button</Button>);
-    const button = screen.getByRole('button', { name: /clickable button/i });
-    fireEvent.click(button);
-    expect(handleClick).toHaveBeenCalledTimes(1);
-  });
+    render(<Button disabled onClick={handleClick} />);
 
-  it('does not trigger onClick when the button is disabled', () => {
-    const handleClick = vi.fn();
-    render(
-      <Button onClick={handleClick} disabled>
-        Non-Clickable Button
-      </Button>,
-    );
-    const button = screen.getByRole('button', {
-      name: /non-clickable button/i,
-    });
-    fireEvent.click(button);
+    fireEvent.click(screen.getByRole('button'));
     expect(handleClick).not.toHaveBeenCalled();
   });
 
-  it('applies custom className', () => {
-    render(<Button className='custom-class'>Custom Button</Button>);
-    const button = screen.getByRole('button', { name: /custom button/i });
-    expect(button).toHaveClass('custom-class');
+  // Interaction tests
+  test('calls onClick handler when clicked', () => {
+    const handleClick = vi.fn();
+    render(<Button onClick={handleClick} />);
+
+    fireEvent.click(screen.getByRole('button'));
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it('renders correctly with icon only', () => {
-    const Icon = <span data-testid='icon'>⭐</span>;
-    render(<Button icon={Icon} />);
-    const icon = screen.getByTestId('icon');
-    expect(icon).toBeInTheDocument();
+  // Style variant tests
+  test.each([
+    ['primary', 'btn-primary'],
+    ['secondary', 'btn-secondary'],
+    ['accent', 'btn-accent'],
+    ['neutral', 'btn-neutral'],
+    ['info', 'btn-info'],
+    ['success', 'btn-success'],
+    ['warning', 'btn-warning'],
+    ['error', 'btn-error'],
+    ['ghost', 'btn-ghost'],
+    ['link', 'btn-link'],
+  ])('applies variant %s', (variant, expectedClass) => {
+    render(<Button variant={variant as ButtonVariant} />);
+    expect(screen.getByRole('button')).toHaveClass(expectedClass);
   });
 
-  it('applies default classes when no props are provided', () => {
-    render(<Button>Default Classes Button</Button>);
-    const button = screen.getByRole('button', {
-      name: /default classes button/i,
-    });
-    expect(button).toHaveClass('btn btn-md flex-row');
+  test.each([
+    ['solid', 'btn-outline'],
+    ['dashed', 'btn-dash'],
+  ])('applies outline %s', (outline, expectedClass) => {
+    render(<Button outline={outline as ButtonOutline} />);
+    expect(screen.getByRole('button')).toHaveClass(expectedClass);
+  });
+
+  test.each([
+    ['xs', 'btn-xs'],
+    ['sm', 'btn-sm'],
+    ['md', 'btn-md'],
+    ['lg', 'btn-lg'],
+    ['xl', 'btn-xl'],
+  ])('applies size %s', (size, expectedClass) => {
+    render(<Button size={size as ButtonSize} />);
+    expect(screen.getByRole('button')).toHaveClass(expectedClass);
+  });
+
+  test.each([
+    ['wide', 'btn-wide'],
+    ['block', 'btn-block'],
+    ['square', 'btn-square'],
+    ['circle', 'btn-circle'],
+  ])('applies layout %s', (layout, expectedClass) => {
+    render(<Button layout={layout as ButtonLayout} />);
+    expect(screen.getByRole('button')).toHaveClass(expectedClass);
+  });
+
+  // State tests
+  test('applies active class when active', () => {
+    render(<Button active />);
+    expect(screen.getByRole('button')).toHaveClass('btn-active');
+  });
+
+  test('applies soft color class when softColor is true', () => {
+    render(<Button softColor />);
+    expect(screen.getByRole('button')).toHaveClass('btn-soft');
+  });
+
+  // Class name handling
+  test('applies custom className', () => {
+    render(<Button className='custom-class' />);
+    expect(screen.getByRole('button')).toHaveClass('custom-class');
+  });
+
+  // Default props tests
+  test('applies default classes when no props are provided', () => {
+    render(<Button />);
+    const button = screen.getByRole('button');
+
+    expect(button).toHaveClass('btn-md');
+    expect(button).toHaveClass('flex-row');
+    expect(button).not.toHaveClass('btn-disabled');
+    expect(button).not.toHaveClass('btn-active');
+    expect(button).not.toHaveClass('btn-soft');
+  });
+
+  // Combined content test
+  test('renders both icon and children', () => {
+    render(<Button icon='🚀'>Launch</Button>);
+
+    expect(screen.getByText('🚀')).toBeInTheDocument();
+    expect(screen.getByText('Launch')).toBeInTheDocument();
   });
 });
