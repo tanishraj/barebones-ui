@@ -26,9 +26,12 @@ const meta: Meta<typeof Badge> = {
     },
     size: {
       control: { type: 'select' },
-      options: ['xs', 'sm', 'md', 'lg'],
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
     },
     outline: {
+      control: { type: 'boolean' },
+    },
+    softColor: {
       control: { type: 'boolean' },
     },
   },
@@ -37,6 +40,7 @@ const meta: Meta<typeof Badge> = {
     variant: 'primary',
     size: 'md',
     outline: false,
+    softColor: false,
   },
 };
 

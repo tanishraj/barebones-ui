@@ -18,9 +18,14 @@ export const badgeStyles = cva('badge', {
       sm: 'badge-sm',
       md: 'badge-md',
       lg: 'badge-lg',
+      xl: 'badge-xl',
     },
     outline: {
       true: 'badge-outline',
+      false: '',
+    },
+    softColor: {
+      true: 'badge-soft',
       false: '',
     },
   },
