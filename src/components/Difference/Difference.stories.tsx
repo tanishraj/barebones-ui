@@ -17,11 +17,11 @@ export const Default: StoryFn = args => {
     <Difference className='aspect-16/9 h-96' {...args}>
       <img
         alt='daisy'
-        src='https://img.daisyui.com/images/stock/photo-1560717789-0ac7c58ac90a-blur.webp'
+        src='https://img.daisyui.com/images/stock/photo-1560717789-0ac7c58ac90a.webp'
       />
       <img
         alt='daisy'
-        src='https://img.daisyui.com/images/stock/photo-1560717789-0ac7c58ac90a.webp'
+        src='https://img.daisyui.com/images/stock/photo-1560717789-0ac7c58ac90a-blur.webp'
       />
     </Difference>
   );
