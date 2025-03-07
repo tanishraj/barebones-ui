@@ -23,7 +23,7 @@ export const Default: Story = {
       <List.Row>
         <List.Col>
           <img
-            className='size-10 rounded-box'
+            className='size-10 rounded-full'
             src='https://img.daisyui.com/images/profile/demo/1@94.webp'
             alt='Album cover'
           />
