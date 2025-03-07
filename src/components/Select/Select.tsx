@@ -6,6 +6,7 @@ import { SelectElementProps, SelectOptions } from './types';
 
 export type SelectProps = SelectElementProps &
   VariantProps<typeof selectStyles> & {
+    name: string;
     options: SelectOptions[];
     label?: string;
     helperText?: string;
@@ -15,10 +16,10 @@ export type SelectProps = SelectElementProps &
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   (
     {
+      name,
       options,
       variant,
       size = 'md',
-      bordered,
       disabled,
       label,
       helperText,
@@ -28,18 +29,18 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     ref,
   ) => {
     return (
-      <div className='form-control w-full'>
+      <fieldset className='fieldset'>
         {label && (
-          <label className='label'>
-            <span className='label-text'>{label}</span>
+          <label className='label' htmlFor={name}>
+            {label}
           </label>
         )}
         <select
+          id={name}
           ref={ref}
           className={selectStyles({
             variant,
             size,
-            bordered,
             disabled,
             className,
           })}
@@ -57,7 +58,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             <span className='label-text-alt'>{helperText}</span>
           </label>
         )}
-      </div>
+      </fieldset>
     );
   },
 );
