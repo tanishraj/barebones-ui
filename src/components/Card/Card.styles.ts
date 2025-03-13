@@ -30,8 +30,8 @@ export const cardStyles = cva('card', {
     },
     shadow: {
       none: '',
-      xs: 'shadow-xs',
-      sm: 'shadow-sm',
+      xs: 'shadow-2xs',
+      sm: 'shadow-xs',
       md: 'shadow-md',
       lg: 'shadow-lg',
       xl: 'shadow-xl',

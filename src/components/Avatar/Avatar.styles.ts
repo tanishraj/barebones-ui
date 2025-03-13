@@ -13,7 +13,7 @@ export const sizeAndShapeStyles = cva('bg-neutral', {
       hexagon: 'mask mask-hexagon',
       triangle: 'mask mask-triangle',
       circle: 'rounded-full',
-      square: 'rounded',
+      square: 'rounded-sm',
     },
   },
   defaultVariants: {
@@ -43,7 +43,7 @@ export const shapeStyles = cva('', {
       hexagon: 'mask mask-hexagon',
       triangle: 'mask mask-triangle',
       circle: 'rounded-full',
-      square: 'rounded',
+      square: 'rounded-sm',
     },
   },
   defaultVariants: {

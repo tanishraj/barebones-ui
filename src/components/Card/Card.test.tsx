@@ -28,7 +28,7 @@ describe('Card Component', () => {
       expect(card).toHaveClass('card-side');
     });
 
-    it('should apply shadow size classes', () => {
+    it('should apply shadow-sm size classes', () => {
       const { container } = render(<Card shadow='xl' />);
       const card = container.querySelector('.card');
 

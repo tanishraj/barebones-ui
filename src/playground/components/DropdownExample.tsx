@@ -7,18 +7,18 @@ const MOCK_DROPDOWN_ITEMS = [
 
 export const DropdownExample = () => {
   return (
-    <div className='card-bordered card p-4 shadow-sm'>
+    <div className='card-bordered card p-4 shadow-xs'>
       <div className='card-title'>Dropdown:</div>
 
       <div className='card-body flex flex-col flex-wrap gap-2'>
-        <div className='card-bordered card p-4 shadow-sm'>
+        <div className='card-bordered card p-4 shadow-xs'>
           <div className='card-title'>Deafult:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
             <Dropdown label='Toggle Dropdown' items={MOCK_DROPDOWN_ITEMS} />
           </div>
         </div>
 
-        <div className='card-bordered card p-4 shadow-sm'>
+        <div className='card-bordered card p-4 shadow-xs'>
           <div className='card-title'>Disabled:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
             <Dropdown
@@ -29,7 +29,7 @@ export const DropdownExample = () => {
           </div>
         </div>
 
-        <div className='card-bordered card p-4 shadow-sm'>
+        <div className='card-bordered card p-4 shadow-xs'>
           <div className='card-title'>Variants:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
             <Dropdown
@@ -85,7 +85,7 @@ export const DropdownExample = () => {
           </div>
         </div>
 
-        <div className='card-bordered card p-4 shadow-sm'>
+        <div className='card-bordered card p-4 shadow-xs'>
           <div className='card-title'>Sizes:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
             <Dropdown
@@ -111,7 +111,7 @@ export const DropdownExample = () => {
           </div>
         </div>
 
-        <div className='card-bordered card p-4 shadow-sm'>
+        <div className='card-bordered card p-4 shadow-xs'>
           <div className='card-title'>Menu Alignment:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
             <Dropdown
@@ -127,7 +127,7 @@ export const DropdownExample = () => {
           </div>
         </div>
 
-        <div className='card-bordered card p-4 shadow-sm'>
+        <div className='card-bordered card p-4 shadow-xs'>
           <div className='card-title'>Menu Position:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
             <Dropdown
@@ -153,7 +153,7 @@ export const DropdownExample = () => {
           </div>
         </div>
 
-        <div className='card-bordered card p-4 shadow-sm'>
+        <div className='card-bordered card p-4 shadow-xs'>
           <div className='card-title'>Menu Behavior:</div>
           <div className='card-body flex flex-row flex-wrap gap-2'>
             <Dropdown

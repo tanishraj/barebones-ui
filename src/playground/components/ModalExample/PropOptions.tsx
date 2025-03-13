@@ -21,7 +21,7 @@ const PropsOptions = ({
   setCloseButton,
 }: PropsOptionsProps) => {
   return (
-    <div className='card-bordered card p-4 shadow-sm'>
+    <div className='card-bordered card p-4 shadow-xs'>
       <div className='card-title'>Props:</div>
       <div className='card-body flex flex-row flex-wrap gap-6'>
         <div>

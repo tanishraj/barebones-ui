@@ -13,7 +13,7 @@ export const Avatar = ({ item, size, shape, status, ...rest }: AvatarProps) => {
     statusStyles({ status }),
   );
   const sizeAndShapeClassName = clsx(
-    'rounded',
+    'rounded-sm',
     sizeAndShapeStyles({ size, shape }),
   );
   const textClassName = textStyles({ size });
