@@ -1,9 +1,13 @@
+// Todo: Since this project moved to Tailwind CSS V4, 
+// eslint-plugin-tailwindcss does not export the resolveConfig as 
+// Tailwind CSS V4 does not have its config file anymore.
+// Will be enabled once eslint-plugin-tailwindcss is released.
 import js from '@eslint/js';
 import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
-import pluginTailwindCSS from 'eslint-plugin-tailwindcss';
+// import pluginTailwindCSS from 'eslint-plugin-tailwindcss';
 import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
 import pluginImport from 'eslint-plugin-import';
 import pluginPrettier from 'eslint-plugin-prettier';
@@ -32,7 +36,7 @@ export default tseslint.config(
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
-      tailwindcss: pluginTailwindCSS,
+      // tailwindcss: pluginTailwindCSS,
       import: pluginImport,
       'jsx-a11y': pluginJsxA11y,
       prettier: pluginPrettier,
@@ -52,8 +56,8 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
-      'tailwindcss/classnames-order': 'warn',
-      'tailwindcss/no-custom-classname': 'off',
+      // 'tailwindcss/classnames-order': 'warn',
+      // 'tailwindcss/no-custom-classname': 'off',
       'jsx-a11y/click-events-have-key-events': 'off',
       'jsx-a11y/no-noninteractive-element-to-interactive-role': 'off',
       'jsx-a11y/anchor-is-valid': [
