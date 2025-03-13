@@ -1,5 +1,5 @@
-// Todo: Since this project moved to Tailwind CSS V4, 
-// eslint-plugin-tailwindcss does not export the resolveConfig as 
+// Todo: Since this project moved to Tailwind CSS V4,
+// eslint-plugin-tailwindcss does not export the resolveConfig as
 // Tailwind CSS V4 does not have its config file anymore.
 // Will be enabled once eslint-plugin-tailwindcss is released.
 import js from '@eslint/js';
@@ -17,7 +17,16 @@ import pluginReact from 'eslint-plugin-react';
 import storybook from 'eslint-plugin-storybook';
 
 export default tseslint.config(
-  { ignores: ['dist', 'node_modules', 'build', 'coverage', 'public', '.fttemplates'] },
+  {
+    ignores: [
+      'dist',
+      'node_modules',
+      'build',
+      'coverage',
+      'public',
+      '.fttemplates',
+    ],
+  },
   {
     extends: [
       js.configs.recommended,
