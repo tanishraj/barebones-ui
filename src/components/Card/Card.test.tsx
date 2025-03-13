@@ -1,4 +1,3 @@
-// Card.test.tsx
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
@@ -10,8 +9,7 @@ describe('Card Component', () => {
       const { container } = render(<Card />);
       const card = container.querySelector('.card');
 
-      expect(card).toHaveClass('bg-base-100');
-      expect(card).toHaveClass('card-normal');
+      expect(card).toHaveClass('bg-base-200');
       expect(card).not.toHaveClass('shadow-md');
     });
 
@@ -24,14 +22,14 @@ describe('Card Component', () => {
     });
 
     it('should apply size classes', () => {
-      const { container } = render(<Card size='compact' />);
+      const { container } = render(<Card layout='side' />);
       const card = container.querySelector('.card');
 
-      expect(card).toHaveClass('card-compact');
+      expect(card).toHaveClass('card-side');
     });
 
-    it('should apply shadow size classes', () => {
-      const { container } = render(<Card shadowSize='xl' />);
+    it('should apply shadow-sm size classes', () => {
+      const { container } = render(<Card shadow='xl' />);
       const card = container.querySelector('.card');
 
       expect(card).toHaveClass('shadow-xl');

@@ -37,7 +37,7 @@ interface AvatarProps {
 }
 
 const Avatar: FC<AvatarProps> = ({ src, alt, className }) => (
-  <div className={clsx('avatar chat-image', className)}>
+  <div className={clsx('chat-image avatar', className)}>
     <div className='w-10 rounded-full'>
       <img src={src} alt={alt} />
     </div>

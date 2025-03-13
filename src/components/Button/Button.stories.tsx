@@ -30,24 +30,27 @@ export default {
       control: {
         type: 'select',
       },
-      options: ['solid', 'dotted', 'dashed'],
+      options: ['solid', 'dashed'],
       description: 'Select the outline style',
     },
     size: {
       control: {
         type: 'select',
       },
-      options: ['xs', 'sm', 'md', 'lg'],
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
       description: 'Select the button size',
+    },
+    layout: {
+      control: {
+        type: 'select',
+      },
+      options: ['wide', 'block', 'square', 'circle'],
+      description: 'Select the button layout',
     },
     icon: {
       control: 'text',
       description:
         'Provide an ASCII icon like "★" or "✦". If left empty, a default icon will be used.',
-    },
-    showIcon: {
-      control: 'boolean',
-      description: 'Show or hide the icon.',
     },
     iconPosition: {
       control: {
@@ -59,6 +62,14 @@ export default {
     disabled: {
       control: 'boolean',
       description: 'Disable the button',
+    },
+    active: {
+      control: 'boolean',
+      description: 'Set the button as active',
+    },
+    softColor: {
+      control: 'boolean',
+      description: 'Set the button soft color',
     },
     children: {
       control: 'text',
@@ -79,4 +90,6 @@ DefaultButton.args = {
   disabled: false,
   icon: '★',
   children: 'Button',
+  active: false,
+  softColor: false,
 };

@@ -16,14 +16,20 @@ export const buttonStyles = cva('btn', {
     },
     outline: {
       solid: 'btn-outline',
-      dotted: 'btn-outline border-dotted',
-      dashed: 'dashed btn-outline border-dashed',
+      dashed: 'btn-dash',
     },
     size: {
       xs: 'btn-xs',
       sm: 'btn-sm',
       md: 'btn-md',
       lg: 'btn-lg',
+      xl: 'btn-xl',
+    },
+    layout: {
+      wide: 'btn-wide',
+      block: 'btn-block',
+      square: 'btn-square',
+      circle: 'btn-circle',
     },
     iconPosition: {
       left: 'flex-row',
@@ -32,10 +38,18 @@ export const buttonStyles = cva('btn', {
     disabled: {
       true: 'btn-disabled',
     },
+    active: {
+      true: 'btn-active',
+    },
+    softColor: {
+      true: 'btn-soft',
+    },
   },
   defaultVariants: {
     size: 'md',
     iconPosition: 'left',
     disabled: false,
+    active: false,
+    softColor: false,
   },
 });

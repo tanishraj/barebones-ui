@@ -14,13 +14,13 @@ export function SelectExample() {
   return (
     <div className='p-4'>
       <Select
+        name='test'
         options={SELECT_OPTIONS}
         value={value}
         onChange={e => setValue(e.target.value)}
         label='Choose an option'
         variant='primary'
         size='md'
-        bordered
         helperText='This is a helper text'
       />
     </div>

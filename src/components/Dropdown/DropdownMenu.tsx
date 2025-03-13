@@ -10,7 +10,7 @@ interface DropdownMenuProps extends VariantProps<typeof dropdownMenuStyles> {
 }
 
 const dropdownMenuStyles = cva(
-  'menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow',
+  'dropdown-content menu z-1 w-52 rounded-box bg-base-100 p-2 shadow-sm',
   {
     variants: {
       isVisible: {
@@ -31,7 +31,7 @@ export const DropdownMenu = ({
       tabIndex={tabIndex}
       role='menu'
       className={clsx(
-        'menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow',
+        'dropdown-content menu z-1 w-52 rounded-box bg-base-100 p-2 shadow-sm',
         dropdownMenuStyles({ isVisible: true }),
         menuClassName,
       )}

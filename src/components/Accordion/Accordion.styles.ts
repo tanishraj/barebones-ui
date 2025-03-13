@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority';
 export const accordionContainerStyles = cva('', {
   variants: {
     merged: {
-      true: 'join join-vertical w-full',
+      true: 'w-full join join-vertical',
       false: 'flex flex-col gap-2',
     },
   },

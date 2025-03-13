@@ -25,10 +25,7 @@ const meta: Meta<typeof Select> = {
       control: {
         type: 'select',
       },
-      options: ['xs', 'sm', 'md', 'lg'],
-    },
-    bordered: {
-      control: 'boolean',
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
     },
     disabled: {
       control: 'boolean',
@@ -44,6 +41,7 @@ const meta: Meta<typeof Select> = {
     },
   },
   args: {
+    name: 'optionList',
     options: [
       { value: '1', label: 'Option 1' },
       { value: '2', label: 'Option 2' },
@@ -51,7 +49,6 @@ const meta: Meta<typeof Select> = {
     ],
     variant: 'primary',
     size: 'md',
-    bordered: true,
     disabled: false,
     label: 'Choose an option',
     helperText: 'This is a helper text',

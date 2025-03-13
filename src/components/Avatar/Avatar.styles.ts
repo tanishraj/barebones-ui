@@ -13,7 +13,7 @@ export const sizeAndShapeStyles = cva('bg-neutral', {
       hexagon: 'mask mask-hexagon',
       triangle: 'mask mask-triangle',
       circle: 'rounded-full',
-      square: 'rounded',
+      square: 'rounded-sm',
     },
   },
   defaultVariants: {
@@ -43,7 +43,7 @@ export const shapeStyles = cva('', {
       hexagon: 'mask mask-hexagon',
       triangle: 'mask mask-triangle',
       circle: 'rounded-full',
-      square: 'rounded',
+      square: 'rounded-sm',
     },
   },
   defaultVariants: {
@@ -54,8 +54,8 @@ export const shapeStyles = cva('', {
 export const statusStyles = cva('', {
   variants: {
     status: {
-      online: 'online',
-      offline: 'offline',
+      online: 'avatar-online',
+      offline: 'avatar-offline',
       none: '',
     },
   },

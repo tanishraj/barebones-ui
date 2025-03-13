@@ -17,9 +17,7 @@ export const selectStyles = cva('select', {
       sm: 'select-sm',
       md: 'select-md',
       lg: 'select-lg',
-    },
-    bordered: {
-      true: 'select-bordered',
+      xl: 'select-xl',
     },
     disabled: {
       true: 'select-disabled',
@@ -28,6 +26,5 @@ export const selectStyles = cva('select', {
   defaultVariants: {
     variant: 'primary',
     size: 'md',
-    bordered: true,
   },
 });

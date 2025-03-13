@@ -76,7 +76,7 @@ export const WithChildren = Template.bind({});
 WithChildren.args = {
   label: 'Dropdown with Children',
   children: (
-    <div className='card dropdown-content card-compact z-[1] w-64 bg-primary p-2 text-primary-content shadow'>
+    <div className='card-compact dropdown-content card z-1 w-64 bg-primary p-2 text-primary-content shadow-sm'>
       <div className='card-body'>
         <h3 className='card-title'>Card title!</h3>
         <p>you can use any element as a dropdown.</p>

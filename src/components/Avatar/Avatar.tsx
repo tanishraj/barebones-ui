@@ -8,9 +8,12 @@ export interface AvatarProps extends AvatarStyleProps {
 }
 
 export const Avatar = ({ item, size, shape, status, ...rest }: AvatarProps) => {
-  const avatarClassName = clsx('avatar placeholder', statusStyles({ status }));
+  const avatarClassName = clsx(
+    'avatar avatar-placeholder',
+    statusStyles({ status }),
+  );
   const sizeAndShapeClassName = clsx(
-    'rounded',
+    'rounded-sm',
     sizeAndShapeStyles({ size, shape }),
   );
   const textClassName = textStyles({ size });
@@ -35,8 +38,8 @@ export interface AvatarGroupProps extends AvatarStyleProps {
 export const AvatarGroup = ({ items, ...rest }: AvatarGroupProps) => {
   return (
     <div className='avatar-group -space-x-6 rtl:space-x-reverse'>
-      {items.map((item, index) => (
-        <Avatar key={index} item={item} {...rest} />
+      {items.map(item => (
+        <Avatar key={item.text || item.url} item={item} {...rest} />
       ))}
     </div>
   );
