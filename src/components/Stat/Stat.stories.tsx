@@ -9,7 +9,7 @@ import {
   StatFigure,
   StatActions,
 } from './Stat';
-import { Button } from '../Button'; // Assuming you have a Button component
+import { Button } from '../Button';
 
 const meta: Meta<typeof Stats> = {
   title: 'Components/Stat',
@@ -17,6 +17,27 @@ const meta: Meta<typeof Stats> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+  },
+  argTypes: {
+    variant: {
+      control: { type: 'select' },
+      options: [
+        'primary',
+        'secondary',
+        'accent',
+        'info',
+        'success',
+        'warning',
+        'error',
+      ],
+    },
+    direction: {
+      control: { type: 'select' },
+      options: ['horizontal', 'vertical'],
+    },
+    shadow: {
+      control: { type: 'boolean' },
+    },
   },
 };
 
@@ -40,7 +61,7 @@ export const Basic: Story = {
 // Multiple Stats example
 export const Multiple: Story = {
   args: {
-    className: 'shadow',
+    shadow: true,
     children: (
       <>
         <Stat>
@@ -142,7 +163,7 @@ export const WithIcons: Story = {
 // Stats with Actions example
 export const WithActions: Story = {
   args: {
-    className: 'bg-primary text-primary-content',
+    variant: 'primary',
     children: (
       <>
         <Stat>
@@ -158,7 +179,7 @@ export const WithActions: Story = {
         <Stat>
           <StatTitle>Current balance</StatTitle>
           <StatValue>$89,400</StatValue>
-          <StatActions>
+          <StatActions className='space-x-2'>
             <Button size='sm'>Withdrawal</Button>
             <Button size='sm'>Deposit</Button>
           </StatActions>

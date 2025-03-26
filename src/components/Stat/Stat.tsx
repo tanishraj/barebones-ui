@@ -1,36 +1,19 @@
-import React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
+import React, { forwardRef, HTMLAttributes } from 'react';
+import { type VariantProps } from 'class-variance-authority';
 
-import { cn } from '../../utils'; // Assuming you have a cn utility that uses clsx
-
-// Stats container variants
-const statsVariants = cva('stats', {
-  variants: {
-    direction: {
-      horizontal: 'stats-horizontal',
-      vertical: 'stats-vertical',
-    },
-    shadow: {
-      true: 'shadow',
-      false: '',
-    },
-  },
-  defaultVariants: {
-    direction: 'horizontal',
-    shadow: false,
-  },
-});
+import { cn } from '../../utils';
+import { statsStyles } from './Stat.styles';
 
 export interface StatsProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof statsVariants> {}
+  extends HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof statsStyles> {}
 
-export const Stats = React.forwardRef<HTMLDivElement, StatsProps>(
-  ({ className, direction, shadow, ...props }, ref) => {
+export const Stats = forwardRef<HTMLDivElement, StatsProps>(
+  ({ className, variant, direction, shadow, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        className={cn(statsVariants({ direction, shadow }), className)}
+        className={cn(statsStyles({ direction, shadow, variant }), className)}
         {...props}
       />
     );
@@ -92,4 +75,4 @@ export const StatActions = React.forwardRef<
 });
 StatActions.displayName = 'StatActions';
 
-export { statsVariants };
+export { statsStyles };
