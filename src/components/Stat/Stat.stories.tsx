@@ -19,18 +19,6 @@ const meta: Meta<typeof Stats> = {
     layout: 'centered',
   },
   argTypes: {
-    variant: {
-      control: { type: 'select' },
-      options: [
-        'primary',
-        'secondary',
-        'accent',
-        'info',
-        'success',
-        'warning',
-        'error',
-      ],
-    },
     direction: {
       control: { type: 'select' },
       options: ['horizontal', 'vertical'],
@@ -163,7 +151,6 @@ export const WithIcons: Story = {
 // Stats with Actions example
 export const WithActions: Story = {
   args: {
-    variant: 'primary',
     children: (
       <>
         <Stat>
