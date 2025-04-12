@@ -15,6 +15,12 @@ const meta: Meta<typeof Table> = {
     pinColumns: { control: 'boolean' },
     zebra: { control: 'boolean' },
   },
+  args: {
+    size: 'md',
+    pinRows: false,
+    pinColumns: false,
+    zebra: false,
+  },
 };
 
 export default meta;
