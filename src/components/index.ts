@@ -13,3 +13,4 @@ export * from './Countdown';
 export * from './Difference';
 export * from './Kbd';
 export * from './List';
+export * from './Status';
