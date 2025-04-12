@@ -14,3 +14,4 @@ export * from './Difference';
 export * from './Kbd';
 export * from './List';
 export * from './Status';
+export * from './Table';
