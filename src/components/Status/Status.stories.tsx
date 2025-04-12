@@ -24,10 +24,15 @@ const meta: Meta<typeof Status> = {
       control: { type: 'select' },
       options: ['xs', 'sm', 'md', 'lg', 'xl'],
     },
+    animate: {
+      control: { type: 'select' },
+      options: ['none', 'bounce', 'ping'],
+    },
   },
   args: {
     variant: 'secondary',
     size: 'lg',
+    animate: 'ping',
   },
 };
 

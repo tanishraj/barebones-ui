@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-export const statusStyles = cva('status', {
+export const statusStyles = cva('', {
   variants: {
     variant: {
       neutral: 'status-neutral',
@@ -19,9 +19,9 @@ export const statusStyles = cva('status', {
       lg: 'status-lg',
       xl: 'status-xl',
     },
-  },
-  defaultVariants: {
-    variant: 'primary',
-    size: 'xl',
+    animate: {
+      bounce: 'animate-bounce',
+      ping: 'animate-ping',
+    },
   },
 });
