@@ -8,11 +8,17 @@ type TableProps = ComponentProps<'table'> &
   VariantProps<typeof tableStyles> & {};
 
 const Table = forwardRef<HTMLTableElement, TableProps>(
-  ({ className, size, pinRows, pinColumns, children, ...props }, ref) => {
+  (
+    { className, size, pinRows, pinColumns, zebra, children, ...props },
+    ref,
+  ) => {
     return (
       <table
         ref={ref}
-        className={clsx(tableStyles({ size, pinRows, pinColumns }), className)}
+        className={clsx(
+          tableStyles({ size, pinRows, pinColumns, zebra }),
+          className,
+        )}
         {...props}
       >
         {children}
