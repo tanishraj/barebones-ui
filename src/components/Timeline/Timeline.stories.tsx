@@ -1,23 +1,23 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { Timeline } from './Timeline';
+import { Timeline, TimelineProps } from './Timeline';
 
 const timelineMockData = [
   {
-    start: '1984',
-    end: 'First',
+    startContent: '1984',
+    endContent: 'First',
   },
   {
-    start: '1985',
-    end: 'Second',
+    startContent: '1985',
+    endContent: 'Second',
   },
   {
-    start: '1986',
-    end: 'Third',
+    startContent: '1986',
+    endContent: 'Third',
   },
   {
-    start: '1987',
-    end: 'Fourth',
+    startContent: '1987',
+    endContent: 'Fourth',
   },
 ];
 
@@ -26,33 +26,30 @@ const meta: Meta = {
   component: Timeline,
   tags: ['autodocs'],
   argTypes: {
+    items: {
+      control: { type: 'object' },
+      description: 'Array of timeline items',
+    },
     direction: {
       control: { type: 'radio' },
       options: ['horizontal', 'vertical'],
     },
+    startBorder: { control: 'boolean' },
+    endBorder: { control: 'boolean' },
   },
 };
 
 export default meta;
 
-export const Default: StoryObj = {
+export const Default: StoryObj<TimelineProps> = {
   args: {
     direction: 'horizontal',
+    startBorder: false,
+    endBorder: false,
+    items: timelineMockData,
   },
 
-  render: args => {
-    const timelineArgs = args;
-
-    return (
-      <Timeline {...timelineArgs}>
-        {timelineMockData.map(item => (
-          <Timeline.Item
-            key={item.start}
-            startContent={item.start}
-            endContent={item.end}
-          />
-        ))}
-      </Timeline>
-    );
+  render: (args: TimelineProps) => {
+    return <Timeline {...args} />;
   },
 };

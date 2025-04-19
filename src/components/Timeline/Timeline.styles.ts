@@ -8,12 +8,3 @@ export const timelineStyles = cva('timeline', {
     },
   },
 });
-
-export const timelineItemStyles = cva('timeline-item', {
-  variants: {
-    direction: {
-      vertical: 'timeline-vertical',
-      horizontal: 'timeline-horizontal',
-    },
-  },
-});
