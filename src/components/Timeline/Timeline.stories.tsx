@@ -15,38 +15,44 @@ const timelineMockData = [
     start: '1986',
     end: 'Third',
   },
+  {
+    start: '1987',
+    end: 'Fourth',
+  },
 ];
 
 const meta: Meta = {
   title: 'Components/Timeline',
   component: Timeline,
   tags: ['autodocs'],
+  argTypes: {
+    direction: {
+      control: { type: 'radio' },
+      options: ['horizontal', 'vertical'],
+    },
+  },
 };
 
 export default meta;
 
 export const Default: StoryObj = {
-  render: () => (
-    <Timeline>
-      {timelineMockData.map((item, index) => (
-        <Timeline.Item key={index} start={item.start} end={item.end} />
-      ))}
-    </Timeline>
-  ),
-};
+  args: {
+    direction: 'horizontal',
+  },
 
-export const Vertical: StoryObj = {
-  render: () => (
-    <Timeline direction='vertical'>
-      <Timeline.Item />
-    </Timeline>
-  ),
-};
+  render: args => {
+    const timelineArgs = args;
 
-export const Horizontal: StoryObj = {
-  render: () => (
-    <Timeline direction='horizontal'>
-      <Timeline.Item />
-    </Timeline>
-  ),
+    return (
+      <Timeline {...timelineArgs}>
+        {timelineMockData.map(item => (
+          <Timeline.Item
+            key={item.start}
+            startContent={item.start}
+            endContent={item.end}
+          />
+        ))}
+      </Timeline>
+    );
+  },
 };
