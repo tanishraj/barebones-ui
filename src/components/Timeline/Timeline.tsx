@@ -1,43 +1,65 @@
 import { VariantProps } from 'class-variance-authority';
 import { FC, HTMLAttributes } from 'react';
 
-import { timelineStyles } from './Timeline.styles';
+import { timelineContentStyles, timelineStyles } from './Timeline.styles';
 import { TimelineItem } from './types';
 import { defaultTimelineIcon } from './constants';
 
+import { cn } from '@/utils';
+
 export interface TimelineProps
   extends HTMLAttributes<HTMLUListElement>,
-    VariantProps<typeof timelineStyles> {
+    VariantProps<typeof timelineStyles>,
+    VariantProps<typeof timelineContentStyles> {
   items: TimelineItem[];
   icon?: React.ReactNode;
-  startBorder?: boolean;
-  endBorder?: boolean;
+  startAndEndWithBorder?: boolean;
 }
 
 export const Timeline: FC<TimelineProps> = ({
   items,
   direction,
   icon,
-  startBorder = true,
-  endBorder = true,
+  startAndEndWithBorder = true,
+  startContentLayout,
+  endContentLayout,
+  contentLayout,
 }) => {
-  const timelinesClassName = timelineStyles({ direction });
+  const timelinesClassName = timelineStyles({
+    direction,
+  });
+  const timelineStartContentClassName = cn(
+    'timeline-start',
+    timelineContentStyles({
+      contentLayout,
+      startContentLayout,
+    }),
+  );
+  const timelineEndContentClassName = cn(
+    'timeline-end',
+    timelineContentStyles({
+      contentLayout,
+      endContentLayout,
+    }),
+  );
 
   return (
     <ul className={timelinesClassName}>
       {items.map((item, index) => (
         <li>
-          {(startBorder || index !== 0) && <hr />}
+          {(startAndEndWithBorder || index !== 0) && <hr />}
           {item.startContent && (
-            <div className='timeline-start'>{item.startContent}</div>
+            <div className={timelineStartContentClassName}>
+              {item.startContent}
+            </div>
           )}
           <div className='timeline-middle'>
             {icon ? icon : defaultTimelineIcon}
           </div>
           {item.endContent && (
-            <div className='timeline-end timeline-box'>{item.endContent}</div>
+            <div className={timelineEndContentClassName}>{item.endContent}</div>
           )}
-          {(endBorder || index !== items.length - 1) && <hr />}
+          {(startAndEndWithBorder || index !== items.length - 1) && <hr />}
         </li>
       ))}
     </ul>

@@ -8,3 +8,20 @@ export const timelineStyles = cva('timeline', {
     },
   },
 });
+
+export const timelineContentStyles = cva('', {
+  variants: {
+    contentLayout: {
+      compact: 'timeline-compact',
+      box: 'timeline-box',
+    },
+    startContentLayout: {
+      compact: 'timeline-start-compact',
+      box: 'timeline-box',
+    },
+    endContentLayout: {
+      compact: 'timeline-end-compact',
+      box: 'timeline-box',
+    },
+  },
+});
