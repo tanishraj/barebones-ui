@@ -2,16 +2,16 @@ import { VariantProps } from 'class-variance-authority';
 import { FC, HTMLAttributes } from 'react';
 
 import {
-  timelineBorderStyles,
-  timelineContentStyles,
-  timelineIconStyles,
-  timelineStyles,
+  timelineOrientationStyles,
+  timelineContentAlignmentStyles,
+  timelineConnectorStyles,
+  timelineMarkerStyles,
 } from './Timeline.styles';
-import { TimelineItem } from './types';
+import { TimelineColor, TimelineEvent } from './types';
 
 import { cn } from '@/utils';
 
-const defaultTimelineIcon = (
+const defaultMarkerIcon = (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     viewBox='0 0 20 20'
@@ -27,103 +27,90 @@ const defaultTimelineIcon = (
 );
 
 export interface TimelineProps
-  extends HTMLAttributes<HTMLUListElement>,
-    VariantProps<typeof timelineStyles>,
-    VariantProps<typeof timelineContentStyles>,
-    VariantProps<typeof timelineBorderStyles>,
-    VariantProps<typeof timelineIconStyles> {
-  items: TimelineItem[];
-  icon?: React.ReactNode;
-  startAndEndWithBorder?: boolean;
-  completedIndex?: number;
+  extends Omit<HTMLAttributes<HTMLUListElement>, 'color'>,
+    VariantProps<typeof timelineOrientationStyles>,
+    VariantProps<typeof timelineContentAlignmentStyles>,
+    VariantProps<typeof timelineConnectorStyles>,
+    VariantProps<typeof timelineMarkerStyles> {
+  events: TimelineEvent[];
+  customMarker?: React.ReactNode;
+  showConnectors?: boolean;
+  completedSteps?: number;
+  completedColor?: TimelineColor;
 }
 
 export const Timeline: FC<TimelineProps> = ({
-  items,
-  direction,
-  icon,
-  startAndEndWithBorder = true,
-  startContentLayout,
-  endContentLayout,
-  contentLayout,
-  variant,
-  completedIndex = 0,
-  completedVariant,
+  events,
+  orientation,
+  customMarker,
+  showConnectors = true,
+  contentAlign,
+  startContentAlign,
+  endContentAlign,
+  connectorColor,
+  completedSteps = 0,
+  completedColor,
 }) => {
-  const timelinesClassName = timelineStyles({
-    direction,
-  });
-  const timelineStartContentClassName = cn(
+  const containerClasses = timelineOrientationStyles({ orientation });
+  const startContentClasses = cn(
     'timeline-start',
-    timelineContentStyles({
-      contentLayout,
-      startContentLayout,
+    timelineContentAlignmentStyles({
+      contentAlign,
+      startContentAlign,
     }),
   );
-  const timelineEndContentClassName = cn(
+  const endContentClasses = cn(
     'timeline-end',
-    timelineContentStyles({
-      contentLayout,
-      endContentLayout,
+    timelineContentAlignmentStyles({
+      contentAlign,
+      endContentAlign,
     }),
   );
-  const timelineBorderClassName = cn(
-    timelineBorderStyles({
-      variant,
-    }),
-  );
-  const timelineCompletedBorderClassName = cn(
-    timelineBorderStyles({
-      completedVariant,
-    }),
-  );
-  const timelineIconClassName = cn(
-    timelineIconStyles({
-      variant,
-    }),
-  );
-  const timelineCompletedIconClassName = cn(
-    timelineIconStyles({
-      completedVariant,
-    }),
-  );
+  const baseConnectorClasses = timelineConnectorStyles({ connectorColor });
+  const completedConnectorClasses = timelineConnectorStyles({
+    connectorColor: completedColor,
+  });
+  const baseMarkerClasses = timelineMarkerStyles({
+    markerColor: connectorColor,
+  });
+  const completedMarkerClasses = timelineMarkerStyles({
+    markerColor: completedColor,
+  });
 
   return (
-    <ul className={timelinesClassName}>
-      {items.map((item, index) => (
-        <li>
-          {(startAndEndWithBorder || index !== 0) && (
+    <ul className={containerClasses}>
+      {events.map((event, index) => (
+        <li key={event.startLabel}>
+          {(showConnectors || index !== 0) && (
             <hr
               className={cn(
-                timelineBorderClassName,
-                index < completedIndex && timelineCompletedBorderClassName,
+                baseConnectorClasses,
+                index < completedSteps && completedConnectorClasses,
               )}
             />
           )}
-          {item.startContent && (
-            <div className={timelineStartContentClassName}>
-              {item.startContent}
-            </div>
+          {event.startLabel && (
+            <div className={startContentClasses}>{event.startLabel}</div>
           )}
           <div
             className={cn(
               'timeline-middle',
-              timelineIconClassName,
-              index < completedIndex && timelineCompletedIconClassName,
+              baseMarkerClasses,
+              index < completedSteps && completedMarkerClasses,
             )}
           >
-            {icon || defaultTimelineIcon}
+            {customMarker || defaultMarkerIcon}
           </div>
-          {item.endContent && (
-            <div className={timelineEndContentClassName}>{item.endContent}</div>
+          {event.endLabel && (
+            <div className={endContentClasses}>{event.endLabel}</div>
           )}
-          {(startAndEndWithBorder || index !== items.length - 1) && (
+          {(showConnectors || index !== events.length - 1) && (
             <hr
               className={cn(
-                timelineBorderClassName,
-                (index < completedIndex - 1 ||
-                  items.length === completedIndex) &&
-                  timelineCompletedBorderClassName,
+                baseConnectorClasses,
+                (index < completedSteps - 1 ||
+                  events.length === completedSteps) &&
+                  completedConnectorClasses,
               )}
             />
           )}

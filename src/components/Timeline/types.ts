@@ -1,24 +1,24 @@
 import { VariantProps } from 'class-variance-authority';
 
 import {
-  timelineBorderStyles,
-  timelineContentStyles,
-  timelineStyles,
+  timelineConnectorStyles,
+  timelineContentAlignmentStyles,
+  timelineOrientationStyles,
 } from './Timeline.styles';
 
-export interface TimelineItem {
-  startContent?: string;
-  endContent?: string;
+export interface TimelineEvent {
+  startLabel?: string;
+  endLabel?: string;
 }
 
-export type TimelineDirection = VariantProps<
-  typeof timelineStyles
->['direction'];
+export type TimelineOrientation = VariantProps<
+  typeof timelineOrientationStyles
+>['orientation'];
 
-export type TimelineLayout = VariantProps<
-  typeof timelineContentStyles
->['contentLayout'];
+export type ContentAlignment = VariantProps<
+  typeof timelineContentAlignmentStyles
+>['contentAlign'];
 
-export type TimelineVariant = VariantProps<
-  typeof timelineBorderStyles
->['variant'];
+export type TimelineColor = VariantProps<
+  typeof timelineConnectorStyles
+>['connectorColor'];

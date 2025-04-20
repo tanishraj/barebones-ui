@@ -2,22 +2,22 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { Timeline, TimelineProps } from './Timeline';
 
-const timelineMockData = [
+const mockEvents = [
   {
-    startContent: '1984',
-    endContent: 'First',
+    startLabel: '1984',
+    endLabel: 'First Milestone',
   },
   {
-    startContent: '1985',
-    endContent: 'Second',
+    startLabel: '1985',
+    endLabel: 'Second Milestone',
   },
   {
-    startContent: '1986',
-    endContent: 'Third',
+    startLabel: '1986',
+    endLabel: 'Third Milestone',
   },
   {
-    startContent: '1987',
-    endContent: 'Fourth',
+    startLabel: '1987',
+    endLabel: 'Fourth Milestone',
   },
 ];
 
@@ -26,15 +26,15 @@ const meta: Meta = {
   component: Timeline,
   tags: ['autodocs'],
   argTypes: {
-    items: {
+    events: {
       control: { type: 'object' },
-      description: 'Array of timeline items',
+      description: 'Array of timeline events with labels',
     },
-    direction: {
+    orientation: {
       control: { type: 'radio' },
       options: ['horizontal', 'vertical'],
     },
-    variant: {
+    connectorColor: {
       control: { type: 'select' },
       options: [
         'primary',
@@ -47,23 +47,15 @@ const meta: Meta = {
         'neutral',
       ],
     },
-    startAndEndWithBorder: { control: 'boolean' },
-    contentLayout: {
+    showConnectors: { control: 'boolean' },
+    contentAlign: {
       control: { type: 'radio' },
-      options: ['compact', 'box'],
+      options: ['compact', 'spacious'],
     },
-    startContentLayout: {
-      control: { type: 'radio' },
-      options: ['compact', 'box'],
-    },
-    endContentLayout: {
-      control: { type: 'radio' },
-      options: ['compact', 'box'],
-    },
-    completedIndex: {
+    completedSteps: {
       control: { type: 'number' },
     },
-    completedVariant: {
+    completedColor: {
       control: { type: 'select' },
       options: [
         'primary',
@@ -83,13 +75,29 @@ export default meta;
 
 export const Default: StoryObj<TimelineProps> = {
   args: {
-    direction: 'horizontal',
-    startAndEndWithBorder: true,
-    items: timelineMockData,
-    completedIndex: 0,
+    orientation: 'horizontal',
+    showConnectors: true,
+    events: mockEvents,
+    completedSteps: 2,
+    connectorColor: 'neutral',
+    completedColor: 'success',
   },
+  render: args => <Timeline {...args} />,
+};
 
-  render: (args: TimelineProps) => {
-    return <Timeline {...args} />;
+export const VerticalTimeline: StoryObj<TimelineProps> = {
+  args: {
+    ...Default.args,
+    orientation: 'vertical',
+    contentAlign: 'spacious',
+  },
+};
+
+export const CompletedTimeline: StoryObj<TimelineProps> = {
+  args: {
+    ...Default.args,
+    completedSteps: 4,
+    connectorColor: 'accent',
+    completedColor: 'primary',
   },
 };

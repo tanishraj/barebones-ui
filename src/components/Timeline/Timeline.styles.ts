@@ -1,44 +1,34 @@
 import { cva } from 'class-variance-authority';
 
-export const timelineStyles = cva('timeline', {
+export const timelineOrientationStyles = cva('timeline', {
   variants: {
-    direction: {
+    orientation: {
       vertical: 'timeline-vertical',
       horizontal: 'timeline-horizontal',
     },
   },
 });
 
-export const timelineContentStyles = cva('', {
+export const timelineContentAlignmentStyles = cva('', {
   variants: {
-    contentLayout: {
+    contentAlign: {
       compact: 'timeline-compact',
-      box: 'timeline-box',
+      spacious: 'timeline-box',
     },
-    startContentLayout: {
+    startContentAlign: {
       compact: 'timeline-start-compact',
-      box: 'timeline-box',
+      spacious: 'timeline-box',
     },
-    endContentLayout: {
+    endContentAlign: {
       compact: 'timeline-end-compact',
-      box: 'timeline-box',
+      spacious: 'timeline-box',
     },
   },
 });
 
-export const timelineBorderStyles = cva('', {
+export const timelineConnectorStyles = cva('', {
   variants: {
-    variant: {
-      primary: 'bg-primary',
-      secondary: 'bg-secondary',
-      accent: 'bg-accent',
-      info: 'bg-info',
-      success: 'bg-success',
-      warning: 'bg-warning',
-      error: 'bg-error',
-      neutral: 'bg-neutral',
-    },
-    completedVariant: {
+    connectorColor: {
       primary: 'bg-primary',
       secondary: 'bg-secondary',
       accent: 'bg-accent',
@@ -51,19 +41,9 @@ export const timelineBorderStyles = cva('', {
   },
 });
 
-export const timelineIconStyles = cva('', {
+export const timelineMarkerStyles = cva('', {
   variants: {
-    variant: {
-      primary: 'text-primary',
-      secondary: 'text-secondary',
-      accent: 'text-accent',
-      info: 'text-info',
-      success: 'text-success',
-      warning: 'text-warning',
-      error: 'text-error',
-      neutral: 'text-neutral',
-    },
-    completedVariant: {
+    markerColor: {
       primary: 'text-primary',
       secondary: 'text-secondary',
       accent: 'text-accent',
