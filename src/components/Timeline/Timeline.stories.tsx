@@ -34,6 +34,19 @@ const meta: Meta = {
       control: { type: 'radio' },
       options: ['horizontal', 'vertical'],
     },
+    variant: {
+      control: { type: 'select' },
+      options: [
+        'primary',
+        'secondary',
+        'accent',
+        'info',
+        'success',
+        'warning',
+        'error',
+        'neutral',
+      ],
+    },
     startAndEndWithBorder: { control: 'boolean' },
     contentLayout: {
       control: { type: 'radio' },
@@ -47,6 +60,22 @@ const meta: Meta = {
       control: { type: 'radio' },
       options: ['compact', 'box'],
     },
+    completedIndex: {
+      control: { type: 'number' },
+    },
+    completedVariant: {
+      control: { type: 'select' },
+      options: [
+        'primary',
+        'secondary',
+        'accent',
+        'info',
+        'success',
+        'warning',
+        'error',
+        'neutral',
+      ],
+    },
   },
 };
 
@@ -57,6 +86,7 @@ export const Default: StoryObj<TimelineProps> = {
     direction: 'horizontal',
     startAndEndWithBorder: true,
     items: timelineMockData,
+    completedIndex: 0,
   },
 
   render: (args: TimelineProps) => {
