@@ -84,20 +84,3 @@ export const Default: StoryObj<TimelineProps> = {
   },
   render: args => <Timeline {...args} />,
 };
-
-export const VerticalTimeline: StoryObj<TimelineProps> = {
-  args: {
-    ...Default.args,
-    orientation: 'vertical',
-    contentAlign: 'spacious',
-  },
-};
-
-export const CompletedTimeline: StoryObj<TimelineProps> = {
-  args: {
-    ...Default.args,
-    completedSteps: 4,
-    connectorColor: 'accent',
-    completedColor: 'primary',
-  },
-};
