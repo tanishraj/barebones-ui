@@ -8,8 +8,7 @@ import {
   timelineMarkerStyles,
 } from './Timeline.styles';
 import { TimelineColor, TimelineEvent } from './types';
-
-import { cn } from '@/utils';
+import { cn } from '../../utils';
 
 const defaultMarkerIcon = (
   <svg
