@@ -82,7 +82,7 @@ export const Timeline: FC<TimelineProps> = ({
             <hr
               className={cn(
                 timelineBorderClassName,
-                index <= completedIndex && timelineCompletedBorderClassName,
+                index < completedIndex && timelineCompletedBorderClassName,
               )}
             />
           )}
@@ -95,7 +95,7 @@ export const Timeline: FC<TimelineProps> = ({
             className={cn(
               'timeline-middle',
               timelineIconClassName,
-              index <= completedIndex && timelineCompletedIconClassName,
+              index < completedIndex && timelineCompletedIconClassName,
             )}
           >
             {icon || defaultTimelineIcon}
@@ -107,7 +107,9 @@ export const Timeline: FC<TimelineProps> = ({
             <hr
               className={cn(
                 timelineBorderClassName,
-                index < completedIndex && timelineCompletedBorderClassName,
+                (index < completedIndex - 1 ||
+                  items.length === completedIndex) &&
+                  timelineCompletedBorderClassName,
               )}
             />
           )}
