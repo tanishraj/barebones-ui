@@ -1,21 +1,8 @@
 import React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
+import { type VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 
-const breadcrumbVariants = cva('breadcrumbs', {
-  variants: {
-    size: {
-      xs: 'text-xs',
-      sm: 'text-sm',
-      md: 'text-base',
-      lg: 'text-lg',
-      xl: 'text-xl',
-    },
-  },
-  defaultVariants: {
-    size: 'sm',
-  },
-});
+import { breadcrumbVariants } from './Breadcrumbs.styles';
 
 export interface BreadcrumbsItem {
   label: string;
@@ -40,7 +27,7 @@ const Breadcrumbs = ({
     <nav className={clsx(breadcrumbVariants({ size, className }), maxWidth)}>
       <ul>
         {items.map((item, index) => (
-          <li key={index}>
+          <li key={item.label}>
             {index < items.length - 1 ? (
               <a
                 href={item.href}
