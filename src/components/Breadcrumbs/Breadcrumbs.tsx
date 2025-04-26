@@ -1,32 +1,65 @@
-import { cn } from '../../utils';
+import React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import clsx from 'clsx';
+
+const breadcrumbVariants = cva('breadcrumbs', {
+  variants: {
+    size: {
+      xs: 'text-xs',
+      sm: 'text-sm',
+      md: 'text-base',
+      lg: 'text-lg',
+      xl: 'text-xl',
+    },
+  },
+  defaultVariants: {
+    size: 'sm',
+  },
+});
 
 export interface BreadcrumbsItem {
   label: string;
   href?: string;
+  icon?: React.ReactNode;
 }
 
-interface BreadcrumbsProps {
+export interface BreadcrumbsProps
+  extends VariantProps<typeof breadcrumbVariants> {
   items: BreadcrumbsItem[];
+  maxWidth?: string;
   className?: string;
 }
 
-export const Breadcrumbs = ({ items, className }: BreadcrumbsProps) => {
-  const breadcrumbClassName = cn('breadcrumbs', className);
-
+const Breadcrumbs = ({
+  items,
+  size,
+  maxWidth,
+  className,
+}: BreadcrumbsProps) => {
   return (
-    <nav aria-label='Breadcrumb' className={breadcrumbClassName}>
+    <nav className={clsx(breadcrumbVariants({ size, className }), maxWidth)}>
       <ul>
         {items.map((item, index) => (
-          <li key={`${item.label}`}>
+          <li key={index}>
             {index < items.length - 1 ? (
               <a
                 href={item.href}
-                className='text-sm font-medium text-neutral-500 hover:text-neutral-700'
+                className={clsx(
+                  'inline-flex items-center gap-2',
+                  maxWidth && 'truncate',
+                )}
               >
+                {item.icon && item.icon}
                 {item.label}
               </a>
             ) : (
-              <span className='text-sm font-medium text-neutral-900'>
+              <span
+                className={clsx(
+                  'inline-flex items-center gap-2',
+                  maxWidth && 'truncate',
+                )}
+              >
+                {item.icon && item.icon}
                 {item.label}
               </span>
             )}
@@ -36,3 +69,5 @@ export const Breadcrumbs = ({ items, className }: BreadcrumbsProps) => {
     </nav>
   );
 };
+
+export default Breadcrumbs;
