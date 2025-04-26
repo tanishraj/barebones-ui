@@ -1,41 +1,20 @@
-import { cva, type VariantProps } from 'class-variance-authority';
-
 import { cn } from '../../utils';
-
-const breadcrumbsVariants = cva('breadcrumbs', {
-  variants: {
-    separator: {
-      slash: '',
-      chevron: '[&>li>:not(:first-child)]:before:content-[">"]',
-      arrow: '[&>li>:not(:first-child)]:before:content-["→"]',
-      bullet: '[&>li>:not(:first-child)]:before:content-["•"]',
-    },
-  },
-  defaultVariants: {
-    separator: 'slash',
-  },
-});
 
 export interface BreadcrumbsItem {
   label: string;
   href?: string;
 }
 
-interface BreadcrumbsProps extends VariantProps<typeof breadcrumbsVariants> {
+interface BreadcrumbsProps {
   items: BreadcrumbsItem[];
   className?: string;
 }
 
-export const Breadcrumbs = ({
-  items,
-  separator,
-  className,
-}: BreadcrumbsProps) => {
+export const Breadcrumbs = ({ items, className }: BreadcrumbsProps) => {
+  const breadcrumbClassName = cn('breadcrumbs', className);
+
   return (
-    <nav
-      aria-label='Breadcrumb'
-      className={cn(breadcrumbsVariants({ separator }), className)}
-    >
+    <nav aria-label='Breadcrumb' className={breadcrumbClassName}>
       <ul>
         {items.map((item, index) => (
           <li key={`${item.label}`}>

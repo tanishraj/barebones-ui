@@ -7,10 +7,6 @@ const meta: Meta<typeof Breadcrumbs> = {
   component: Breadcrumbs,
   tags: ['autodocs'],
   argTypes: {
-    separator: {
-      control: { type: 'select' },
-      options: ['slash', 'chevron', 'arrow', 'bullet'],
-    },
     items: {
       control: { type: 'object' },
     },
@@ -37,6 +33,5 @@ const defaultItems = [
 export const Default: Story = {
   args: {
     items: defaultItems,
-    separator: 'slash',
   },
 };
