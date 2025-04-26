@@ -15,3 +15,7 @@ export * from './Kbd';
 export * from './List';
 export * from './Status';
 export * from './Table';
+export * from './Timeline';
+export * from './Breadcrumbs';
+export * from './Stat';
+export * from './Link';
