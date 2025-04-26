@@ -26,7 +26,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "daisyui": "^5.0.19",
+    "daisyui": "^5.0.28",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

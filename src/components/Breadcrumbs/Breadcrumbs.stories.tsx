@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import Breadcrumbs, { BreadcrumbsItem } from './Breadcrumbs';
 
-export const HomeIcon = ({ className }: { className?: string }) => (
+const HomeIcon = ({ className }: { className?: string }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='none'
@@ -19,7 +19,7 @@ export const HomeIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const FolderIcon = ({ className }: { className?: string }) => (
+const FolderIcon = ({ className }: { className?: string }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='none'
@@ -35,7 +35,7 @@ export const FolderIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const AddDocumentIcon = ({ className }: { className?: string }) => (
+const AddDocumentIcon = ({ className }: { className?: string }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='none'
