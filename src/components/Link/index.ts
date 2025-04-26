@@ -1,2 +1,2 @@
-export * from './Stat';
+export * from './Link';
 export * from './types';
