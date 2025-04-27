@@ -1,15 +1,15 @@
 import { type VariantProps } from 'class-variance-authority';
 import { forwardRef } from 'react';
+import {
+  InfoCircle,
+  CheckCircle,
+  AlertTriangle,
+  XCircle,
+} from '@untitled-ui/icons-react';
 
 import { cn } from '../../utils';
 import { alertStyles } from './Alert.styles';
 import { AlertVariant } from './types';
-import {
-  ErrorIcon,
-  InfoIcon,
-  SuccessIcon,
-  WarningIcon,
-} from '../../assets/icons';
 
 interface AlertProps
   extends React.HTMLAttributes<HTMLDivElement>,
@@ -24,10 +24,10 @@ const DEFAULT_ICONS: Record<
   AlertVariant,
   React.FC<React.SVGProps<SVGSVGElement>>
 > = {
-  info: InfoIcon,
-  success: SuccessIcon,
-  warning: WarningIcon,
-  error: ErrorIcon,
+  info: InfoCircle,
+  success: CheckCircle,
+  warning: AlertTriangle,
+  error: XCircle,
 };
 
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(

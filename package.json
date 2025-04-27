@@ -26,6 +26,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@untitled-ui/icons-react": "^0.1.4",
     "daisyui": "^5.0.28",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
