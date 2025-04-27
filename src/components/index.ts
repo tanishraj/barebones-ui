@@ -20,3 +20,4 @@ export * from './Breadcrumbs';
 export * from './Stat';
 export * from './Link';
 export * from './Alert';
+export * from './Loader';
