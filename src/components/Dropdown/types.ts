@@ -19,3 +19,19 @@ export interface DropdownProps extends VariantProps<typeof dropdownStyles> {
   menuClassName?: string;
   disabled?: boolean;
 }
+
+export type DropdownVariant = NonNullable<
+  VariantProps<typeof dropdownStyles>['variant']
+>;
+export type DropdownSize = NonNullable<
+  VariantProps<typeof dropdownStyles>['size']
+>;
+export type DropdownPosition = NonNullable<
+  VariantProps<typeof dropdownStyles>['position']
+>;
+export type DropdownAlignment = NonNullable<
+  VariantProps<typeof dropdownStyles>['alignment']
+>;
+export type DropdownBehavior = NonNullable<
+  VariantProps<typeof dropdownStyles>['behavior']
+>;

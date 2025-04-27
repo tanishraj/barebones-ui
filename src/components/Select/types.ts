@@ -7,8 +7,10 @@ export type SelectOptions = {
   label: string;
 };
 
-export type SelectVariant = VariantProps<typeof selectStyles>['variant'];
-export type SelectSize = VariantProps<typeof selectStyles>['size'];
+export type SelectVariant = NonNullable<
+  VariantProps<typeof selectStyles>['variant']
+>;
+export type SelectSize = NonNullable<VariantProps<typeof selectStyles>['size']>;
 export type SelectElementProps = Omit<
   React.SelectHTMLAttributes<HTMLSelectElement>,
   'size'
