@@ -1,4 +1,4 @@
-export const InfoIcon = () => (
+export const InfoIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='none'
@@ -14,7 +14,7 @@ export const InfoIcon = () => (
   </svg>
 );
 
-export const SuccessIcon = () => (
+export const SuccessIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     className='h-6 w-6 shrink-0 stroke-current'
@@ -30,7 +30,7 @@ export const SuccessIcon = () => (
   </svg>
 );
 
-export const ErrorIcon = () => (
+export const ErrorIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     className='h-6 w-6 shrink-0 stroke-current'
@@ -46,7 +46,7 @@ export const ErrorIcon = () => (
   </svg>
 );
 
-export const WarningIcon = () => (
+export const WarningIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     className='h-6 w-6 shrink-0 stroke-current'

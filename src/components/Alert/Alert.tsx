@@ -3,19 +3,27 @@ import { forwardRef } from 'react';
 
 import { cn } from '../../utils';
 import { alertStyles } from './Alert.styles';
-
-import { ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from '@/assets/icons';
+import { AlertVariant } from './types';
+import {
+  ErrorIcon,
+  InfoIcon,
+  SuccessIcon,
+  WarningIcon,
+} from '../../assets/icons';
 
 interface AlertProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof alertStyles> {
-  icon?: React.ReactNode;
+  icon?: React.FC<React.SVGProps<SVGSVGElement>>;
   title?: string;
   description?: string;
   actions?: React.ReactNode;
 }
 
-const DEFAULT_ICONS = {
+const DEFAULT_ICONS: Record<
+  AlertVariant,
+  React.FC<React.SVGProps<SVGSVGElement>>
+> = {
   info: InfoIcon,
   success: SuccessIcon,
   warning: WarningIcon,
@@ -40,9 +48,8 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
     },
     ref,
   ) => {
-    const defaultIcon =
-      variant in DEFAULT_ICONS ? DEFAULT_ICONS[variant] : null;
-    const Icon = icon || defaultIcon;
+    const DefaultIcon = variant ? DEFAULT_ICONS[variant] : null;
+    const Icon = icon || DefaultIcon;
 
     const alertClassName = cn(
       alertStyles({
@@ -57,7 +64,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
 
     return (
       <div ref={ref} role='alert' className={alertClassName} {...props}>
-        {(icon || defaultIcon) && (
+        {Icon && (
           <div className='shrink-0'>
             <Icon />
           </div>
