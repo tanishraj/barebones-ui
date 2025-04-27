@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Alert } from './Alert';
+import { Button } from '../Button';
 
 const meta: Meta<typeof Alert> = {
   title: 'Components/Alert',
@@ -23,6 +24,14 @@ const meta: Meta<typeof Alert> = {
       options: ['vertical', 'horizontal', 'responsive'],
     },
   },
+  args: {
+    title: 'Default Alert',
+    description: 'This is a default alert message',
+    variant: 'info',
+    softColor: false,
+    borderStyle: 'none',
+    direction: 'horizontal',
+  },
 };
 
 export default meta;
@@ -32,32 +41,6 @@ export const Default: Story = {
   args: {
     title: 'Default Alert',
     description: 'This is a default alert message',
-    softColor: false,
-    borderStyle: 'none',
-  },
-};
-
-export const Info: Story = {
-  args: {
-    variant: 'info',
-    title: 'Info Alert',
-    description: 'This is an info alert message',
-  },
-};
-
-export const Success: Story = {
-  args: {
-    variant: 'success',
-    title: 'Success!',
-    description: 'Your action was completed successfully',
-  },
-};
-
-export const Error: Story = {
-  args: {
-    variant: 'error',
-    title: 'Error!',
-    description: 'An unexpected error occurred',
   },
 };
 
@@ -68,8 +51,10 @@ export const WithActions: Story = {
     description: 'This action cannot be undone',
     actions: (
       <>
-        <button className='btn btn-sm'>Cancel</button>
-        <button className='btn btn-sm btn-primary'>Confirm</button>
+        <Button size='sm'>Cancel</Button>
+        <Button variant='primary' size='sm'>
+          Confirm
+        </Button>
       </>
     ),
   },

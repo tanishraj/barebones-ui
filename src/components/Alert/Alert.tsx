@@ -26,7 +26,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
   (
     {
       className,
-      variant = 'info',
+      variant,
       direction,
       icon,
       title,
@@ -42,9 +42,9 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
   ) => {
     const defaultIcon =
       variant in DEFAULT_ICONS ? DEFAULT_ICONS[variant] : null;
+    const Icon = icon || defaultIcon;
 
     const alertClassName = cn(
-      'flex',
       alertStyles({
         variant,
         direction,
@@ -58,7 +58,9 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
     return (
       <div ref={ref} role='alert' className={alertClassName} {...props}>
         {(icon || defaultIcon) && (
-          <div className='shrink-0'>{icon || defaultIcon}</div>
+          <div className='shrink-0'>
+            <Icon />
+          </div>
         )}
 
         <div className='flex-1'>
