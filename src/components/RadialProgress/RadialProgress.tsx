@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef } from 'react';
+import { ComponentPropsWithoutRef, CSSProperties } from 'react';
 import clsx from 'clsx';
 
 export interface RadialProgressProps extends ComponentPropsWithoutRef<'div'> {
@@ -32,11 +32,13 @@ export const RadialProgress = ({
         borderWidth && `border-${borderWidth}`,
         className,
       )}
-      style={{
-        '--value': value,
-        '--size': size,
-        '--thickness': thickness,
-      }}
+      style={
+        {
+          '--value': value,
+          '--size': size,
+          '--thickness': thickness,
+        } as CSSProperties
+      }
       role='progressbar'
       aria-valuenow={value}
       {...props}
