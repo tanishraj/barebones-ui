@@ -11,14 +11,14 @@ export interface TimelineEvent {
   endLabel?: string;
 }
 
-export type TimelineOrientation = VariantProps<
-  typeof timelineOrientationStyles
->['orientation'];
+export type TimelineOrientation = NonNullable<
+  VariantProps<typeof timelineOrientationStyles>['orientation']
+>;
 
-export type ContentAlignment = VariantProps<
-  typeof timelineContentAlignmentStyles
->['contentAlign'];
+export type ContentAlignment = NonNullable<
+  VariantProps<typeof timelineContentAlignmentStyles>['contentAlign']
+>;
 
-export type TimelineColor = VariantProps<
-  typeof timelineConnectorStyles
->['connectorColor'];
+export type TimelineColor = NonNullable<
+  VariantProps<typeof timelineConnectorStyles>['connectorColor']
+>;

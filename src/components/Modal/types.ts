@@ -3,8 +3,10 @@ import { ReactNode } from 'react';
 
 import { modalStyles } from './Modal.styles';
 
-export type ModalPosition = VariantProps<typeof modalStyles>['position'];
-export type ModalSize = VariantProps<typeof modalStyles>['size'];
+export type ModalPosition = NonNullable<
+  VariantProps<typeof modalStyles>['position']
+>;
+export type ModalSize = NonNullable<VariantProps<typeof modalStyles>['size']>;
 
 export interface ModalProps extends VariantProps<typeof modalStyles> {
   closeOnBackdropClick?: boolean;

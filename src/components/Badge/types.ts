@@ -2,5 +2,7 @@ import { VariantProps } from 'class-variance-authority';
 
 import { badgeStyles } from './Badge.styles';
 
-export type BadgeVariant = VariantProps<typeof badgeStyles>['variant'];
-export type BadgeSize = VariantProps<typeof badgeStyles>['size'];
+export type BadgeVariant = NonNullable<
+  VariantProps<typeof badgeStyles>['variant']
+>;
+export type BadgeSize = NonNullable<VariantProps<typeof badgeStyles>['size']>;
