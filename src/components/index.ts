@@ -22,3 +22,4 @@ export * from './Link';
 export * from './Alert';
 export * from './Loader';
 export * from './Progress';
+export * from './Skeleton';
