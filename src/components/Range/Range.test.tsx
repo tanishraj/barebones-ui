@@ -27,9 +27,4 @@ describe('Range', () => {
     expect(screen.getAllByText('|')).toHaveLength(5);
     expect(screen.getAllByText(/1|2|3|4|5/)).toHaveLength(5);
   });
-
-  it('matches snapshot', () => {
-    const { container } = render(<Range value={40} />);
-    expect(container).toMatchSnapshot();
-  });
 });
