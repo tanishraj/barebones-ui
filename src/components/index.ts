@@ -22,6 +22,7 @@ export * from './Link';
 export * from './Alert';
 export * from './Loader';
 export * from './Progress';
+export * from './RadialProgress';
 export * from './Skeleton';
 export * from './Tooltip';
 export * from './Toggle';
