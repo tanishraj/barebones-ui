@@ -13,7 +13,7 @@ describe('Range', () => {
   });
 
   it('applies color variant', () => {
-    render(<Range color='primary' value={40} />);
+    render(<Range variant='primary' value={40} />);
     expect(screen.getByRole('slider')).toHaveClass('range-primary');
   });
 
