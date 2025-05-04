@@ -27,3 +27,4 @@ export * from './Skeleton';
 export * from './Tooltip';
 export * from './Toggle';
 export * from './Range';
+export * from './Checkbox';
