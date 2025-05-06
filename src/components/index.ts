@@ -29,3 +29,4 @@ export * from './Toggle';
 export * from './Range';
 export * from './Checkbox';
 export * from './Label';
+export * from './Radio';
