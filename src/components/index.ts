@@ -30,3 +30,4 @@ export * from './Range';
 export * from './Checkbox';
 export * from './Label';
 export * from './Radio';
+export * from './Rating';
