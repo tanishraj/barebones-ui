@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 const defaultOptions = {
   root: null,
@@ -12,21 +12,21 @@ export const useIntersectionObserver = (
   const elementRef = useRef<HTMLElement>(null);
   const [entry, setEntry] = useState<IntersectionObserverEntry | null>(null);
 
-  const callback = (entries: IntersectionObserverEntry[]) => {
+  const callback = useCallback((entries: IntersectionObserverEntry[]) => {
     setEntry(entries[0]);
-  };
+  }, []);
 
   useEffect(() => {
-    if (elementRef.current) {
-      const observer = new IntersectionObserver(callback, options);
+    if (!elementRef.current || typeof IntersectionObserver !== 'function')
+      return;
 
-      observer.observe(elementRef.current);
+    const observer = new IntersectionObserver(callback, options);
+    observer.observe(elementRef.current);
 
-      return () => {
-        observer.disconnect();
-      };
-    }
-  }, [options]);
+    return () => {
+      observer.disconnect();
+    };
+  }, [callback, options]);
 
-  return [elementRef, entry];
+  return [elementRef, entry] as const;
 };
