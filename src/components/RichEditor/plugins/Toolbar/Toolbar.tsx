@@ -19,8 +19,13 @@ import {
   RichTextToolbarActions,
 } from './constants';
 import { Button, ButtonVariant } from '../../../Button';
+import { ToolbarButtonStyles, ToolbarStyles } from './Toolbar.styles';
+import { cn } from '@/utils';
 
 export const ToolbarPlugin = () => {
+  const ToolbarClassName = ToolbarStyles();
+  const ToolbarButtonClassName = ToolbarButtonStyles();
+
   const [editor] = useLexicalComposerContext();
   const [disableMap, setDisableMap] = useState<Record<string, boolean>>({
     [RichTextToolbarActions.UNDO]: true,
@@ -150,15 +155,21 @@ export const ToolbarPlugin = () => {
       ? {
           variant: 'primary' as ButtonVariant,
           softColor: true,
+          className: cn(
+            ToolbarButtonClassName,
+            'hover:bg-primary-content text-primary border-0 shadow-none',
+          ),
         }
-      : {};
+      : {
+          variant: 'ghost' as ButtonVariant,
+          className: cn(ToolbarButtonClassName, 'hover:bg-gray-100 border-0'),
+        };
 
   return (
-    <div className='join'>
+    <div className={ToolbarClassName}>
       {RICH_TEXT_TOOLBAR_OPTIONS.map(item => (
         <Button
           size='sm'
-          className='join-item'
           key={item.id}
           icon={item.icon}
           aria-label={item.label}

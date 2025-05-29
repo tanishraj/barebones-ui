@@ -1,5 +1,7 @@
 import { cva } from 'class-variance-authority';
 
+export const EditorWrapperStyles = cva(['border border-base-300 rounded-md']);
+
 export const EditorContainerStyles = cva(['relative w-full']);
 
 export const PlaceholderStyles = cva([
@@ -8,6 +10,6 @@ export const PlaceholderStyles = cva([
 ]);
 
 export const ContentEditableStyles = cva([
-  'w-full min-h-40 outline-0 border border-base-300',
-  'rounded-lg py-2 px-3 text-base text-base-content',
+  'w-full min-h-40 outline-0',
+  'rounded-md py-2 px-3 text-base text-base-content',
 ]);

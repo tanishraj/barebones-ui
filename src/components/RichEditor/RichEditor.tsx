@@ -11,6 +11,7 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import {
   ContentEditableStyles,
   EditorContainerStyles,
+  EditorWrapperStyles,
   PlaceholderStyles,
 } from './RichEditor.styles';
 import { ToolbarPlugin } from './plugins';
@@ -25,29 +26,32 @@ const INITIAL_CONFIG: InitialConfigType = {
 };
 
 export const RichEditor = () => {
-  const ContentEditableClassName = ContentEditableStyles();
+  const EditorWrapperClassName = EditorWrapperStyles();
   const EditorContainerClassName = EditorContainerStyles();
+  const ContentEditableClassName = ContentEditableStyles();
   const PlaceholderClassName = PlaceholderStyles();
 
   return (
     <LexicalComposer initialConfig={INITIAL_CONFIG}>
-      <ToolbarPlugin />
-      <div className={EditorContainerClassName}>
-        <RichTextPlugin
-          contentEditable={
-            <ContentEditable
-              className={ContentEditableClassName}
-              aria-placeholder={'Enter some text...'}
-              placeholder={
-                <div className={PlaceholderClassName}>Enter some text...</div>
-              }
-            />
-          }
-          ErrorBoundary={LexicalErrorBoundary}
-        />
+      <div className={EditorWrapperClassName}>
+        <ToolbarPlugin />
+        <div className={EditorContainerClassName}>
+          <RichTextPlugin
+            contentEditable={
+              <ContentEditable
+                className={ContentEditableClassName}
+                aria-placeholder={'Enter some text...'}
+                placeholder={
+                  <div className={PlaceholderClassName}>Enter some text...</div>
+                }
+              />
+            }
+            ErrorBoundary={LexicalErrorBoundary}
+          />
+        </div>
+        <HistoryPlugin />
+        <AutoFocusPlugin />
       </div>
-      <HistoryPlugin />
-      <AutoFocusPlugin />
     </LexicalComposer>
   );
 };
