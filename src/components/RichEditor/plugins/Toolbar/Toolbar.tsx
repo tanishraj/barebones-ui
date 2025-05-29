@@ -1,5 +1,10 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { FORMAT_TEXT_COMMAND } from 'lexical';
+import {
+  FORMAT_ELEMENT_COMMAND,
+  FORMAT_TEXT_COMMAND,
+  REDO_COMMAND,
+  UNDO_COMMAND,
+} from 'lexical';
 
 import { RICH_TEXT_TOOLBAR_OPTIONS, RichTextToolbarActions } from './constants';
 import { Button } from '../../../Button';
@@ -34,18 +39,22 @@ export const ToolbarPlugin = () => {
         editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code');
         break;
       case RichTextToolbarActions.LEFT_ALIGN:
+        editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left');
         break;
       case RichTextToolbarActions.CENTER_ALIGN:
+        editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center');
         break;
       case RichTextToolbarActions.RIGHT_ALIGN:
+        editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right');
         break;
       case RichTextToolbarActions.JUSTIFY_ALIGN:
-        break;
-      case RichTextToolbarActions.DIVIDER:
+        editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify');
         break;
       case RichTextToolbarActions.UNDO:
+        editor.dispatchCommand(UNDO_COMMAND, undefined);
         break;
       case RichTextToolbarActions.REDO:
+        editor.dispatchCommand(REDO_COMMAND, undefined);
         break;
       default:
         console.warn(`Action ${actionId} is not implemented.`);

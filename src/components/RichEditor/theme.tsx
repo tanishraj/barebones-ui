@@ -6,6 +6,7 @@ export const theme: EditorThemeClasses = {
     italic: 'italic',
     underline: 'underline',
     strikethrough: 'line-through',
+    underlineStrikethrough: 'underline line-through',
     subscript: 'subscript',
     superscript: 'superscript',
     code: 'font-mono bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded',

@@ -8,7 +8,6 @@ import {
   Highlighter,
   Italic,
   Redo,
-  SeparatorHorizontal,
   Strikethrough,
   Subscript,
   Superscript,
@@ -29,7 +28,6 @@ export enum RichTextToolbarActions {
   CENTER_ALIGN = 'centerAlign',
   RIGHT_ALIGN = 'rightAlign',
   JUSTIFY_ALIGN = 'justifyAlign',
-  DIVIDER = 'divider',
   UNDO = 'undo',
   REDO = 'redo',
 }
@@ -94,11 +92,6 @@ export const RICH_TEXT_TOOLBAR_OPTIONS = [
     id: RichTextToolbarActions.JUSTIFY_ALIGN,
     label: 'Justify Align',
     icon: <AlignJustify />,
-  },
-  {
-    id: RichTextToolbarActions.DIVIDER,
-    label: 'Divider',
-    icon: <SeparatorHorizontal />,
   },
   {
     id: RichTextToolbarActions.UNDO,
