@@ -30,6 +30,7 @@
     "@untitled-ui/icons-react": "^0.1.4",
     "daisyui": "^5.0.35",
     "lexical": "^0.31.2",
+    "lucide-react": "^0.511.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
