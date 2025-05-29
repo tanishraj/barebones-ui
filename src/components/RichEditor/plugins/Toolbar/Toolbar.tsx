@@ -20,6 +20,7 @@ import {
 } from './constants';
 import { Button, ButtonVariant } from '../../../Button';
 import { ToolbarButtonStyles, ToolbarStyles } from './Toolbar.styles';
+
 import { cn } from '@/utils';
 
 export const ToolbarPlugin = () => {
