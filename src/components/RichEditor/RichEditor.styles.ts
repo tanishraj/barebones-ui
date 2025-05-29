@@ -1,5 +1,13 @@
 import { cva } from 'class-variance-authority';
 
-export const ContentEditableStyles = cva(
-  'w-full min-h-20 outline-0 border border-base-300 rounded-lg p-2 text-base text-base-content bg-base-100 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all disabled:cursor-not-allowed disabled:opacity-50 dark:bg-base-200 dark:border-base-400 dark:text-base-content dark:focus:border-primary dark:focus:ring-primary/20',
-);
+export const EditorContainerStyles = cva(['relative w-full']);
+
+export const PlaceholderStyles = cva([
+  'absolute top-0 left-0 pointer-events-none',
+  'py-2 px-3 text-base text-base-content/50 leading-[25px]',
+]);
+
+export const ContentEditableStyles = cva([
+  'w-full min-h-40 outline-0 border border-base-300',
+  'rounded-lg py-2 px-3 text-base text-base-content',
+]);

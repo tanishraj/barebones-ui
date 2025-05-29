@@ -6,7 +6,11 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 
-import { ContentEditableStyles } from './RichEditor.styles';
+import {
+  ContentEditableStyles,
+  EditorContainerStyles,
+  PlaceholderStyles,
+} from './RichEditor.styles';
 
 const INITIAL_CONFIG: InitialConfigType = {
   namespace: 'RichEditor',
@@ -18,19 +22,25 @@ const INITIAL_CONFIG: InitialConfigType = {
 
 export const RichEditor = () => {
   const ContentEditableClassName = ContentEditableStyles();
+  const EditorContainerClassName = EditorContainerStyles();
+  const PlaceholderClassName = PlaceholderStyles();
 
   return (
     <LexicalComposer initialConfig={INITIAL_CONFIG}>
-      <RichTextPlugin
-        contentEditable={
-          <ContentEditable
-            className={ContentEditableClassName}
-            aria-placeholder={'Enter some text...'}
-            placeholder={<div>Enter some text...</div>}
-          />
-        }
-        ErrorBoundary={LexicalErrorBoundary}
-      />
+      <div className={EditorContainerClassName}>
+        <RichTextPlugin
+          contentEditable={
+            <ContentEditable
+              className={ContentEditableClassName}
+              aria-placeholder={'Enter some text...'}
+              placeholder={
+                <div className={PlaceholderClassName}>Enter some text...</div>
+              }
+            />
+          }
+          ErrorBoundary={LexicalErrorBoundary}
+        />
+      </div>
     </LexicalComposer>
   );
 };
