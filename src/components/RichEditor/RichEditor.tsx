@@ -13,10 +13,11 @@ import {
   PlaceholderStyles,
 } from './RichEditor.styles';
 import { ToolbarPlugin } from './plugins';
+import { theme } from './theme';
 
 const INITIAL_CONFIG: InitialConfigType = {
   namespace: 'RichEditor',
-  theme: {},
+  theme,
   onError: error => {
     console.error('Lexical error:', error);
   },
