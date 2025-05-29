@@ -12,6 +12,7 @@ import {
   EditorContainerStyles,
   PlaceholderStyles,
 } from './RichEditor.styles';
+import { ToolbarPlugin } from './plugins';
 
 const INITIAL_CONFIG: InitialConfigType = {
   namespace: 'RichEditor',
@@ -28,6 +29,7 @@ export const RichEditor = () => {
 
   return (
     <LexicalComposer initialConfig={INITIAL_CONFIG}>
+      <ToolbarPlugin />
       <div className={EditorContainerClassName}>
         <RichTextPlugin
           contentEditable={
