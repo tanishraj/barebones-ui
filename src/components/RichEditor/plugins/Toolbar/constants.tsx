@@ -104,3 +104,5 @@ export const RICH_TEXT_TOOLBAR_OPTIONS = [
     icon: <Redo />,
   },
 ];
+
+export const LOW_PRIORIRTY = 1;

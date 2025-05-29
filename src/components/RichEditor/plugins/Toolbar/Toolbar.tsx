@@ -1,16 +1,99 @@
+import { useEffect, useState } from 'react';
+import { mergeRegister } from '@lexical/utils';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
+  $getSelection,
+  $isRangeSelection,
+  CAN_REDO_COMMAND,
+  CAN_UNDO_COMMAND,
   FORMAT_ELEMENT_COMMAND,
   FORMAT_TEXT_COMMAND,
   REDO_COMMAND,
+  SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from 'lexical';
 
-import { RICH_TEXT_TOOLBAR_OPTIONS, RichTextToolbarActions } from './constants';
-import { Button } from '../../../Button';
+import {
+  LOW_PRIORIRTY,
+  RICH_TEXT_TOOLBAR_OPTIONS,
+  RichTextToolbarActions,
+} from './constants';
+import { Button, ButtonVariant } from '../../../Button';
 
 export const ToolbarPlugin = () => {
   const [editor] = useLexicalComposerContext();
+  const [disableMap, setDisableMap] = useState<Record<string, boolean>>({
+    [RichTextToolbarActions.UNDO]: true,
+    [RichTextToolbarActions.REDO]: true,
+  });
+  const [selectionMap, setSelectionMap] = useState<Record<string, boolean>>({
+    [RichTextToolbarActions.BOLD]: false,
+    [RichTextToolbarActions.ITALIC]: false,
+    [RichTextToolbarActions.UNDERLINE]: false,
+    [RichTextToolbarActions.STRIKETHROUGH]: false,
+    [RichTextToolbarActions.SUBSCRIPT]: false,
+    [RichTextToolbarActions.SUPERSCRIPT]: false,
+    [RichTextToolbarActions.HIGHLIGHT]: false,
+    [RichTextToolbarActions.CODE]: false,
+    [RichTextToolbarActions.LEFT_ALIGN]: false,
+    [RichTextToolbarActions.CENTER_ALIGN]: false,
+    [RichTextToolbarActions.RIGHT_ALIGN]: false,
+    [RichTextToolbarActions.JUSTIFY_ALIGN]: false,
+  });
+
+  const updateToolbarState = () => {
+    const selection = $getSelection();
+    if ($isRangeSelection(selection)) {
+      const newSelectionMap = {
+        [RichTextToolbarActions.BOLD]: selection.hasFormat('bold'),
+        [RichTextToolbarActions.ITALIC]: selection.hasFormat('italic'),
+        [RichTextToolbarActions.UNDERLINE]: selection.hasFormat('underline'),
+        [RichTextToolbarActions.STRIKETHROUGH]:
+          selection.hasFormat('strikethrough'),
+        [RichTextToolbarActions.SUBSCRIPT]: selection.hasFormat('subscript'),
+        [RichTextToolbarActions.SUPERSCRIPT]:
+          selection.hasFormat('superscript'),
+        [RichTextToolbarActions.HIGHLIGHT]: selection.hasFormat('highlight'),
+        [RichTextToolbarActions.CODE]: selection.hasFormat('code'),
+      };
+      setSelectionMap(newSelectionMap);
+    }
+  };
+
+  useEffect(() => {
+    return mergeRegister(
+      editor.registerCommand(
+        SELECTION_CHANGE_COMMAND,
+        () => {
+          updateToolbarState();
+          return false;
+        },
+        LOW_PRIORIRTY,
+      ),
+      editor.registerCommand(
+        CAN_UNDO_COMMAND,
+        payload => {
+          setDisableMap(prev => ({
+            ...prev,
+            [RichTextToolbarActions.UNDO]: !payload,
+          }));
+          return false;
+        },
+        LOW_PRIORIRTY,
+      ),
+      editor.registerCommand(
+        CAN_REDO_COMMAND,
+        payload => {
+          setDisableMap(prev => ({
+            ...prev,
+            [RichTextToolbarActions.REDO]: !payload,
+          }));
+          return false;
+        },
+        LOW_PRIORIRTY,
+      ),
+    );
+  }, [editor]);
 
   const handleAction = (actionId: RichTextToolbarActions) => {
     switch (actionId) {
@@ -62,6 +145,14 @@ export const ToolbarPlugin = () => {
     }
   };
 
+  const getSelectedBtnProps = (isSelected: boolean) =>
+    isSelected
+      ? {
+          variant: 'primary' as ButtonVariant,
+          softColor: true,
+        }
+      : {};
+
   return (
     <div className='join'>
       {RICH_TEXT_TOOLBAR_OPTIONS.map(item => (
@@ -71,7 +162,9 @@ export const ToolbarPlugin = () => {
           key={item.id}
           icon={item.icon}
           aria-label={item.label}
+          disabled={disableMap[item.id]}
           onClick={() => handleAction(item.id)}
+          {...getSelectedBtnProps(selectionMap[item.id])}
         />
       ))}
     </div>
