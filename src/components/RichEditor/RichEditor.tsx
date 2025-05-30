@@ -7,6 +7,8 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { HeadingNode } from '@lexical/rich-text';
+import { CodeHighlightNode, CodeNode } from '@lexical/code';
 
 import {
   ContentEditableStyles,
@@ -20,6 +22,7 @@ import { theme } from './theme';
 const INITIAL_CONFIG: InitialConfigType = {
   namespace: 'RichEditor',
   theme,
+  nodes: [HeadingNode, CodeHighlightNode, CodeNode],
   onError: error => {
     console.error('Lexical error:', error);
   },

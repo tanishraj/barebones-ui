@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { mergeRegister } from '@lexical/utils';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { HeadingTagType, $createHeadingNode } from '@lexical/rich-text';
+import { $wrapNodes } from '@lexical/selection';
 import {
   $getSelection,
   $isRangeSelection,
@@ -14,14 +16,16 @@ import {
 } from 'lexical';
 
 import {
+  HEADINGS,
   LOW_PRIORIRTY,
   RICH_TEXT_TOOLBAR_OPTIONS,
   RichTextToolbarActions,
 } from './constants';
-import { Button, ButtonVariant } from '../../../Button';
+import { Button } from '../../../Button';
 import { ToolbarButtonStyles, ToolbarStyles } from './Toolbar.styles';
 
 import { cn } from '@/utils';
+import { Select } from '@/components/Select';
 
 export const ToolbarPlugin = () => {
   const ToolbarClassName = ToolbarStyles();
@@ -154,22 +158,34 @@ export const ToolbarPlugin = () => {
   const getSelectedBtnProps = (isSelected: boolean) =>
     isSelected
       ? {
-          variant: 'primary' as ButtonVariant,
-          softColor: true,
-          className: cn(
-            ToolbarButtonClassName,
-            'hover:bg-primary-content text-primary border-0 shadow-none',
-          ),
+          className: cn(ToolbarButtonClassName),
         }
       : {
-          variant: 'ghost' as ButtonVariant,
-          className: cn(ToolbarButtonClassName, 'hover:bg-gray-100 border-0'),
+          className: cn(ToolbarButtonClassName),
         };
+
+  const updateHeading = (heading: HeadingTagType) => {
+    editor.update(() => {
+      const selection = $getSelection();
+
+      if ($isRangeSelection(selection)) {
+        $wrapNodes(selection, () => $createHeadingNode(heading));
+      }
+    });
+  };
 
   return (
     <div className={ToolbarClassName}>
+      <Select
+        name='headings'
+        variant='ghost'
+        options={HEADINGS}
+        onChange={e => updateHeading(e.target.value as HeadingTagType)}
+      />
       {RICH_TEXT_TOOLBAR_OPTIONS.map(item => (
         <Button
+          variant={selectionMap[item.id] ? 'primary' : 'ghost'}
+          softColor={true}
           size='sm'
           key={item.id}
           icon={item.icon}

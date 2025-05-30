@@ -106,3 +106,30 @@ export const RICH_TEXT_TOOLBAR_OPTIONS = [
 ];
 
 export const LOW_PRIORIRTY = 1;
+export const HEADINGS = [
+  { label: 'Select Heading', value: '' },
+  {
+    label: 'H1',
+    value: 'h1',
+  },
+  {
+    label: 'H2',
+    value: 'h2',
+  },
+  {
+    label: 'H3',
+    value: 'h3',
+  },
+  {
+    label: 'H4',
+    value: 'h4',
+  },
+  {
+    label: 'H5',
+    value: 'h5',
+  },
+  {
+    label: 'H6',
+    value: 'h6',
+  },
+];
