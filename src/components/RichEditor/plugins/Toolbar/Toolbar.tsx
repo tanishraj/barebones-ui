@@ -23,6 +23,7 @@ import {
 } from './constants';
 import { Button } from '../../../Button';
 import { ToolbarButtonStyles, ToolbarStyles } from './Toolbar.styles';
+import { useKeyBindings } from '../../hooks';
 
 import { cn } from '@/utils';
 import { Select } from '@/components/Select';
@@ -163,6 +164,10 @@ export const ToolbarPlugin = () => {
       : {
           className: cn(ToolbarButtonClassName),
         };
+
+  useKeyBindings({
+    onAction: handleAction,
+  });
 
   const updateHeading = (heading: HeadingTagType) => {
     editor.update(() => {
