@@ -18,11 +18,16 @@ const meta: Meta<typeof Label> = {
       control: { type: 'select' },
       options: ['input', 'select', 'float'],
     },
+    size: {
+      control: { type: 'select' },
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
+    },
   },
   args: {
     text: 'Name',
     position: 'left',
     type: 'input',
+    size: 'md',
   },
 };
 

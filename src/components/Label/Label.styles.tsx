@@ -9,3 +9,15 @@ export const labelContainerStyles = cva('', {
     },
   },
 });
+
+export const labelStyles = cva('', {
+  variants: {
+    size: {
+      xs: '!text-xs',
+      sm: '!text-sm',
+      md: '!text-base',
+      lg: '!text-lg',
+      xl: '!text-xl',
+    },
+  },
+});
