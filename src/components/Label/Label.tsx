@@ -3,8 +3,7 @@ import { VariantProps } from 'class-variance-authority';
 
 import { LabelPosition } from './types';
 import { labelContainerStyles, labelStyles } from './Label.styles';
-
-import { cn } from '@/utils';
+import { cn } from '../../utils';
 
 export interface LabelProps
   extends VariantProps<typeof labelContainerStyles>,
