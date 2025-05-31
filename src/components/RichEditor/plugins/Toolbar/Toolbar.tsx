@@ -24,6 +24,7 @@ import {
 import { Button } from '../../../Button';
 import { ToolbarButtonStyles, ToolbarStyles } from './Toolbar.styles';
 import { useKeyBindings } from '../../hooks';
+import { ColorPlugin } from '../ColorPlugin';
 
 import { cn } from '@/utils';
 import { Select } from '@/components/Select';
@@ -200,6 +201,7 @@ export const ToolbarPlugin = () => {
           {...getSelectedBtnProps(selectionMap[item.id])}
         />
       ))}
+      <ColorPlugin />
     </div>
   );
 };
