@@ -7,17 +7,22 @@ import {
 import {
   $getSelectionStyleValueForProperty,
   $patchStyleText,
+  getStyleObjectFromCSS,
 } from '@lexical/selection';
 import { useEffect, useState } from 'react';
 import { mergeRegister } from '@lexical/utils';
 
 import { ColorPicker } from '../../Components';
 import { LOW_PRIORIRTY } from '../Toolbar/constants';
+import { cn } from '../../../../utils';
 
 export const ColorPlugin = () => {
   const [editor] = useLexicalComposerContext();
   const [color, setColor] = useState('#ff0000');
   const [backgroundColor, setBackgroundColor] = useState('#ff0000');
+  const [isSelectedColor, setIsSelectedColor] = useState(false);
+  const [isSelectedBackgroundColor, setIsSelectedBackgroundColor] =
+    useState(false);
 
   const updateToolbar = () => {
     const selection = $getSelection();
@@ -33,8 +38,15 @@ export const ColorPlugin = () => {
         'background',
         '#ff0000',
       );
+      console.log(getStyleObjectFromCSS(selection.style));
       setColor(color);
       setBackgroundColor(backgroundColor);
+      setIsSelectedColor(
+        getStyleObjectFromCSS(selection.style).color === color,
+      );
+      setIsSelectedBackgroundColor(
+        getStyleObjectFromCSS(selection.style).background === backgroundColor,
+      );
     }
   };
 
@@ -74,11 +86,13 @@ export const ColorPlugin = () => {
   return (
     <>
       <ColorPicker
+        className={cn({ 'bg-primary': isSelectedColor })}
         type='text'
         color={color}
         onChange={color => updateColor({ property: 'color', color })}
       />
       <ColorPicker
+        className={cn({ 'bg-primary': isSelectedBackgroundColor })}
         type='bg'
         color={backgroundColor}
         onChange={color => updateColor({ property: 'background', color })}

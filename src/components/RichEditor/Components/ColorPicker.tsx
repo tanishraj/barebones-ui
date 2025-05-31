@@ -1,14 +1,16 @@
-import { FC, ReactNode, useRef, useState } from 'react';
+import { FC, HTMLAttributes, ReactNode, useRef, useState } from 'react';
 import { SketchPicker } from 'react-color';
 
 import { Button } from '../../Button';
 import { useClickOutside } from '../../../hooks';
+import { cn } from '../../../utils';
 
 interface ColorPickerProps {
   color: string;
   onChange: (color: string) => void;
   icon?: ReactNode;
   type?: 'text' | 'bg';
+  className?: HTMLAttributes<HTMLDivElement>['className'];
 }
 
 export const ColorPicker: FC<ColorPickerProps> = ({
@@ -16,6 +18,7 @@ export const ColorPicker: FC<ColorPickerProps> = ({
   onChange,
   icon,
   type,
+  className,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const colorPickerRef = useRef<HTMLDivElement>(null);
@@ -27,7 +30,7 @@ export const ColorPicker: FC<ColorPickerProps> = ({
   });
 
   return (
-    <div className='relative'>
+    <div className={cn('relative', className)}>
       {icon ? (
         icon
       ) : (
