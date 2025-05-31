@@ -11,15 +11,12 @@ export interface KeyBindingsProps {
 }
 
 export const useKeyBindings = ({ onAction }: KeyBindingsProps) => {
-  console.log('useKeyBindings initialized');
   const [editor] = useLexicalComposerContext();
 
   editor.registerCommand(
     KEY_ENTER_COMMAND,
     event => {
-      console.log('Enter key pressed', event?.key);
       if (event?.key === 'B' && event.ctrlKey) {
-        console.log('Ctrl+B pressed');
         onAction(RichTextToolbarActions.BOLD);
       }
       if (event?.key === 'I' && event?.ctrlKey) {
