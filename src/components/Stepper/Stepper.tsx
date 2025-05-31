@@ -17,12 +17,10 @@ export const Stepper = ({
   children,
   className,
 }: StepsProps) => {
-  console.log(direction);
   const containerClasses = clsx(
     stepsContainerStyles({ direction, responsive }),
     className,
   );
-  console.log(containerClasses);
   const content = <ul className={containerClasses}>{children}</ul>;
 
   return scrollable ? (
