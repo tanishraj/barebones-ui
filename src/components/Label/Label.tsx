@@ -19,15 +19,16 @@ export const Label: FC<LabelProps> = ({
   size,
   type = 'input',
   children,
+  className,
+  ...props
 }) => {
   const isLeft = position === 'left';
   const isRight = position === 'right';
-  const labelTypeClassName = labelContainerStyles({ type });
-  const labelClassName = cn('label', labelStyles({ size }));
-  console.log('Label rendered with props:', labelClassName);
+  const labelTypeClassName = cn(labelContainerStyles({ type }));
+  const labelClassName = cn('label', className, labelStyles({ size }));
 
   return (
-    <label className={labelTypeClassName}>
+    <label className={labelTypeClassName} {...props}>
       {isLeft && <span className={labelClassName}>{text}</span>}
       {children}
       {isRight && <span className={labelClassName}>{text}</span>}

@@ -2,6 +2,8 @@ import React, { useId } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 
 import { colorPickerStyles, inputStyles } from './ColorPicker.styles';
+import { Label, LabelPosition } from '../Label';
+import { cn } from '../../utils';
 
 export interface ColorPickerProps
   extends VariantProps<typeof colorPickerStyles>,
@@ -11,20 +13,44 @@ export interface ColorPickerProps
   value: string;
   onChange: (color: string) => void;
   className?: string;
+  labelPosition?: LabelPosition;
 }
 
 export const ColorPicker = React.forwardRef<HTMLInputElement, ColorPickerProps>(
-  ({ size, fullWidth, label, value, onChange, className, ...props }, ref) => {
+  (
+    { size, label, value, labelPosition, onChange, className, ...props },
+    ref,
+  ) => {
     const id = useId();
+    const defaultLabelPosition: LabelPosition = labelPosition || 'left';
+    const inputClassName = cn(inputStyles({ size }), 'color-input');
+    const labelClassName = '!me-1';
+    const colorPickerClassName = colorPickerStyles({
+      size,
+      className,
+    });
 
     return (
-      <div className={colorPickerStyles({ size, fullWidth, className })}>
-        {label && (
-          <label htmlFor={id} className='font-medium text-gray-700'>
-            {label}
-          </label>
-        )}
-        <div className='relative'>
+      <div className={colorPickerClassName}>
+        {label ? (
+          <Label
+            text={label}
+            position={defaultLabelPosition}
+            htmlFor={id}
+            size={size}
+            className={labelClassName}
+          >
+            <input
+              {...props}
+              ref={ref}
+              id={id}
+              type='color'
+              value={value}
+              onChange={e => onChange(e.target.value)}
+              className={inputClassName}
+            />
+          </Label>
+        ) : (
           <input
             {...props}
             ref={ref}
@@ -32,17 +58,9 @@ export const ColorPicker = React.forwardRef<HTMLInputElement, ColorPickerProps>(
             type='color'
             value={value}
             onChange={e => onChange(e.target.value)}
-            className={inputStyles({ size })}
+            className={inputClassName}
           />
-          <div
-            className='absolute inset-0 rounded border border-black border-opacity-10 pointer-events-none'
-            style={{
-              backgroundColor: value,
-              backgroundSize: '100%',
-            }}
-          />
-        </div>
-        <span className='font-mono text-gray-500'>{value}</span>
+        )}
       </div>
     );
   },

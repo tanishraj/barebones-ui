@@ -1,2 +1,10 @@
 @import 'tailwindcss';
 @plugin "daisyui";
+
+.color-input[type='color']::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.color-input[type='color']::-webkit-color-swatch {
+  border: none;
+}
