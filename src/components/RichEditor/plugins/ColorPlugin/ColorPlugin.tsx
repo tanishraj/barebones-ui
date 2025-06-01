@@ -38,7 +38,6 @@ export const ColorPlugin = () => {
         'background',
         '#ff0000',
       );
-      console.log(getStyleObjectFromCSS(selection.style));
       setColor(color);
       setBackgroundColor(backgroundColor);
       setIsSelectedColor(
