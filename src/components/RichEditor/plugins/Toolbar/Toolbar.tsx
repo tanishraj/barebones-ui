@@ -25,6 +25,7 @@ import { Button } from '../../../Button';
 import { ToolbarButtonStyles, ToolbarStyles } from './Toolbar.styles';
 import { useKeyBindings } from '../../hooks';
 import { ColorPlugin } from '../ColorPlugin';
+import { ListPlugin } from '../ListPlugin';
 
 import { cn } from '@/utils';
 import { Select } from '@/components/Select';
@@ -202,6 +203,7 @@ export const ToolbarPlugin = () => {
         />
       ))}
       <ColorPlugin />
+      <ListPlugin />
     </div>
   );
 };
