@@ -19,6 +19,7 @@ export const theme: EditorThemeClasses = {
     h5: 'text-lg font-medium mt-1 mb-1',
     h6: 'text-base font-medium mt-1 mb-1',
   },
+  // List theme to support multiple level list items
   list: {
     ul: 'list-disc pl-6 mb-2',
     ol: 'list-decimal pl-6 mb-2',
