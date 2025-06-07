@@ -1,7 +1,8 @@
+import { ButtonProps } from '@/components/Button';
+
 export const getSelectedBtnProps = (isSelected: boolean) =>
   isSelected
     ? {
-        colorScheme: 'blue',
-        variant: 'solid',
+        variant: 'primary' as ButtonProps['variant'],
       }
-    : { color: '#444' };
+    : { variant: 'ghost' as ButtonProps['variant'] };

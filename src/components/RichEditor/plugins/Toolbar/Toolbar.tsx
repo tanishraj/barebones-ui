@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { mergeRegister } from '@lexical/utils';
+import { useCallback, useEffect, useState } from 'react';
+import { mergeRegister, $getNearestNodeOfType } from '@lexical/utils';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { HeadingTagType, $createHeadingNode } from '@lexical/rich-text';
 import { $wrapNodes } from '@lexical/selection';
@@ -14,6 +14,7 @@ import {
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from 'lexical';
+import { $isListNode, ListNode } from '@lexical/list';
 
 import {
   HEADINGS,
@@ -33,6 +34,7 @@ import { Select } from '@/components/Select';
 export const ToolbarPlugin = () => {
   const ToolbarClassName = ToolbarStyles();
   const ToolbarButtonClassName = ToolbarButtonStyles();
+  const [blockType, setBlockType] = useState('paragraph');
 
   const [editor] = useLexicalComposerContext();
   const [disableMap, setDisableMap] = useState<Record<string, boolean>>({
@@ -54,7 +56,7 @@ export const ToolbarPlugin = () => {
     [RichTextToolbarActions.JUSTIFY_ALIGN]: false,
   });
 
-  const updateToolbarState = () => {
+  const updateToolbarState = useCallback(() => {
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
       const newSelectionMap = {
@@ -70,8 +72,24 @@ export const ToolbarPlugin = () => {
         [RichTextToolbarActions.CODE]: selection.hasFormat('code'),
       };
       setSelectionMap(newSelectionMap);
+
+      const anchorNode = selection.anchor.getNode();
+      const element =
+        anchorNode.getKey() === 'root'
+          ? anchorNode
+          : anchorNode.getTopLevelElementOrThrow();
+      const elementKey = element.getKey();
+      const elementDOM = editor.getElementByKey(elementKey);
+
+      if (!elementDOM) return;
+
+      if ($isListNode(element)) {
+        const parentList = $getNearestNodeOfType(anchorNode, ListNode);
+        const type = parentList ? parentList.getTag() : element.getTag();
+        setBlockType(type);
+      }
     }
-  };
+  }, [editor]);
 
   useEffect(() => {
     return mergeRegister(
@@ -106,7 +124,7 @@ export const ToolbarPlugin = () => {
         LOW_PRIORIRTY,
       ),
     );
-  }, [editor]);
+  }, [editor, updateToolbarState]);
 
   const handleAction = (actionId: RichTextToolbarActions) => {
     switch (actionId) {
@@ -203,7 +221,7 @@ export const ToolbarPlugin = () => {
         />
       ))}
       <ColorPlugin />
-      <ListPlugin />
+      <ListPlugin blockType={blockType} />
     </div>
   );
 };
