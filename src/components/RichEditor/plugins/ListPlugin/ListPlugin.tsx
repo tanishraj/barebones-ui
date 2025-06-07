@@ -19,16 +19,20 @@ export const ListPlugin: FC<ListPluginProps> = ({ blockType }) => {
 
   const handleUnorderedList = () => {
     if (blockType == 'ul') {
+      console.log('REMOVING UN ORDERED LIST');
       editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
     } else {
+      console.log('INSERTING UN ORDERED LIST');
       editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
     }
   };
 
   const handleOrderedList = () => {
     if (blockType == 'ol') {
+      console.log('REMOVING ORDERED LIST');
       editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
     } else {
+      console.log('INSERTING ORDERED LIST');
       editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
     }
   };

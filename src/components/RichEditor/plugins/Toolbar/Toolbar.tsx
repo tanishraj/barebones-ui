@@ -87,6 +87,9 @@ export const ToolbarPlugin = () => {
         const parentList = $getNearestNodeOfType(anchorNode, ListNode);
         const type = parentList ? parentList.getTag() : element.getTag();
         setBlockType(type);
+      } else {
+        const type = element.getType();
+        setBlockType(type);
       }
     }
   }, [editor]);
