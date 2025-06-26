@@ -33,3 +33,4 @@ export * from './Radio';
 export * from './Rating';
 export * from './ColorPicker';
 export * from './RichEditor';
+export * from './LexicalEditor';
