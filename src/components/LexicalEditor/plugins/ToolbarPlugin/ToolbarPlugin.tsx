@@ -27,7 +27,7 @@ import {
   mergeRegister,
 } from '@lexical/utils';
 import { $isParentElementRTL } from '@lexical/selection';
-import { List, ListOrdered } from 'lucide-react';
+import { List, ListOrdered, Table } from 'lucide-react';
 
 import { COMMANDS } from '../../constants/commands';
 import { FORMAT_OPTIONS } from '../../constants/formatOptions';
@@ -37,6 +37,8 @@ import {
 } from '../../context/ToolbarContext';
 import { formatBulletList, formatNumberedList } from './utils';
 import { getSelectedNode } from '../../utils/getSelectedNode';
+import { useModal } from '../../hooks';
+import { InsertTableDialog } from '../TablePlugin';
 
 interface ToolbarPluginProps {
   editor: LexicalEditor;
@@ -69,6 +71,7 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
   );
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
   const { toolbarState, updateToolbarState } = useToolbarState();
+  const [modal, showModal] = useModal();
 
   const $handleHeadingNode = useCallback(
     (selectedElement: LexicalNode) => {
@@ -229,6 +232,18 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
       >
         <ListOrdered />
       </button>
+
+      <button
+        className={`toolbar-item spaced ${toolbarState.blockType === 'number' ? 'active' : ''}`}
+        onClick={() => {
+          showModal('Insert Table', onClose => (
+            <InsertTableDialog activeEditor={activeEditor} onClose={onClose} />
+          ));
+        }}
+      >
+        <Table />
+      </button>
+      {modal}
     </div>
   );
 };
