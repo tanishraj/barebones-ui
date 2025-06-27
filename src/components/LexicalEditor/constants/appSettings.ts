@@ -1,5 +1,6 @@
 const DEFAULT_SETTINGS = {
   isRichText: true,
+  listStrictIndent: true,
 } as const;
 
 export const INITIAL_SETTINGS = {

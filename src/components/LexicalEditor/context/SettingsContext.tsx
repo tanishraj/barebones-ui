@@ -33,7 +33,7 @@ export const SettingsContext = ({
   );
 };
 
-export const useSettings = () => {
+export const useAppSettings = () => {
   const context = useContext(Context);
 
   if (!context) {
