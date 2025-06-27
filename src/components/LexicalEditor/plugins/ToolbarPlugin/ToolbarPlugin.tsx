@@ -171,7 +171,6 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
     return editor.registerCommand(
       SELECTION_CHANGE_COMMAND,
       (_payload, newEditor) => {
-        console.log('ToolbarPlugin SELECTION_CHANGE_COMMAND');
         setActiveEditor(newEditor);
         $updateToolbar();
         return false;

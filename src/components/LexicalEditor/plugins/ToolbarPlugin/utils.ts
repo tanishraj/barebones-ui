@@ -51,7 +51,6 @@ export const formatHeading = (
 };
 
 export const formatBulletList = (editor: LexicalEditor, blockType: string) => {
-  console.log('formatBulletList', blockType);
   if (blockType !== 'bullet') {
     editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
   } else {
