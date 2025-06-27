@@ -165,7 +165,7 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
         selection.hasFormat('strikethrough'),
       );
     }
-  }, [activeEditor, updateToolbarState]);
+  }, [$handleCodeNode, $handleHeadingNode, activeEditor, updateToolbarState]);
 
   useEffect(() => {
     return editor.registerCommand(
