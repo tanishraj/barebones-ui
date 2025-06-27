@@ -5,10 +5,12 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 
 import { useAppSettings } from './context/SettingsContext';
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
 import { ContentEditableUi } from './ui/ContentEditable';
+import ShortcutsPlugin from './plugins/ShortcutPlugin/ShortcutPlugin';
 
 export const Editor = () => {
   const {
@@ -21,6 +23,7 @@ export const Editor = () => {
     ? 'Enter some rich text...'
     : 'Enter some plain text...';
   const [activeEditor, setActiveEditor] = useState(editor);
+  const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
 
   return (
     <>
@@ -29,6 +32,12 @@ export const Editor = () => {
           editor={editor}
           activeEditor={activeEditor}
           setActiveEditor={setActiveEditor}
+        />
+      )}
+      {isRichText && (
+        <ShortcutsPlugin
+          editor={activeEditor}
+          setIsLinkEditMode={setIsLinkEditMode}
         />
       )}
       <div className={`editor-container ${!isRichText ? 'plain-text' : ''}`}>
@@ -45,6 +54,7 @@ export const Editor = () => {
               ErrorBoundary={LexicalErrorBoundary}
             />
             <ListPlugin hasStrictIndent={listStrictIndent} />
+            <TabIndentationPlugin maxIndent={7} />
           </>
         ) : (
           <PlainTextPlugin
