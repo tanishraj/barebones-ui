@@ -1,4 +1,4 @@
-import { Bold, Italic, List, Strikethrough, Underline } from 'lucide-react';
+import { Bold, Italic, Strikethrough, Underline } from 'lucide-react';
 import { TextFormatType } from 'lexical';
 
 import { FORMAT_TEXT_COMMAND_PAYLOAD } from './commands';
