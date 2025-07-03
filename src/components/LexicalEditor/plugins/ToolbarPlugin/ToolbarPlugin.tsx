@@ -39,6 +39,7 @@ import { formatBulletList, formatNumberedList } from './utils';
 import { getSelectedNode } from '../../utils/getSelectedNode';
 import { useModal } from '../../hooks';
 import { InsertTableDialog } from '../TablePlugin';
+import { InsertEquationDialog } from '../EquationsPlugin';
 
 interface ToolbarPluginProps {
   editor: LexicalEditor;
@@ -242,6 +243,19 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
         }}
       >
         <Table />
+      </button>
+      <button
+        className={`toolbar-item spaced ${toolbarState.blockType === 'number' ? 'active' : ''}`}
+        onClick={() => {
+          showModal('Insert Equation', onClose => (
+            <InsertEquationDialog
+              activeEditor={activeEditor}
+              onClose={onClose}
+            />
+          ));
+        }}
+      >
+        <i className='icon equation' />
       </button>
       {modal}
     </div>
