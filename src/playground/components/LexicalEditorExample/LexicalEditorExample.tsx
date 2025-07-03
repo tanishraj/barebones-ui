@@ -1,6 +1,9 @@
 import { useState } from 'react';
+import { Tooltip } from 'react-tooltip';
 
 import { LexicalEditor } from '@/components';
+
+import 'react-tooltip/dist/react-tooltip.css';
 
 const DEFAULT_CONTENT = `
 # Lexical Editor Example
@@ -24,6 +27,10 @@ export const LexicalEditorExample = () => {
       <h1>Lexical Editor Example</h1>
       <LexicalEditor value={content} onChange={setContent} />
       <div>Content: {content}</div>
+      <a data-tooltip-id='my-tooltip' data-tooltip-content='Hello world!'>
+        ◕‿‿◕
+      </a>
+      <Tooltip id='my-tooltip' />
     </div>
   );
 };
