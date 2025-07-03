@@ -1,11 +1,13 @@
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 
-import { Editor } from './Editor';
+import { Editor, EditorProps } from './Editor';
 import { EditorTheme } from './themes/EditorTheme';
 import { EditorNodes } from './nodes/EditorNodes';
 import { ToolbarContext } from './context';
 
 import './styles/global.css';
+
+export type LexicalEditorProps = EditorProps;
 
 const initialConfig = {
   namespace: 'MyEditor',
@@ -17,12 +19,15 @@ const initialConfig = {
   editorState: null,
 };
 
-export const LexicalEditor = () => {
+export const LexicalEditor: React.FC<LexicalEditorProps> = ({
+  value,
+  onChange,
+}) => {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <ToolbarContext>
         <div className='editor-shell'>
-          <Editor />
+          <Editor value={value} onChange={onChange} />
         </div>
       </ToolbarContext>
     </LexicalComposer>

@@ -17,8 +17,14 @@ import { TableCellResizerPlugin } from './plugins/TableCellResizer';
 import { TableHoverActionsPlugin } from './plugins/TableHoverActionsPlugin';
 import { TableOfContentsPlugin } from './plugins/TableOfContentsPlugin';
 import { FloatingLinkEditorPlugin } from './plugins/FloatingLinkEditorPlugin';
+import { ContentPlugin } from './plugins/ContentPlugin';
 
-export const Editor = () => {
+export interface EditorProps {
+  value?: string;
+  onChange?: (value: string) => void;
+}
+
+export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
   const {
     settings: {
       isRichText,
@@ -76,6 +82,8 @@ export const Editor = () => {
               }
               ErrorBoundary={LexicalErrorBoundary}
             />
+            <ContentPlugin value={value} onChange={onChange} />
+
             <TablePlugin
               hasCellMerge={tableCellMerge}
               hasCellBackgroundColor={tableCellBackgroundColor}
