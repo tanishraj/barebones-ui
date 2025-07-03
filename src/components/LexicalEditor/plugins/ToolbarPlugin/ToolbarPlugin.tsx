@@ -35,7 +35,12 @@ import {
   blockTypeToBlockName,
   useToolbarState,
 } from '../../context/ToolbarContext';
-import { formatBulletList, formatNumberedList } from './utils';
+import {
+  formatBulletList,
+  formatHeading,
+  formatNumberedList,
+  formatParagraph,
+} from './utils';
 import { getSelectedNode } from '../../utils/getSelectedNode';
 import { useModal } from '../../hooks';
 import { InsertTableDialog } from '../TablePlugin';
@@ -205,6 +210,30 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
 
   return (
     <div className='toolbar'>
+      <button
+        className={`toolbar-item spaced ${toolbarState.blockType === 'paragraph' ? 'active' : ''}`}
+        onClick={() => formatParagraph(editor)}
+      >
+        <i className='icon paragraph' />
+      </button>
+      <button
+        className={`toolbar-item spaced ${toolbarState.blockType === 'h1' ? 'active' : ''}`}
+        onClick={() => formatHeading(editor, toolbarState.blockType, 'h1')}
+      >
+        <i className='icon h1' />
+      </button>
+      <button
+        className={`toolbar-item spaced ${toolbarState.blockType === 'h2' ? 'active' : ''}`}
+        onClick={() => formatHeading(editor, toolbarState.blockType, 'h2')}
+      >
+        <i className='icon h2' />
+      </button>
+      <button
+        className={`toolbar-item spaced ${toolbarState.blockType === 'h3' ? 'active' : ''}`}
+        onClick={() => formatHeading(editor, toolbarState.blockType, 'h3')}
+      >
+        <i className='icon h3' />
+      </button>
       {FORMAT_OPTIONS.map(({ label, aria, payload, Icon, activeClass }) => (
         <button
           key={label}
