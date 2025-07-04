@@ -3,6 +3,8 @@ import { ListItemNode, ListNode } from '@lexical/list';
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table';
 import { HeadingNode, QuoteNode } from '@lexical/rich-text';
 
+import { SourceNode } from './SourceNode';
+
 export const EditorNodes: Array<Klass<LexicalNode>> = [
   HeadingNode,
   QuoteNode,
@@ -11,4 +13,5 @@ export const EditorNodes: Array<Klass<LexicalNode>> = [
   TableNode,
   TableCellNode,
   TableRowNode,
+  SourceNode,
 ];

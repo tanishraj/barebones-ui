@@ -5,12 +5,15 @@ import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import {
   $convertFromMarkdownString,
   $convertToMarkdownString,
-  TRANSFORMERS,
+  TRANSFORMERS as BASE_TRANSFORMERS,
 } from '@lexical/markdown';
 
 import { EditorProps } from '../../Editor';
+import { SOURCE_TRANSFORMER } from '../../transformers';
 
 export type OnContentChangePluginProps = EditorProps;
+
+const TRANSFORMERS = [...BASE_TRANSFORMERS, SOURCE_TRANSFORMER];
 
 export const ContentPlugin: React.FC<OnContentChangePluginProps> = ({
   value,
