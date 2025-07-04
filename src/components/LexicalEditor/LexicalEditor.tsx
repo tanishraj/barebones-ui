@@ -10,7 +10,7 @@ import './styles/global.css';
 
 export type LexicalEditorProps = EditorProps;
 
-const SOURCES_LIST = [
+const DUMMY_SOURCES = [
   {
     id: '1',
     name: 'Source 1',
@@ -45,7 +45,7 @@ export const LexicalEditor: React.FC<LexicalEditorProps> = ({
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <ToolbarContext>
-        <SourceContext value={SOURCES_LIST}>
+        <SourceContext value={DUMMY_SOURCES}>
           <div className='editor-shell'>
             <Editor value={value} onChange={onChange} />
           </div>

@@ -10,13 +10,13 @@ const DEFAULT_CONTENT = `
 This is a **sample editor** to test the **Lexical Editor** component.
 
 ## Features
-- Rich text editing
-- Markdown support
+- Rich text editing [1]
+- Markdown support [2]
 
 ### Usage
-You can type in this editor and see how it behaves with different content.
+You can type in this editor and see how it behaves with different content. [3]
 
-You can type here and see how the editor behaves.
+You can type here and see how the editor behaves. [1,2]
 `;
 
 export const LexicalEditorExample = () => {
@@ -27,10 +27,6 @@ export const LexicalEditorExample = () => {
       <h1>Lexical Editor Example</h1>
       <LexicalEditor value={content} onChange={setContent} />
       <div>Content: {content}</div>
-      <a data-tooltip-id='my-tooltip' data-tooltip-content='Hello world!'>
-        ◕‿‿◕
-      </a>
-      <Tooltip id='my-tooltip' />
     </div>
   );
 };
