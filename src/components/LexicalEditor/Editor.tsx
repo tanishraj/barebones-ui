@@ -7,6 +7,7 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 
 import { useAppSettings } from './context/SettingsContext';
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
@@ -83,7 +84,7 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
               ErrorBoundary={LexicalErrorBoundary}
             />
             <ContentPlugin value={value} onChange={onChange} />
-
+            <HistoryPlugin />
             <TablePlugin
               hasCellMerge={tableCellMerge}
               hasCellBackgroundColor={tableCellBackgroundColor}

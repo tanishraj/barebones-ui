@@ -11,11 +11,16 @@ import {
   $isElementNode,
   $isRangeSelection,
   $isRootOrShadowRoot,
+  CAN_REDO_COMMAND,
+  CAN_UNDO_COMMAND,
   COMMAND_PRIORITY_CRITICAL,
+  COMMAND_PRIORITY_LOW,
   LexicalEditor,
   LexicalNode,
   NodeKey,
+  REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
+  UNDO_COMMAND,
 } from 'lexical';
 import { $isListNode, ListNode } from '@lexical/list';
 import { $isHeadingNode } from '@lexical/rich-text';
@@ -76,6 +81,8 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
     null,
   );
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
+  const [canUndo, setCanUndo] = useState(false);
+  const [canRedo, setCanRedo] = useState(false);
   const { toolbarState, updateToolbarState } = useToolbarState();
   const [modal, showModal] = useModal();
 
@@ -177,16 +184,38 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
   }, [$handleCodeNode, $handleHeadingNode, activeEditor, updateToolbarState]);
 
   useEffect(() => {
-    return editor.registerCommand(
-      SELECTION_CHANGE_COMMAND,
-      (_payload, newEditor) => {
-        setActiveEditor(newEditor);
-        $updateToolbar();
-        return false;
-      },
-      COMMAND_PRIORITY_CRITICAL,
+    return mergeRegister(
+      editor.registerUpdateListener(({ editorState }) => {
+        editorState.read(() => {
+          $updateToolbar();
+        });
+      }),
+      editor.registerCommand(
+        SELECTION_CHANGE_COMMAND,
+        (_payload, _newEditor) => {
+          $updateToolbar();
+          return false;
+        },
+        COMMAND_PRIORITY_LOW,
+      ),
+      editor.registerCommand(
+        CAN_UNDO_COMMAND,
+        payload => {
+          setCanUndo(payload);
+          return false;
+        },
+        COMMAND_PRIORITY_LOW,
+      ),
+      editor.registerCommand(
+        CAN_REDO_COMMAND,
+        payload => {
+          setCanRedo(payload);
+          return false;
+        },
+        COMMAND_PRIORITY_LOW,
+      ),
     );
-  }, [editor, $updateToolbar, setActiveEditor]);
+  }, [editor, $updateToolbar]);
 
   useEffect(() => {
     activeEditor.getEditorState().read(() => {
@@ -210,6 +239,26 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
 
   return (
     <div className='toolbar'>
+      <button
+        disabled={!canUndo}
+        onClick={() => {
+          editor.dispatchCommand(UNDO_COMMAND, undefined);
+        }}
+        className='toolbar-item spaced'
+        aria-label='Undo'
+      >
+        <i className='format undo' />
+      </button>
+      <button
+        disabled={!canRedo}
+        onClick={() => {
+          editor.dispatchCommand(REDO_COMMAND, undefined);
+        }}
+        className='toolbar-item'
+        aria-label='Redo'
+      >
+        <i className='format redo' />
+      </button>
       <button
         className={`toolbar-item spaced ${toolbarState.blockType === 'paragraph' ? 'active' : ''}`}
         onClick={() => formatParagraph(editor)}
