@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Tooltip } from 'react-tooltip';
 
 import { LexicalEditor } from '@/components';
 
@@ -21,11 +20,17 @@ You can type here and see how the editor behaves. [1,2]
 
 export const LexicalEditorExample = () => {
   const [content, setContent] = useState<string>(DEFAULT_CONTENT);
+  const [isDirty, setIsDirty] = useState<boolean>(false);
 
   return (
     <div>
       <h1>Lexical Editor Example</h1>
-      <LexicalEditor value={content} onChange={setContent} />
+      <LexicalEditor
+        value={content}
+        onChange={setContent}
+        onDirtyChange={setIsDirty}
+      />
+      <div>Dirty: {isDirty ? 'true' : 'false'}</div>
       <div>Content: {content}</div>
     </div>
   );

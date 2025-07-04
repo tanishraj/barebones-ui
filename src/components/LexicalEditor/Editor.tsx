@@ -23,9 +23,14 @@ import { ContentPlugin } from './plugins/ContentPlugin';
 export interface EditorProps {
   value?: string;
   onChange?: (value: string) => void;
+  onDirtyChange?: (dirty: boolean) => void;
 }
 
-export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
+export const Editor: React.FC<EditorProps> = ({
+  value,
+  onChange,
+  onDirtyChange,
+}) => {
   const {
     settings: {
       isRichText,
@@ -83,7 +88,11 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
               }
               ErrorBoundary={LexicalErrorBoundary}
             />
-            <ContentPlugin value={value} onChange={onChange} />
+            <ContentPlugin
+              value={value}
+              onChange={onChange}
+              onDirtyChange={onDirtyChange}
+            />
             <HistoryPlugin />
             <TablePlugin
               hasCellMerge={tableCellMerge}

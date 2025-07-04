@@ -41,13 +41,18 @@ const initialConfig = {
 export const LexicalEditor: React.FC<LexicalEditorProps> = ({
   value,
   onChange,
+  onDirtyChange,
 }) => {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <ToolbarContext>
         <SourceContext value={DUMMY_SOURCES}>
           <div className='editor-shell'>
-            <Editor value={value} onChange={onChange} />
+            <Editor
+              value={value}
+              onChange={onChange}
+              onDirtyChange={onDirtyChange}
+            />
           </div>
         </SourceContext>
       </ToolbarContext>

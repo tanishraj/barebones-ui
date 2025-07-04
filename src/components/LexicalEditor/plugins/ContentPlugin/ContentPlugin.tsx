@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { EditorState } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
@@ -18,8 +18,10 @@ const TRANSFORMERS = [...BASE_TRANSFORMERS, SOURCE_TRANSFORMER];
 export const ContentPlugin: React.FC<OnContentChangePluginProps> = ({
   value,
   onChange,
+  onDirtyChange,
 }) => {
   const [editor] = useLexicalComposerContext();
+  const isDirtyRef = useRef(false);
 
   useEffect(() => {
     if (value) {
@@ -37,6 +39,16 @@ export const ContentPlugin: React.FC<OnContentChangePluginProps> = ({
     editorState.read(() => {
       const markdown = $convertToMarkdownString(TRANSFORMERS);
       onChange?.(markdown);
+
+      // If onDirtyChange is provided, check for changes
+      if (onDirtyChange) {
+        const isDirty = markdown !== value;
+        // Only call the handler if the dirty state changes
+        if (isDirty !== isDirtyRef.current) {
+          isDirtyRef.current = isDirty;
+          onDirtyChange(isDirty);
+        }
+      }
     });
   };
 

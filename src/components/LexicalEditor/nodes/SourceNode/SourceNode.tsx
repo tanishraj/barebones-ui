@@ -33,6 +33,11 @@ export class SourceNode extends DecoratorNode<ReactNode> {
     return false;
   }
 
+  // Make the node non-deletable by making it isolated
+  isIsolated(): boolean {
+    return true;
+  }
+
   decorate(): ReactNode {
     return this.__ids.map(id => <SourceNodeComponent sourceId={id} />);
   }
