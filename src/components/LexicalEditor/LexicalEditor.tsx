@@ -1,31 +1,56 @@
-import { useState } from 'react';
+import { LexicalComposer } from '@lexical/react/LexicalComposer';
 
-import { LexicalEditor } from '@/components';
+import { Editor, EditorProps } from './Editor';
+import { EditorTheme } from './themes/EditorTheme';
+import { EditorNodes } from './nodes/EditorNodes';
+import { ToolbarContext } from './context';
+import { SourceContext } from './context/SourceContext';
 
-import 'react-tooltip/dist/react-tooltip.css';
+import './styles/global.css';
 
-const DEFAULT_CONTENT = `
-# Lexical Editor Example
-This is a **sample editor** to test the **Lexical Editor** component.
+export type LexicalEditorProps = EditorProps;
 
-## Features
-- Rich text editing [1]
-- Markdown support [2]
+const SOURCES_LIST = [
+  {
+    id: '1',
+    name: 'Source 1',
+    content: 'Source 1',
+  },
+  {
+    id: '2',
+    name: 'Source 2',
+    content: 'Source 2',
+  },
+  {
+    id: '3',
+    name: 'Source 3',
+    content: 'Source 3',
+  },
+];
 
-### Usage
-You can type in this editor and see how it behaves with different content. [3]
+const initialConfig = {
+  namespace: 'MyEditor',
+  onError: (error: Error) => {
+    console.error('Lexical Editor Error:', error);
+  },
+  theme: EditorTheme,
+  nodes: EditorNodes,
+  editorState: null,
+};
 
-You can type here and see how the editor behaves. [1,2]
-`;
-
-export const LexicalEditorExample = () => {
-  const [content, setContent] = useState<string>(DEFAULT_CONTENT);
-
+export const LexicalEditor: React.FC<LexicalEditorProps> = ({
+  value,
+  onChange,
+}) => {
   return (
-    <div>
-      <h1>Lexical Editor Example</h1>
-      <LexicalEditor value={content} onChange={setContent} />
-      <div>Content: {content}</div>
-    </div>
+    <LexicalComposer initialConfig={initialConfig}>
+      <ToolbarContext>
+        <SourceContext value={SOURCES_LIST}>
+          <div className='editor-shell'>
+            <Editor value={value} onChange={onChange} />
+          </div>
+        </SourceContext>
+      </ToolbarContext>
+    </LexicalComposer>
   );
 };
