@@ -10,10 +10,15 @@ import {
 
 import { EditorProps } from '../../Editor';
 import { SOURCE_TRANSFORMER } from '../../transformers';
+import { PLAYGROUND_TRANSFORMERS } from '../MarkdownTransformers';
 
 export type OnContentChangePluginProps = EditorProps;
 
-const TRANSFORMERS = [...BASE_TRANSFORMERS, SOURCE_TRANSFORMER];
+const TRANSFORMERS = [
+  ...BASE_TRANSFORMERS,
+  ...PLAYGROUND_TRANSFORMERS,
+  SOURCE_TRANSFORMER,
+];
 
 export const ContentPlugin: React.FC<OnContentChangePluginProps> = ({
   value,

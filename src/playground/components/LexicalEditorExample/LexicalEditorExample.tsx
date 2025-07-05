@@ -17,6 +17,9 @@ You can type in this editor and see how it behaves with different content. [3]
 
 You can type here and see how the editor behaves. [1,2]
 
+## Formular Equations
+$e=mc^2$
+
 ## Table
 
 | Column 1 | Column 2 |
