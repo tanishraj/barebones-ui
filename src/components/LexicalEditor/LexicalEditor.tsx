@@ -42,6 +42,8 @@ export const LexicalEditor: React.FC<LexicalEditorProps> = ({
   value,
   onChange,
   onDirtyChange,
+  onContentUpdate,
+  onFormatUpdate,
 }) => {
   return (
     <LexicalComposer initialConfig={initialConfig}>
@@ -52,6 +54,8 @@ export const LexicalEditor: React.FC<LexicalEditorProps> = ({
               value={value}
               onChange={onChange}
               onDirtyChange={onDirtyChange}
+              onContentUpdate={onContentUpdate}
+              onFormatUpdate={onFormatUpdate}
             />
           </div>
         </SourceContext>
