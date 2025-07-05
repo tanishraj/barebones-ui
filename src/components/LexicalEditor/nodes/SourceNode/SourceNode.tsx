@@ -1,7 +1,16 @@
 import { ReactNode } from 'react';
-import { DecoratorNode, LexicalNode, NodeKey } from 'lexical';
+import {
+  DecoratorNode,
+  LexicalNode,
+  NodeKey,
+  SerializedLexicalNode,
+} from 'lexical';
 
 import { SourceNodeComponent } from './SourceNodeComponent';
+
+interface SerializedNode extends SerializedLexicalNode {
+  ids: string[];
+}
 
 export class SourceNode extends DecoratorNode<ReactNode> {
   __ids: string[];
@@ -17,6 +26,12 @@ export class SourceNode extends DecoratorNode<ReactNode> {
   constructor(ids: string[] | string, key?: NodeKey) {
     super(key);
     this.__ids = Array.isArray(ids) ? ids : [ids];
+  }
+
+  static importJSON(serializedNode: SerializedLexicalNode): SourceNode {
+    const ids = (serializedNode as SerializedNode).ids || [];
+    const node = $createSourceNode(ids);
+    return node;
   }
 
   append(id: string): SourceNode {
