@@ -1,5 +1,3 @@
-import 'katex/dist/katex.css';
-
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $wrapNodeInElement } from '@lexical/utils';
 import {
@@ -15,6 +13,8 @@ import { useCallback, useEffect } from 'react';
 
 import { $createEquationNode, EquationNode } from '../../nodes/EquationNode';
 import KatexEquationAlterer from '../../ui/KatexEquationAlterer/KatexEquationAlterer';
+
+import 'katex/dist/katex.css';
 
 type CommandPayload = {
   equation: string;
