@@ -16,6 +16,13 @@ This is a **sample editor** to test the **Lexical Editor** component.
 You can type in this editor and see how it behaves with different content. [3]
 
 You can type here and see how the editor behaves. [1,2]
+
+## Table
+
+| Column 1 | Column 2 |
+| -------- | -------- |
+| Row 1    | Row 1    |
+| Row 2    | Row 2    |
 `;
 
 export const LexicalEditorExample = () => {
