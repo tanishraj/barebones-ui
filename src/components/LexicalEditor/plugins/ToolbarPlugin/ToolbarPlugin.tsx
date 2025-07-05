@@ -26,6 +26,7 @@ import { $isListNode, ListNode } from '@lexical/list';
 import { $isHeadingNode } from '@lexical/rich-text';
 import { $isLinkNode } from '@lexical/link';
 import { $isCodeNode, CODE_LANGUAGE_MAP } from '@lexical/code';
+import { $isTableNode, $isTableSelection } from '@lexical/table';
 import {
   $findMatchingParent,
   $getNearestNodeOfType,
@@ -134,6 +135,13 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
       const isLink = $isLinkNode(parent) || $isLinkNode(node);
       updateToolbarState('isLink', isLink);
 
+      const tableNode = $findMatchingParent(node, $isTableNode);
+      if ($isTableNode(tableNode)) {
+        updateToolbarState('rootType', 'table');
+      } else {
+        updateToolbarState('rootType', 'root');
+      }
+
       if (elementDOM !== null) {
         setSelectedElementKey(elementKey);
         if ($isListNode(element)) {
@@ -172,7 +180,7 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
       );
     }
 
-    if ($isRangeSelection(selection)) {
+    if ($isRangeSelection(selection) || $isTableSelection(selection)) {
       updateToolbarState('isBold', selection.hasFormat('bold'));
       updateToolbarState('isItalic', selection.hasFormat('italic'));
       updateToolbarState('isUnderline', selection.hasFormat('underline'));
@@ -313,7 +321,7 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
       </button>
 
       <button
-        className={`toolbar-item spaced ${toolbarState.blockType === 'number' ? 'active' : ''}`}
+        className={`toolbar-item spaced ${toolbarState.rootType === 'table' ? 'active' : ''}`}
         onClick={() => {
           showModal('Insert Table', onClose => (
             <InsertTableDialog activeEditor={activeEditor} onClose={onClose} />
