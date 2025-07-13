@@ -19,7 +19,6 @@ import { TableHoverActionsPlugin } from './plugins/TableHoverActionsPlugin';
 import { TableOfContentsPlugin } from './plugins/TableOfContentsPlugin';
 import { FloatingLinkEditorPlugin } from './plugins/FloatingLinkEditorPlugin';
 import { ContentPlugin } from './plugins/ContentPlugin';
-import { FormatListenerPlugin } from './plugins/ContentPlugin/FormatListenerPlugin';
 import { EquationsPlugin } from './plugins/EquationsPlugin';
 
 export interface EditorProps {
@@ -99,7 +98,6 @@ export const Editor: React.FC<EditorProps> = ({
               onChange={onChange}
               onDirtyChange={onDirtyChange}
             />
-            <FormatListenerPlugin onFormatUpdate={onFormatUpdate} />
             <HistoryPlugin />
             <EquationsPlugin />
             <TablePlugin
