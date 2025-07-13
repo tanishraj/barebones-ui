@@ -5,20 +5,12 @@ import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import {
   $convertFromMarkdownString,
   $convertToMarkdownString,
-  TRANSFORMERS as BASE_TRANSFORMERS,
 } from '@lexical/markdown';
 
 import { EditorProps } from '../../Editor';
-import { SOURCE_TRANSFORMER } from '../../transformers';
-import { PLAYGROUND_TRANSFORMERS } from '../MarkdownTransformers';
+import { EDITOR_TRANSFORMERS } from '../../transformers';
 
 export type OnContentChangePluginProps = EditorProps;
-
-const TRANSFORMERS = [
-  ...BASE_TRANSFORMERS,
-  ...PLAYGROUND_TRANSFORMERS,
-  SOURCE_TRANSFORMER,
-];
 
 export const ContentPlugin: React.FC<OnContentChangePluginProps> = ({
   value,
@@ -31,18 +23,18 @@ export const ContentPlugin: React.FC<OnContentChangePluginProps> = ({
   useEffect(() => {
     if (value) {
       editor.update(() => {
-        const currentMarkdown = $convertToMarkdownString(TRANSFORMERS);
+        const currentMarkdown = $convertToMarkdownString(EDITOR_TRANSFORMERS);
         if (currentMarkdown === value) {
           return;
         }
-        return $convertFromMarkdownString(value, TRANSFORMERS);
+        return $convertFromMarkdownString(value, EDITOR_TRANSFORMERS);
       });
     }
   }, [value, editor, onChange]);
 
   const handleOnChange = (editorState: EditorState) => {
     editorState.read(() => {
-      const markdown = $convertToMarkdownString(TRANSFORMERS);
+      const markdown = $convertToMarkdownString(EDITOR_TRANSFORMERS);
       onChange?.(markdown);
 
       // If onDirtyChange is provided, check for changes
