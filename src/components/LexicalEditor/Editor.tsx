@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
@@ -20,22 +19,16 @@ import { TableOfContentsPlugin } from './plugins/TableOfContentsPlugin';
 import { FloatingLinkEditorPlugin } from './plugins/FloatingLinkEditorPlugin';
 import { ContentPlugin } from './plugins/ContentPlugin';
 import { EquationsPlugin } from './plugins/EquationsPlugin';
+import TreeViewPlugin from './plugins/TreeViewPlugin';
 
 export interface EditorProps {
   value?: string;
   onChange?: (value: string) => void;
-  onDirtyChange?: (dirty: boolean) => void;
   onContentUpdate?: (isContentUpdated: boolean) => void;
   onFormatUpdate?: (isFormatUpdated: boolean) => void;
 }
 
-export const Editor: React.FC<EditorProps> = ({
-  value,
-  onChange,
-  onDirtyChange,
-  onContentUpdate,
-  onFormatUpdate,
-}) => {
+export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
   const {
     settings: {
       isRichText,
@@ -44,11 +37,11 @@ export const Editor: React.FC<EditorProps> = ({
       tableCellBackgroundColor,
       tableHorizontalScroll,
       showTableOfContents,
+      showTreeView,
     },
   } = useAppSettings();
 
   const [editor] = useLexicalComposerContext();
-  const isEditable = useLexicalEditable();
   const placeholder = isRichText
     ? 'Enter some rich text...'
     : 'Enter some plain text...';
@@ -93,11 +86,7 @@ export const Editor: React.FC<EditorProps> = ({
               }
               ErrorBoundary={LexicalErrorBoundary}
             />
-            <ContentPlugin
-              value={value}
-              onChange={onChange}
-              onDirtyChange={onDirtyChange}
-            />
+
             <HistoryPlugin />
             <EquationsPlugin />
             <TablePlugin
@@ -126,6 +115,7 @@ export const Editor: React.FC<EditorProps> = ({
                 <TableHoverActionsPlugin anchorElem={floatingAnchorElem} />
               </>
             )}
+            <ContentPlugin value={value} onChange={onChange} />
           </>
         ) : (
           <>
@@ -142,6 +132,7 @@ export const Editor: React.FC<EditorProps> = ({
           </>
         )}
       </div>
+      {showTreeView && <TreeViewPlugin />}
     </>
   );
 };

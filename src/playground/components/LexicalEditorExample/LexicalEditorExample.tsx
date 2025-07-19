@@ -26,11 +26,13 @@ $e=mc^2$
 | -------- | -------- |
 | Row 1    | Row 1    |
 | Row 2    | Row 2    |
+
+## Link:
+[Lexical Documentation](https://lexical.dev/docs/)
 `;
 
 export const LexicalEditorExample = () => {
   const [content, setContent] = useState<string>(DEFAULT_CONTENT);
-  const [isDirty, setIsDirty] = useState<boolean>(false);
   const [hasContentUpdated, setHasContentUpdated] = useState<boolean>(false);
   const [hasFormatUpdated, setHasFormatUpdated] = useState<boolean>(false);
 
@@ -40,11 +42,9 @@ export const LexicalEditorExample = () => {
       <LexicalEditor
         value={content}
         onChange={setContent}
-        onDirtyChange={setIsDirty}
         onContentUpdate={setHasContentUpdated}
         onFormatUpdate={setHasFormatUpdated}
       />
-      <div>Dirty: {isDirty ? 'true' : 'false'}</div>
       <div>Content Updated: {hasContentUpdated ? 'true' : 'false'}</div>
       <div>Format Updated: {hasFormatUpdated ? 'true' : 'false'}</div>
       <div>Content: {content}</div>

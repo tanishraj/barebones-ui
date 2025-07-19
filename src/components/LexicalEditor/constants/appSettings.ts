@@ -4,7 +4,8 @@ const DEFAULT_SETTINGS = {
   tableCellMerge: true,
   tableCellBackgroundColor: true,
   tableHorizontalScroll: true,
-  showTableOfContents: false,
+  showTableOfContents: true,
+  showTreeView: true,
 } as const;
 
 export const INITIAL_SETTINGS = {
