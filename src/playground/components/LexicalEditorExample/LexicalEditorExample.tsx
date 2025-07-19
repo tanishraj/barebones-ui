@@ -20,6 +20,9 @@ You can type here and see how the editor behaves. [1,2]
 ## Formular Equations
 $e=mc^2$
 
+## Link:
+[Lexical Documentation](https://lexical.dev/docs/)
+
 ## Table
 
 | Column 1 | Column 2 |
@@ -27,8 +30,6 @@ $e=mc^2$
 | Row 1    | Row 1    |
 | Row 2    | Row 2    |
 
-## Link:
-[Lexical Documentation](https://lexical.dev/docs/)
 `;
 
 export const LexicalEditorExample = () => {

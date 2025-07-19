@@ -5,7 +5,7 @@ const DEFAULT_SETTINGS = {
   tableCellBackgroundColor: true,
   tableHorizontalScroll: true,
   showTableOfContents: true,
-  showTreeView: true,
+  showTreeView: false,
   hasLinkAttributes: true,
 } as const;
 
