@@ -24,7 +24,7 @@ import {
 } from 'lexical';
 import { $isListNode, ListNode } from '@lexical/list';
 import { $isHeadingNode } from '@lexical/rich-text';
-import { $isLinkNode } from '@lexical/link';
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { $isCodeNode, CODE_LANGUAGE_MAP } from '@lexical/code';
 import { $isTableNode, $isTableSelection } from '@lexical/table';
 import {
@@ -51,11 +51,13 @@ import { getSelectedNode } from '../../utils/getSelectedNode';
 import { useModal } from '../../hooks';
 import { InsertTableDialog } from '../TablePlugin';
 import { InsertEquationDialog } from '../EquationsPlugin';
+import { sanitizeUrl } from '../../utils/url';
 
 interface ToolbarPluginProps {
   editor: LexicalEditor;
   activeEditor: LexicalEditor;
   setActiveEditor: Dispatch<SetStateAction<LexicalEditor>>;
+  setIsLinkEditMode: Dispatch<boolean>;
 }
 
 function $findTopLevelElement(node: LexicalNode) {
@@ -77,6 +79,7 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
   editor,
   activeEditor,
   setActiveEditor,
+  setIsLinkEditMode,
 }) => {
   const [selectedElementKey, setSelectedElementKey] = useState<NodeKey | null>(
     null,
@@ -117,6 +120,19 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
     },
     [updateToolbarState],
   );
+
+  const insertLink = useCallback(() => {
+    if (!toolbarState.isLink) {
+      setIsLinkEditMode(true);
+      activeEditor.dispatchCommand(
+        TOGGLE_LINK_COMMAND,
+        sanitizeUrl('https://'),
+      );
+    } else {
+      setIsLinkEditMode(false);
+      activeEditor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
+    }
+  }, [activeEditor, setIsLinkEditMode, toolbarState.isLink]);
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -318,6 +334,19 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
         onClick={() => formatNumberedList(editor, toolbarState.blockType)}
       >
         <ListOrdered />
+      </button>
+
+      <button
+        disabled={!isEditable}
+        onClick={insertLink}
+        className={
+          'toolbar-item spaced ' + (toolbarState.isLink ? 'active' : '')
+        }
+        aria-label='Insert link'
+        title={`Insert link (⌘+K)`}
+        type='button'
+      >
+        <i className='format link' />
       </button>
 
       <button

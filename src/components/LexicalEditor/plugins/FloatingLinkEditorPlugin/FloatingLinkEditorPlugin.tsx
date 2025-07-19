@@ -22,11 +22,12 @@ import {
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
+import * as React from 'react';
 import { createPortal } from 'react-dom';
 
+import { getSelectedNode } from '../../utils/getSelectedNode';
 import { setFloatingElemPositionForLinkEditor } from '../../utils/setFloatingElemPositionForLinkEditor';
 import { sanitizeUrl } from '../../utils/url';
-import { getSelectedNode } from '../../utils/getSelectedNode';
 import './FloatingLinkEditorPlugin.css';
 
 function preventDefault(
@@ -203,6 +204,23 @@ function FloatingLinkEditor({
       inputRef.current.focus();
     }
   }, [isLinkEditMode, isLink]);
+
+  useEffect(() => {
+    const editorElement = editorRef.current;
+    if (editorElement === null) {
+      return;
+    }
+    const handleBlur = (event: FocusEvent) => {
+      if (!editorElement.contains(event.relatedTarget as Element) && isLink) {
+        setIsLink(false);
+        setIsLinkEditMode(false);
+      }
+    };
+    editorElement.addEventListener('focusout', handleBlur);
+    return () => {
+      editorElement.removeEventListener('focusout', handleBlur);
+    };
+  }, [editorRef, setIsLink, setIsLinkEditMode, isLink]);
 
   const handleLinkSubmission = (
     event:

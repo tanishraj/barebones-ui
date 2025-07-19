@@ -6,6 +6,7 @@ const DEFAULT_SETTINGS = {
   tableHorizontalScroll: true,
   showTableOfContents: true,
   showTreeView: true,
+  hasLinkAttributes: true,
 } as const;
 
 export const INITIAL_SETTINGS = {

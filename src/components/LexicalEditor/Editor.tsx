@@ -7,6 +7,8 @@ import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { ClickableLinkPlugin } from '@lexical/react/LexicalClickableLinkPlugin';
+import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 
 import { useAppSettings } from './context/SettingsContext';
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
@@ -20,6 +22,8 @@ import { FloatingLinkEditorPlugin } from './plugins/FloatingLinkEditorPlugin';
 import { ContentPlugin } from './plugins/ContentPlugin';
 import { EquationsPlugin } from './plugins/EquationsPlugin';
 import TreeViewPlugin from './plugins/TreeViewPlugin';
+import LinkPlugin from './plugins/LinkPlugin';
+import AutoLinkPlugin from './plugins/AutoLinkPlugin';
 
 export interface EditorProps {
   value?: string;
@@ -38,6 +42,7 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
       tableHorizontalScroll,
       showTableOfContents,
       showTreeView,
+      hasLinkAttributes,
     },
   } = useAppSettings();
 
@@ -49,6 +54,7 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
   const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
+  const isEditable = useLexicalEditable();
   const [isSmallWidthViewport, setIsSmallWidthViewport] =
     useState<boolean>(false);
 
@@ -65,6 +71,7 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
           editor={editor}
           activeEditor={activeEditor}
           setActiveEditor={setActiveEditor}
+          setIsLinkEditMode={setIsLinkEditMode}
         />
       )}
       {isRichText && (
@@ -74,6 +81,7 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
         />
       )}
       <div className={`editor-container ${!isRichText ? 'plain-text' : ''}`}>
+        <AutoLinkPlugin />
         {isRichText ? (
           <>
             <RichTextPlugin
@@ -95,6 +103,8 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
               hasHorizontalScroll={tableHorizontalScroll}
             />
             <TableCellResizerPlugin />
+            <LinkPlugin hasLinkAttributes={hasLinkAttributes} />
+            <ClickableLinkPlugin disabled={isEditable} />
             <ListPlugin hasStrictIndent={listStrictIndent} />
             <TabIndentationPlugin maxIndent={7} />
             {floatingAnchorElem && (
