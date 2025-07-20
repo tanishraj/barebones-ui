@@ -91,6 +91,38 @@ const extractTextContent = (editorStateJSON: any): string => {
   return textContent;
 };
 
+// Check for formatting changes in nodes
+const hasFormattingChanges = (initial: any, current: any): boolean => {
+  const checkNode = (node1: any, node2: any): boolean => {
+    // Check format property (includes bold, italic, etc. as bitwise flags)
+    if (node1?.format !== node2?.format) {
+      return true;
+    }
+
+    // Check style changes
+    if (JSON.stringify(node1?.style) !== JSON.stringify(node2?.style)) {
+      return true;
+    }
+
+    // Check children recursively
+    if (node1?.children && node2?.children) {
+      if (node1.children.length !== node2.children.length) {
+        return true;
+      }
+
+      for (let i = 0; i < node1.children.length; i++) {
+        if (checkNode(node1.children[i], node2.children[i])) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  };
+
+  return checkNode(initial?.root, current?.root);
+};
+
 // Remove text content from nodes to isolate formatting
 const removeTextContent = (obj: any): any => {
   if (typeof obj !== 'object' || obj === null) {
@@ -114,6 +146,90 @@ const removeTextContent = (obj: any): any => {
   return result;
 };
 
+// Check if a node type represents content (not just formatting)
+const isContentNode = (nodeType: string): boolean => {
+  const contentNodeTypes = [
+    'table',
+    'tablerow',
+    'tablecell',
+    'equation',
+    'formula',
+    'math',
+    'image',
+    'video',
+    'audio',
+    'code',
+    'codeblock',
+    'list',
+    'listitem',
+    'quote',
+    'blockquote',
+    'horizontalrule',
+    'hr',
+    'embed',
+    'iframe',
+    'link', // Links add meaningful content
+  ];
+
+  return contentNodeTypes.some(type =>
+    nodeType.toLowerCase().includes(type.toLowerCase()),
+  );
+};
+
+// Check if a node type represents formatting (text style variations)
+const isFormattingNode = (nodeType: string): boolean => {
+  const formattingNodeTypes = [
+    'heading',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'paragraph',
+    'p',
+    'text',
+  ];
+
+  return formattingNodeTypes.some(type =>
+    nodeType.toLowerCase().includes(type.toLowerCase()),
+  );
+};
+
+// Check if a type change is a formatting change
+const isFormattingTypeChange = (oldType: string, newType: string): boolean => {
+  // Converting between heading levels or paragraph types is a format change
+  return isFormattingNode(oldType) && isFormattingNode(newType);
+};
+
+// Check if changes include structural content changes
+const hasStructuralContentChanges = (differences: string[]): boolean => {
+  return differences.some(diff => {
+    // Check for node type changes
+    if (diff.includes('.type:')) {
+      const match = diff.match(/\.type: value changed from "(.*?)" to "(.*?)"/);
+      if (match) {
+        const [, oldType, newType] = match;
+        // If it's a formatting type change (e.g., h1 to h3), it's NOT a content change
+        if (isFormattingTypeChange(oldType, newType)) {
+          return false;
+        }
+        // If either type is a content node, it's a content change
+        return isContentNode(oldType) || isContentNode(newType);
+      }
+    }
+
+    // Check for added/removed nodes that represent content
+    if (diff.includes(': added') || diff.includes(': removed')) {
+      // Check if the path indicates a content node
+      const pathParts = diff.split('.');
+      return pathParts.some(part => isContentNode(part));
+    }
+
+    return false;
+  });
+};
+
 // Analyze changes between two editor states
 const analyzeChanges = (
   initialState: any,
@@ -123,40 +239,100 @@ const analyzeChanges = (
   const initialText = extractTextContent(initialState);
   const currentText = extractTextContent(currentState);
 
-  // Check for content changes
-  const hasContentChange = initialText !== currentText;
+  // Check for text content changes
+  const hasTextChange = initialText !== currentText;
 
-  // Create formatting-only versions (structure without text)
-  const initialFormatting = removeTextContent(initialState);
-  const currentFormatting = removeTextContent(currentState);
+  // Check for formatting changes (bold, italic, etc.)
+  const hasFormatting = hasFormattingChanges(initialState, currentState);
 
-  // Compare formatting
-  const formatComparison = deepCompare(initialFormatting, currentFormatting);
-  const hasFormatChange = !formatComparison.isEqual;
+  // Deep comparison for all changes
+  const fullComparison = deepCompare(initialState, currentState);
+  const allDifferences = fullComparison.differences;
 
-  // Filter out text-related differences for format analysis
-  const formatDifferences = formatComparison.differences.filter(
-    diff => !diff.includes('.text:'),
-  );
+  // Check if structural changes include content elements
+  const hasContentStructuralChanges =
+    hasStructuralContentChanges(allDifferences);
+
+  // Identify formatting changes (including type conversions)
+  const formatChanges = allDifferences.filter(diff => {
+    // Check for format property changes
+    if (
+      diff.includes('.format:') ||
+      diff.includes('.style:') ||
+      diff.includes('bold') ||
+      diff.includes('italic') ||
+      diff.includes('underline') ||
+      diff.includes('strikethrough') ||
+      diff.includes('code') ||
+      diff.includes('subscript') ||
+      diff.includes('superscript')
+    ) {
+      return true;
+    }
+
+    // Check for tag changes (e.g., h1 to h2)
+    if (diff.includes('.tag:')) {
+      const match = diff.match(/\.tag: value changed from "(.*?)" to "(.*?)"/);
+      if (match) {
+        const [, oldTag, newTag] = match;
+        // Check if both are heading tags or formatting tags
+        const formattingTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'];
+        return (
+          formattingTags.includes(oldTag) && formattingTags.includes(newTag)
+        );
+      }
+      return true;
+    }
+
+    // Check for formatting type changes (e.g., heading to paragraph)
+    if (diff.includes('.type:')) {
+      const match = diff.match(/\.type: value changed from "(.*?)" to "(.*?)"/);
+      if (match) {
+        const [, oldType, newType] = match;
+        return isFormattingTypeChange(oldType, newType);
+      }
+    }
+
+    return false;
+  });
 
   // Determine change type
   let changeType: ChangeType = 'NO_CHANGE';
-  if (hasContentChange && hasFormatChange) {
-    changeType = 'CONTENT_CHANGE'; // Content change takes precedence
-  } else if (hasContentChange) {
+  if (hasTextChange || hasContentStructuralChanges) {
     changeType = 'CONTENT_CHANGE';
-  } else if (hasFormatChange) {
+  } else if (hasFormatting || formatChanges.length > 0) {
     changeType = 'FORMAT_CHANGE';
+  }
+
+  // Prepare detailed change information
+  const contentChanges = [];
+  if (hasTextChange) {
+    contentChanges.push(
+      `Text changed from "${initialText}" to "${currentText}"`,
+    );
+  }
+  if (hasContentStructuralChanges) {
+    const contentStructuralDiffs = allDifferences.filter(diff =>
+      hasStructuralContentChanges([diff]),
+    );
+    contentChanges.push(...contentStructuralDiffs);
   }
 
   return {
     type: changeType,
-    isContentUpdated: hasContentChange || hasFormatChange,
+    isContentUpdated:
+      hasTextChange ||
+      hasFormatting ||
+      hasContentStructuralChanges ||
+      formatChanges.length > 0,
     details: {
-      formatChanges: formatDifferences,
-      contentChanges: hasContentChange
-        ? [`Text changed from "${initialText}" to "${currentText}"`]
-        : [],
+      formatChanges:
+        formatChanges.length > 0
+          ? formatChanges
+          : hasFormatting
+            ? ['Format property changed']
+            : [],
+      contentChanges: contentChanges,
     },
   };
 };
@@ -229,14 +405,15 @@ export const ContentPlugin: React.FC<OnContentChangePluginProps> = ({
         // Call the new change detection callback
         onChangeDetected?.(changeDetection);
 
-        // Log changes for debugging
+        // Enhanced debugging
         if (process.env.NODE_ENV === 'development') {
-          if (changeDetection.type !== 'NO_CHANGE') {
-            console.log('Change detected:', {
-              type: changeDetection.type,
-              details: changeDetection.details,
-            });
-          }
+          console.log('Editor state change analysis:', {
+            type: changeDetection.type,
+            isContentUpdated: changeDetection.isContentUpdated,
+            details: changeDetection.details,
+            initialState: initialStateRef.current,
+            currentState: currentStateRef.current,
+          });
         }
       }
 
