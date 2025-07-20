@@ -32,7 +32,11 @@ export interface EditorProps {
   onFormatUpdate?: (isFormatUpdated: boolean) => void;
 }
 
-export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
+export const Editor: React.FC<EditorProps> = ({
+  value,
+  onChange,
+  onContentUpdate,
+}) => {
   const {
     settings: {
       isRichText,
@@ -125,7 +129,29 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
                 <TableHoverActionsPlugin anchorElem={floatingAnchorElem} />
               </>
             )}
-            <ContentPlugin value={value} onChange={onChange} />
+            <ContentPlugin
+              value={value}
+              onChange={onChange}
+              onContentUpdate={onContentUpdate}
+            />
+            <ContentPlugin
+              value={value}
+              onChange={onChange}
+              onContentUpdate={onContentUpdate}
+              onChangeDetected={change => {
+                console.log('Change type:', change.type);
+                console.log('Is updated:', change.isContentUpdated);
+
+                if (change.type === 'FORMAT_CHANGE') {
+                  console.log('Format changes:', change.details?.formatChanges);
+                } else if (change.type === 'CONTENT_CHANGE') {
+                  console.log(
+                    'Content changes:',
+                    change.details?.contentChanges,
+                  );
+                }
+              }}
+            />
           </>
         ) : (
           <>
