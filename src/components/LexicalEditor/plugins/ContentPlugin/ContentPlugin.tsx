@@ -91,38 +91,6 @@ const extractTextContent = (editorStateJSON: SerializedEditorState): string => {
   return textContent;
 };
 
-// Check for formatting changes in nodes
-const hasFormattingChanges = (initial: any, current: any): boolean => {
-  const checkNode = (node1: any, node2: any): boolean => {
-    // Check format property (includes bold, italic, etc. as bitwise flags)
-    if (node1?.format !== node2?.format) {
-      return true;
-    }
-
-    // Check style changes
-    if (JSON.stringify(node1?.style) !== JSON.stringify(node2?.style)) {
-      return true;
-    }
-
-    // Check children recursively
-    if (node1?.children && node2?.children) {
-      if (node1.children.length !== node2.children.length) {
-        return true;
-      }
-
-      for (let i = 0; i < node1.children.length; i++) {
-        if (checkNode(node1.children[i], node2.children[i])) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  };
-
-  return checkNode(initial?.root, current?.root);
-};
-
 // Check if a node type represents formatting (text style variations)
 const isFormattingNode = (nodeType: string): boolean => {
   const formattingNodeTypes = [
@@ -146,6 +114,74 @@ const isFormattingNode = (nodeType: string): boolean => {
   return formattingNodeTypes.some(type =>
     nodeType.toLowerCase().includes(type.toLowerCase()),
   );
+};
+
+// Check for formatting changes in nodes
+// Enhanced formatting detection that handles all cases
+const hasFormattingChanges = (initial: any, current: any): boolean => {
+  const checkNode = (node1: any, node2: any): boolean => {
+    // Check format property (includes bold, italic, etc. as bitwise flags)
+    if (node1?.format !== node2?.format) {
+      return true;
+    }
+
+    // Check style changes
+    if (JSON.stringify(node1?.style) !== JSON.stringify(node2?.style)) {
+      return true;
+    }
+
+    // Check tag changes (e.g., h1 to h2, p to ul)
+    if (node1?.tag !== node2?.tag) {
+      // Both undefined is not a change
+      if (node1?.tag === undefined && node2?.tag === undefined) {
+        return false;
+      }
+      return true;
+    }
+
+    // Check type changes for formatting nodes
+    if (node1?.type !== node2?.type) {
+      // Check if this is a formatting-related type change
+      if (
+        isFormattingNode(node1?.type || '') ||
+        isFormattingNode(node2?.type || '')
+      ) {
+        return true;
+      }
+    }
+
+    // Check list type changes (ordered vs unordered)
+    if (node1?.listType !== node2?.listType) {
+      return true;
+    }
+
+    // Check direction changes (for RTL/LTR text)
+    if (node1?.direction !== node2?.direction) {
+      return true;
+    }
+
+    // Check indent level changes
+    if (node1?.indent !== node2?.indent) {
+      return true;
+    }
+
+    // Check children recursively
+    if (node1?.children && node2?.children) {
+      // Don't consider child count changes as formatting changes
+      // unless the children themselves have formatting changes
+      const minLength = Math.min(node1.children.length, node2.children.length);
+
+      for (let i = 0; i < minLength; i++) {
+        if (checkNode(node1.children[i], node2.children[i])) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  };
+
+  return checkNode(initial?.root, current?.root);
 };
 
 // Check if a node type represents content (not just formatting)
