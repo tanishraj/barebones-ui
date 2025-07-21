@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
-import { $getRoot, EditorState } from 'lexical';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useRef } from 'react';
+import { EditorState, SerializedEditorState } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import {
   $convertFromMarkdownString,
   $convertToMarkdownString,
 } from '@lexical/markdown';
-import { useLexicalCommandsLog } from '@lexical/devtools-core';
 
 import { EditorProps } from '../../Editor';
 import { EDITOR_TRANSFORMERS } from '../../transformers';
@@ -71,7 +71,7 @@ const deepCompare = (
 };
 
 // Extract plain text content from editor state JSON
-const extractTextContent = (editorStateJSON: any): string => {
+const extractTextContent = (editorStateJSON: SerializedEditorState): string => {
   let textContent = '';
 
   const extractFromNode = (node: any): void => {
@@ -123,27 +123,29 @@ const hasFormattingChanges = (initial: any, current: any): boolean => {
   return checkNode(initial?.root, current?.root);
 };
 
-// Remove text content from nodes to isolate formatting
-const removeTextContent = (obj: any): any => {
-  if (typeof obj !== 'object' || obj === null) {
-    return obj;
-  }
+// Check if a node type represents formatting (text style variations)
+const isFormattingNode = (nodeType: string): boolean => {
+  const formattingNodeTypes = [
+    'heading',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'paragraph',
+    'p',
+    'text',
+    'list',
+    'listitem',
+    'ul',
+    'ol',
+    'li', // Lists are formatting for text
+  ];
 
-  if (Array.isArray(obj)) {
-    return obj.map(removeTextContent);
-  }
-
-  const result: any = {};
-  for (const key in obj) {
-    if (key === 'text') {
-      // Keep the key but set it to empty to maintain structure
-      result[key] = '';
-    } else {
-      result[key] = removeTextContent(obj[key]);
-    }
-  }
-
-  return result;
+  return formattingNodeTypes.some(type =>
+    nodeType.toLowerCase().includes(type.toLowerCase()),
+  );
 };
 
 // Check if a node type represents content (not just formatting)
@@ -160,8 +162,6 @@ const isContentNode = (nodeType: string): boolean => {
     'audio',
     'code',
     'codeblock',
-    'list',
-    'listitem',
     'quote',
     'blockquote',
     'horizontalrule',
@@ -169,29 +169,10 @@ const isContentNode = (nodeType: string): boolean => {
     'embed',
     'iframe',
     'link', // Links add meaningful content
+    // Note: lists removed from here as they're now considered formatting
   ];
 
   return contentNodeTypes.some(type =>
-    nodeType.toLowerCase().includes(type.toLowerCase()),
-  );
-};
-
-// Check if a node type represents formatting (text style variations)
-const isFormattingNode = (nodeType: string): boolean => {
-  const formattingNodeTypes = [
-    'heading',
-    'h1',
-    'h2',
-    'h3',
-    'h4',
-    'h5',
-    'h6',
-    'paragraph',
-    'p',
-    'text',
-  ];
-
-  return formattingNodeTypes.some(type =>
     nodeType.toLowerCase().includes(type.toLowerCase()),
   );
 };
@@ -232,8 +213,8 @@ const hasStructuralContentChanges = (differences: string[]): boolean => {
 
 // Analyze changes between two editor states
 const analyzeChanges = (
-  initialState: any,
-  currentState: any,
+  initialState: SerializedEditorState,
+  currentState: SerializedEditorState,
 ): ChangeDetection => {
   // Extract text content
   const initialText = extractTextContent(initialState);
@@ -270,13 +251,24 @@ const analyzeChanges = (
       return true;
     }
 
-    // Check for tag changes (e.g., h1 to h2)
+    // Check for tag changes (e.g., h1 to h2, p to ul)
     if (diff.includes('.tag:')) {
       const match = diff.match(/\.tag: value changed from "(.*?)" to "(.*?)"/);
       if (match) {
         const [, oldTag, newTag] = match;
-        // Check if both are heading tags or formatting tags
-        const formattingTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'];
+        // Check if both are formatting tags (including lists)
+        const formattingTags = [
+          'h1',
+          'h2',
+          'h3',
+          'h4',
+          'h5',
+          'h6',
+          'p',
+          'ul',
+          'ol',
+          'li',
+        ];
         return (
           formattingTags.includes(oldTag) && formattingTags.includes(newTag)
         );
@@ -284,13 +276,18 @@ const analyzeChanges = (
       return true;
     }
 
-    // Check for formatting type changes (e.g., heading to paragraph)
+    // Check for formatting type changes (e.g., heading to paragraph, paragraph to list)
     if (diff.includes('.type:')) {
       const match = diff.match(/\.type: value changed from "(.*?)" to "(.*?)"/);
       if (match) {
         const [, oldType, newType] = match;
         return isFormattingTypeChange(oldType, newType);
       }
+    }
+
+    // Check for list type changes
+    if (diff.includes('listType:') || diff.includes('.listType')) {
+      return true;
     }
 
     return false;
@@ -344,9 +341,8 @@ export const ContentPlugin: React.FC<OnContentChangePluginProps> = ({
   onChangeDetected,
 }) => {
   const [editor] = useLexicalComposerContext();
-  const commandsLog = useLexicalCommandsLog(editor);
-  const initialStateRef = useRef<any>(null);
-  const currentStateRef = useRef<any>(null);
+  const initialStateRef = useRef<SerializedEditorState | null>(null);
+  const currentStateRef = useRef<SerializedEditorState | null>(null);
   const isInitializedRef = useRef(false);
 
   useEffect(() => {
