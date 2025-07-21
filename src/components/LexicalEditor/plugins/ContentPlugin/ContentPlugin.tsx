@@ -116,74 +116,6 @@ const isFormattingNode = (nodeType: string): boolean => {
   );
 };
 
-// Check for formatting changes in nodes
-// Enhanced formatting detection that handles all cases
-const hasFormattingChanges = (initial: any, current: any): boolean => {
-  const checkNode = (node1: any, node2: any): boolean => {
-    // Check format property (includes bold, italic, etc. as bitwise flags)
-    if (node1?.format !== node2?.format) {
-      return true;
-    }
-
-    // Check style changes
-    if (JSON.stringify(node1?.style) !== JSON.stringify(node2?.style)) {
-      return true;
-    }
-
-    // Check tag changes (e.g., h1 to h2, p to ul)
-    if (node1?.tag !== node2?.tag) {
-      // Both undefined is not a change
-      if (node1?.tag === undefined && node2?.tag === undefined) {
-        return false;
-      }
-      return true;
-    }
-
-    // Check type changes for formatting nodes
-    if (node1?.type !== node2?.type) {
-      // Check if this is a formatting-related type change
-      if (
-        isFormattingNode(node1?.type || '') ||
-        isFormattingNode(node2?.type || '')
-      ) {
-        return true;
-      }
-    }
-
-    // Check list type changes (ordered vs unordered)
-    if (node1?.listType !== node2?.listType) {
-      return true;
-    }
-
-    // Check direction changes (for RTL/LTR text)
-    if (node1?.direction !== node2?.direction) {
-      return true;
-    }
-
-    // Check indent level changes
-    if (node1?.indent !== node2?.indent) {
-      return true;
-    }
-
-    // Check children recursively
-    if (node1?.children && node2?.children) {
-      // Don't consider child count changes as formatting changes
-      // unless the children themselves have formatting changes
-      const minLength = Math.min(node1.children.length, node2.children.length);
-
-      for (let i = 0; i < minLength; i++) {
-        if (checkNode(node1.children[i], node2.children[i])) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  };
-
-  return checkNode(initial?.root, current?.root);
-};
-
 // Check if a node type represents content (not just formatting)
 const isContentNode = (nodeType: string): boolean => {
   const contentNodeTypes = [
@@ -211,6 +143,167 @@ const isContentNode = (nodeType: string): boolean => {
   return contentNodeTypes.some(type =>
     nodeType.toLowerCase().includes(type.toLowerCase()),
   );
+};
+
+// Create a content signature that ignores order but includes formatting
+const createContentSignature = (
+  editorStateJSON: SerializedEditorState,
+): string => {
+  const contentPieces: string[] = [];
+
+  const extractContent = (node: any, depth: number = 0): void => {
+    // Extract text content WITH its formatting context
+    if (node.text) {
+      // Include parent node type/tag to distinguish h1 text from h3 text
+      const formatContext = `format:${node.format || 0}`;
+      contentPieces.push(`text:${node.text}:${formatContext}`);
+    }
+
+    // Extract content nodes (images, tables, etc.)
+    if (node.type && isContentNode(node.type)) {
+      // Create a signature for content nodes
+      const signature = `${node.type}:${JSON.stringify(node)}`;
+      contentPieces.push(signature);
+    }
+
+    // For formatting nodes, include their type/tag in the signature
+    if (node.type && isFormattingNode(node.type)) {
+      const nodeSignature = `node:${node.type}:${node.tag || ''}:${node.listType || ''}`;
+      contentPieces.push(nodeSignature);
+    }
+
+    // Recursively process children
+    if (node.children && Array.isArray(node.children)) {
+      node.children.forEach((child: any) => extractContent(child, depth + 1));
+    }
+  };
+
+  if (editorStateJSON?.root) {
+    extractContent(editorStateJSON.root);
+  }
+
+  // Sort to make order-independent
+  return contentPieces.sort().join('|');
+};
+
+// Check if a reorder has occurred
+const isReorderChange = (
+  initialState: SerializedEditorState,
+  currentState: SerializedEditorState,
+): boolean => {
+  // Compare content signatures (order-independent)
+  const initialSignature = createContentSignature(initialState);
+  const currentSignature = createContentSignature(currentState);
+
+  // If signatures match, content is the same (just reordered)
+  if (initialSignature === currentSignature) {
+    // But states are different (checked before calling this)
+    return true;
+  }
+
+  return false;
+};
+
+// Check for formatting changes in nodes
+const hasFormattingChanges = (initial: any, current: any): boolean => {
+  let hasChanges = false;
+
+  const checkNode = (node1: any, node2: any, path: string = ''): boolean => {
+    // Check if both nodes exist
+    if (!node1 || !node2) {
+      return false;
+    }
+
+    // For text nodes, check format property
+    if (
+      node1.type === 'text' ||
+      node2.type === 'text' ||
+      node1.text !== undefined ||
+      node2.text !== undefined
+    ) {
+      // Format property in Lexical uses bitwise flags:
+      // 1 = bold, 2 = italic, 4 = underline, 8 = strikethrough, etc.
+      if (node1?.format !== node2?.format) {
+        if (process.env.NODE_ENV === 'development') {
+          console.log(
+            `Format change detected at ${path}: ${node1?.format} → ${node2?.format}`,
+          );
+        }
+        hasChanges = true;
+        return true;
+      }
+    }
+
+    // Check style changes
+    if (JSON.stringify(node1?.style) !== JSON.stringify(node2?.style)) {
+      hasChanges = true;
+      return true;
+    }
+
+    // Check tag changes (e.g., h1 to h2, p to ul)
+    if (node1?.tag !== node2?.tag) {
+      // Both undefined is not a change
+      if (!(node1?.tag === undefined && node2?.tag === undefined)) {
+        hasChanges = true;
+        return true;
+      }
+    }
+
+    // Check type changes for formatting nodes
+    if (node1?.type !== node2?.type) {
+      // Check if this is a formatting-related type change
+      if (
+        isFormattingNode(node1?.type || '') ||
+        isFormattingNode(node2?.type || '')
+      ) {
+        hasChanges = true;
+        return true;
+      }
+    }
+
+    // Check list type changes (ordered vs unordered)
+    if (node1?.listType !== node2?.listType) {
+      hasChanges = true;
+      return true;
+    }
+
+    // Check direction changes (for RTL/LTR text)
+    if (node1?.direction !== node2?.direction) {
+      hasChanges = true;
+      return true;
+    }
+
+    // Check indent level changes
+    if (node1?.indent !== node2?.indent) {
+      hasChanges = true;
+      return true;
+    }
+
+    // Check children recursively - IMPORTANT: Check all children
+    if (node1?.children && node2?.children) {
+      const maxLength = Math.max(node1.children.length, node2.children.length);
+
+      for (let i = 0; i < maxLength; i++) {
+        const child1 = node1.children[i];
+        const child2 = node2.children[i];
+
+        if (!child1 || !child2) {
+          // One child exists but not the other - could be a structural change
+          continue;
+        }
+
+        if (checkNode(child1, child2, `${path}.children[${i}]`)) {
+          hasChanges = true;
+          // Don't return early - check all children
+        }
+      }
+    }
+
+    return false;
+  };
+
+  checkNode(initial?.root, current?.root, 'root');
+  return hasChanges;
 };
 
 // Check if a type change is a formatting change
@@ -252,6 +345,34 @@ const analyzeChanges = (
   initialState: SerializedEditorState,
   currentState: SerializedEditorState,
 ): ChangeDetection => {
+  // Deep equality check first
+  const statesAreEqual =
+    JSON.stringify(initialState) === JSON.stringify(currentState);
+  if (statesAreEqual) {
+    return {
+      type: 'NO_CHANGE',
+      isContentUpdated: false,
+      details: {
+        formatChanges: [],
+        contentChanges: [],
+      },
+    };
+  }
+
+  // Check if this is just a reorder
+  const isReorder = isReorderChange(initialState, currentState);
+
+  if (isReorder) {
+    return {
+      type: 'FORMAT_CHANGE',
+      isContentUpdated: true,
+      details: {
+        formatChanges: ['Content blocks reordered'],
+        contentChanges: [],
+      },
+    };
+  }
+
   // Extract text content
   const initialText = extractTextContent(initialState);
   const currentText = extractTextContent(currentState);
@@ -266,23 +387,40 @@ const analyzeChanges = (
   const fullComparison = deepCompare(initialState, currentState);
   const allDifferences = fullComparison.differences;
 
+  // Log differences for debugging
+  if (process.env.NODE_ENV === 'development' && allDifferences.length > 0) {
+    console.log('All differences found:', allDifferences);
+  }
+
   // Check if structural changes include content elements
   const hasContentStructuralChanges =
     hasStructuralContentChanges(allDifferences);
 
   // Identify formatting changes (including type conversions)
   const formatChanges = allDifferences.filter(diff => {
-    // Check for format property changes
+    // Check for format property changes (THIS IS KEY for bold, italic, etc.)
+    if (diff.includes('.format:')) {
+      return true;
+    }
+
+    // Check for style changes
+    if (diff.includes('.style:')) {
+      return true;
+    }
+
+    // Check for specific formatting keywords in the diff path
+    const formattingKeywords = [
+      'bold',
+      'italic',
+      'underline',
+      'strikethrough',
+      'code',
+      'subscript',
+      'superscript',
+      'highlight',
+    ];
     if (
-      diff.includes('.format:') ||
-      diff.includes('.style:') ||
-      diff.includes('bold') ||
-      diff.includes('italic') ||
-      diff.includes('underline') ||
-      diff.includes('strikethrough') ||
-      diff.includes('code') ||
-      diff.includes('subscript') ||
-      diff.includes('superscript')
+      formattingKeywords.some(keyword => diff.toLowerCase().includes(keyword))
     ) {
       return true;
     }
@@ -326,6 +464,16 @@ const analyzeChanges = (
       return true;
     }
 
+    // Check for direction changes
+    if (diff.includes('.direction:')) {
+      return true;
+    }
+
+    // Check for indent changes
+    if (diff.includes('.indent:')) {
+      return true;
+    }
+
     return false;
   });
 
@@ -335,6 +483,16 @@ const analyzeChanges = (
     changeType = 'CONTENT_CHANGE';
   } else if (hasFormatting || formatChanges.length > 0) {
     changeType = 'FORMAT_CHANGE';
+  }
+
+  // If we still have NO_CHANGE but states are different, it must be a format change
+  if (changeType === 'NO_CHANGE' && !statesAreEqual) {
+    changeType = 'FORMAT_CHANGE';
+    if (process.env.NODE_ENV === 'development') {
+      console.log(
+        'States differ but no specific change detected, marking as FORMAT_CHANGE',
+      );
+    }
   }
 
   // Prepare detailed change information
@@ -357,14 +515,17 @@ const analyzeChanges = (
       hasTextChange ||
       hasFormatting ||
       hasContentStructuralChanges ||
-      formatChanges.length > 0,
+      formatChanges.length > 0 ||
+      !statesAreEqual,
     details: {
       formatChanges:
         formatChanges.length > 0
           ? formatChanges
           : hasFormatting
             ? ['Format property changed']
-            : [],
+            : !statesAreEqual && changeType === 'FORMAT_CHANGE'
+              ? ['Unspecified format change detected']
+              : [],
       contentChanges: contentChanges,
     },
   };
@@ -380,73 +541,104 @@ export const ContentPlugin: React.FC<OnContentChangePluginProps> = ({
   const initialStateRef = useRef<SerializedEditorState | null>(null);
   const currentStateRef = useRef<SerializedEditorState | null>(null);
   const isInitializedRef = useRef(false);
-
-  useEffect(() => {
-    if (value && !isInitializedRef.current) {
-      const unregister = editor.registerUpdateListener(({ editorState }) => {
-        if (isInitializedRef.current) {
-          return;
-        }
-
-        // Initialize the initial state when the editor is ready
-        editorState.read(() => {
-          const editorStateJSON = editorState.toJSON();
-          initialStateRef.current = editorStateJSON;
-          currentStateRef.current = editorStateJSON;
-          isInitializedRef.current = true;
-        });
-
-        // Unregister after initialization
-        unregister();
-      });
-
-      return () => {
-        unregister();
-      };
-    }
-  }, [value, editor]);
+  const lastReportedChangeRef = useRef<ChangeType>('NO_CHANGE');
 
   useEffect(() => {
     if (value) {
-      editor.update(() => {
-        const currentMarkdown = $convertToMarkdownString(EDITOR_TRANSFORMERS);
-        if (currentMarkdown === value) {
-          return;
-        }
+      editor.update(
+        () => {
+          const currentMarkdown = $convertToMarkdownString(EDITOR_TRANSFORMERS);
+          if (currentMarkdown === value) {
+            return;
+          }
 
-        return $convertFromMarkdownString(value, EDITOR_TRANSFORMERS);
-      });
+          $convertFromMarkdownString(value, EDITOR_TRANSFORMERS);
+        },
+        {
+          onUpdate: () => {
+            // Capture initial state after markdown is converted
+            if (!isInitializedRef.current) {
+              editor.getEditorState().read(() => {
+                const editorStateJSON = editor.getEditorState().toJSON();
+                initialStateRef.current = editorStateJSON;
+                currentStateRef.current = editorStateJSON;
+                isInitializedRef.current = true;
+
+                if (process.env.NODE_ENV === 'development') {
+                  console.log('Initial state captured:', editorStateJSON);
+                }
+              });
+            }
+          },
+        },
+      );
     }
   }, [value, editor]);
 
   const handleOnChange = (editorState: EditorState) => {
     editorState.read(() => {
       const editorStateJSON = editorState.toJSON();
+
+      // Skip if we haven't initialized yet
+      if (!isInitializedRef.current || !initialStateRef.current) {
+        // Try to initialize now if we have content
+        if (
+          !isInitializedRef.current &&
+          editorStateJSON?.root?.children?.length > 0
+        ) {
+          initialStateRef.current = editorStateJSON;
+          currentStateRef.current = editorStateJSON;
+          isInitializedRef.current = true;
+
+          if (process.env.NODE_ENV === 'development') {
+            console.log('Late initialization of state:', editorStateJSON);
+          }
+        }
+        return;
+      }
+
+      // Store previous state for comparison
+      const previousState = currentStateRef.current;
+
+      // Update current state
       currentStateRef.current = editorStateJSON;
 
-      // Analyze changes if we have an initial state
-      if (initialStateRef.current && currentStateRef.current) {
-        const changeDetection = analyzeChanges(
-          initialStateRef.current,
-          currentStateRef.current,
-        );
+      // Compare against initial state for the overall change detection
+      const changeDetection = analyzeChanges(
+        initialStateRef.current,
+        currentStateRef.current,
+      );
+
+      // Also check if there was any change from the previous state
+      const hasAnyChange =
+        JSON.stringify(previousState) !==
+        JSON.stringify(currentStateRef.current);
+
+      // Report changes
+      if (
+        hasAnyChange ||
+        changeDetection.type !== 'NO_CHANGE' ||
+        lastReportedChangeRef.current !== 'NO_CHANGE'
+      ) {
+        lastReportedChangeRef.current = changeDetection.type;
 
         // Call the legacy callback
         onContentUpdate?.(changeDetection.isContentUpdated);
 
         // Call the new change detection callback
         onChangeDetected?.(changeDetection);
+      }
 
-        // Enhanced debugging
-        if (process.env.NODE_ENV === 'development') {
-          console.log('Editor state change analysis:', {
-            type: changeDetection.type,
-            isContentUpdated: changeDetection.isContentUpdated,
-            details: changeDetection.details,
-            initialState: initialStateRef.current,
-            currentState: currentStateRef.current,
-          });
-        }
+      // Enhanced debugging
+      if (process.env.NODE_ENV === 'development' && hasAnyChange) {
+        console.log('Editor state change analysis:', {
+          type: changeDetection.type,
+          isContentUpdated: changeDetection.isContentUpdated,
+          details: changeDetection.details,
+          hasAnyChange,
+          formatChangesFound:
+            changeDetection.details?.formatChanges?.length || 0,
+        });
       }
 
       // Convert to markdown and call onChange
