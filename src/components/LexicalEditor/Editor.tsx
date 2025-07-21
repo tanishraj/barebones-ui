@@ -8,7 +8,6 @@ import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { ClickableLinkPlugin } from '@lexical/react/LexicalClickableLinkPlugin';
-import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 
 import { useAppSettings } from './context/SettingsContext';
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
@@ -19,23 +18,26 @@ import { TableCellResizerPlugin } from './plugins/TableCellResizer';
 import { TableHoverActionsPlugin } from './plugins/TableHoverActionsPlugin';
 import { TableOfContentsPlugin } from './plugins/TableOfContentsPlugin';
 import { FloatingLinkEditorPlugin } from './plugins/FloatingLinkEditorPlugin';
-import { ContentPlugin } from './plugins/ContentPlugin';
+import { ChangeDetection, ContentPlugin } from './plugins/ContentPlugin';
 import { EquationsPlugin } from './plugins/EquationsPlugin';
 import TreeViewPlugin from './plugins/TreeViewPlugin';
 import LinkPlugin from './plugins/LinkPlugin';
 import AutoLinkPlugin from './plugins/AutoLinkPlugin';
+import DraggableBlockPlugin from './plugins/DraggableBlockPlugin';
+import { EditablePlugin } from './plugins/EditablePlugin';
 
 export interface EditorProps {
   value?: string;
   onChange?: (value: string) => void;
-  onContentUpdate?: (isContentUpdated: boolean) => void;
-  onFormatUpdate?: (isFormatUpdated: boolean) => void;
+  onChangeDetected?: (change: ChangeDetection) => void;
+  isEditable?: boolean;
 }
 
 export const Editor: React.FC<EditorProps> = ({
   value,
   onChange,
-  onContentUpdate,
+  onChangeDetected,
+  isEditable = false,
 }) => {
   const {
     settings: {
@@ -58,7 +60,6 @@ export const Editor: React.FC<EditorProps> = ({
   const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
-  const isEditable = useLexicalEditable();
   const [isSmallWidthViewport, setIsSmallWidthViewport] =
     useState<boolean>(false);
 
@@ -76,6 +77,7 @@ export const Editor: React.FC<EditorProps> = ({
           activeEditor={activeEditor}
           setActiveEditor={setActiveEditor}
           setIsLinkEditMode={setIsLinkEditMode}
+          isEditable={isEditable}
         />
       )}
       {isRichText && (
@@ -126,31 +128,14 @@ export const Editor: React.FC<EditorProps> = ({
             )}
             {floatingAnchorElem && !isSmallWidthViewport && (
               <>
+                <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
                 <TableHoverActionsPlugin anchorElem={floatingAnchorElem} />
               </>
             )}
             <ContentPlugin
               value={value}
               onChange={onChange}
-              onContentUpdate={onContentUpdate}
-            />
-            <ContentPlugin
-              value={value}
-              onChange={onChange}
-              onContentUpdate={onContentUpdate}
-              onChangeDetected={change => {
-                console.log('Change type:', change.type);
-                console.log('Is updated:', change.isContentUpdated);
-
-                if (change.type === 'FORMAT_CHANGE') {
-                  console.log('Format changes:', change.details?.formatChanges);
-                } else if (change.type === 'CONTENT_CHANGE') {
-                  console.log(
-                    'Content changes:',
-                    change.details?.contentChanges,
-                  );
-                }
-              }}
+              onChangeDetected={onChangeDetected}
             />
           </>
         ) : (
@@ -168,6 +153,7 @@ export const Editor: React.FC<EditorProps> = ({
           </>
         )}
       </div>
+      <EditablePlugin isEditable={isEditable} />
       {showTreeView && <TreeViewPlugin />}
     </>
   );

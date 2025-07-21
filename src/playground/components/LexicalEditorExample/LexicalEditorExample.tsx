@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { LexicalEditor } from '@/components';
+import { ChangeDetection } from '@/components/LexicalEditor/plugins/ContentPlugin';
 
 import 'react-tooltip/dist/react-tooltip.css';
 
@@ -34,20 +35,36 @@ $e=mc^2$
 
 export const LexicalEditorExample = () => {
   const [content, setContent] = useState<string>(DEFAULT_CONTENT);
-  const [hasContentUpdated, setHasContentUpdated] = useState<boolean>(false);
-  const [hasFormatUpdated, setHasFormatUpdated] = useState<boolean>(false);
+  const [editorChange, setEditorChange] = useState<ChangeDetection>({
+    type: 'NO_CHANGE',
+    isContentUpdated: false,
+    details: {
+      contentChanges: [],
+      formatChanges: [],
+    },
+  });
+  const [isEditable, setIsEditable] = useState<boolean>(false);
 
   return (
     <div>
-      <h1>Lexical Editor Example</h1>
+      <div className='flex justify-between items-center mb-4'>
+        <h1>Lexical Editor Example</h1>
+        <button
+          className='btn btn-primary'
+          onClick={() => setIsEditable(!isEditable)}
+        >
+          Switch to {isEditable ? 'Preview' : 'Edit'} Mode
+        </button>
+      </div>
       <LexicalEditor
         value={content}
         onChange={setContent}
-        onContentUpdate={setHasContentUpdated}
-        onFormatUpdate={setHasFormatUpdated}
+        onChangeDetected={setEditorChange}
+        isEditable={isEditable}
       />
-      <div>Content Updated: {hasContentUpdated ? 'true' : 'false'}</div>
-      <div>Format Updated: {hasFormatUpdated ? 'true' : 'false'}</div>
+
+      <div>HAS_CHANGED: {editorChange.isContentUpdated ? 'true' : 'false'}</div>
+      <div>CHANGE_TYPE: {editorChange.type}</div>
       <div>Content: {content}</div>
     </div>
   );

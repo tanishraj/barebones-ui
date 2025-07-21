@@ -534,7 +534,6 @@ const analyzeChanges = (
 export const ContentPlugin: React.FC<OnContentChangePluginProps> = ({
   value,
   onChange,
-  onContentUpdate,
   onChangeDetected,
 }) => {
   const [editor] = useLexicalComposerContext();
@@ -621,9 +620,6 @@ export const ContentPlugin: React.FC<OnContentChangePluginProps> = ({
         lastReportedChangeRef.current !== 'NO_CHANGE'
       ) {
         lastReportedChangeRef.current = changeDetection.type;
-
-        // Call the legacy callback
-        onContentUpdate?.(changeDetection.isContentUpdated);
 
         // Call the new change detection callback
         onChangeDetected?.(changeDetection);

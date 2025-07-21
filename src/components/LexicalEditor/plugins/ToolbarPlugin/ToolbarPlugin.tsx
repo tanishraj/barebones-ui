@@ -58,6 +58,7 @@ interface ToolbarPluginProps {
   activeEditor: LexicalEditor;
   setActiveEditor: Dispatch<SetStateAction<LexicalEditor>>;
   setIsLinkEditMode: Dispatch<boolean>;
+  isEditable: boolean;
 }
 
 function $findTopLevelElement(node: LexicalNode) {
@@ -80,11 +81,11 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
   activeEditor,
   setActiveEditor,
   setIsLinkEditMode,
+  isEditable,
 }) => {
   const [selectedElementKey, setSelectedElementKey] = useState<NodeKey | null>(
     null,
   );
-  const [isEditable, setIsEditable] = useState(() => editor.isEditable());
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
   const { toolbarState, updateToolbarState } = useToolbarState();
