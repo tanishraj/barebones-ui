@@ -6,6 +6,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
 import { ContentEditableUi } from './components/ContentEditableUi';
 import { EditorProps } from './types';
+import ShortcutsPlugin from './plugins/ShortcutsPlugin/ShortcutsPlugin';
 
 import { cn } from '@/utils';
 
@@ -28,6 +29,10 @@ export const Editor: FC<EditorProps> = ({
         setActiveEditor={setActiveEditor}
         setIsLinkEditMode={setIsLinkEditMode}
         isEditable={isEditable}
+      />
+      <ShortcutsPlugin
+        editor={activeEditor}
+        setIsLinkEditMode={setIsLinkEditMode}
       />
       <RichTextPlugin
         contentEditable={
