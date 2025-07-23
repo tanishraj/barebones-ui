@@ -398,7 +398,7 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
         title={`Insert link`}
         type='button'
       >
-        <i className='format table' />
+        <i className='format table-content' />
       </button>
       <button
         disabled={!isEditable}
