@@ -7,9 +7,11 @@ import {
   useState,
 } from 'react';
 import {
+  $getRoot,
   $getSelection,
   $isElementNode,
   $isNodeSelection,
+  $isParagraphNode,
   $isRangeSelection,
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
@@ -17,7 +19,6 @@ import {
   FORMAT_TEXT_COMMAND,
   LexicalEditor,
   LexicalNode,
-  NodeKey,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import { $isHeadingNode } from '@lexical/rich-text';
@@ -47,6 +48,8 @@ import { SHORTCUTS } from '../ShortcutsPlugin';
 import { Divider } from '../../components/Divider';
 import { getSelectedNode } from '../../utils/getSelectedNode';
 import { sanitizeUrl } from '../../utils/url';
+import { useModal } from '../../hooks';
+import { ShowClearDialog } from '../../components/Dialogs';
 
 interface ToolbarPluginProps {
   editor: LexicalEditor;
@@ -65,9 +68,8 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
 }) => {
   const { toolbarState, updateToolbarState } = useToolbarState();
   const { blockType } = toolbarState;
-  const [selectedElementKey, setSelectedElementKey] = useState<NodeKey | null>(
-    null,
-  );
+  const [isEditorEmpty, setIsEditorEmpty] = useState(true);
+  const [modal, showModal] = useModal();
 
   const $handleHeadingNode = useCallback(
     (selectedElement: LexicalNode) => {
@@ -108,7 +110,6 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
       }
 
       if (elementDOM !== null) {
-        setSelectedElementKey(elementKey);
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType<ListNode>(
             anchorNode,
@@ -222,6 +223,26 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
       ),
     );
   }, [$updateToolbar, activeEditor, editor, updateToolbarState]);
+
+  useEffect(() => {
+    return editor.registerUpdateListener(() => {
+      editor.getEditorState().read(() => {
+        const root = $getRoot();
+        const children = root.getChildren();
+
+        if (children.length > 1) {
+          setIsEditorEmpty(false);
+        } else {
+          if ($isParagraphNode(children[0])) {
+            const paragraphChildren = children[0].getChildren();
+            setIsEditorEmpty(paragraphChildren.length === 0);
+          } else {
+            setIsEditorEmpty(false);
+          }
+        }
+      });
+    });
+  }, [editor, isEditable]);
 
   const insertLink = useCallback(() => {
     if (!toolbarState.isLink) {
@@ -412,6 +433,22 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
       >
         <i className='format equation' />
       </button>
+      <button
+        className='toolbar-item spaced'
+        disabled={isEditorEmpty}
+        onClick={() => {
+          showModal('Clear editor', onClose => (
+            <ShowClearDialog editor={editor} onClose={onClose} />
+          ));
+        }}
+        title='Clear'
+        aria-label='Clear editor contents'
+        type='button'
+      >
+        <i className='format clear' />
+      </button>
+
+      {modal}
     </div>
   );
 };

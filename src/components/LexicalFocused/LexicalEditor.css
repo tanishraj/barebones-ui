@@ -137,6 +137,10 @@ i.equation {
   background-image: url(./assets/icons/plus-slash-minus.svg);
 }
 
+i.clear {
+  background-image: url(./assets/icons/trash.svg);
+}
+
 /*
 ==================================================================
 ICON STYLES - END
