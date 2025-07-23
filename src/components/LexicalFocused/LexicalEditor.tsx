@@ -4,12 +4,16 @@ import { Button } from '../Button';
 import { Editor } from './Editor';
 import { ToolbarContext } from './context/ToolbarContext';
 import './LexicalEditor.css';
+import { EditorNodes } from './nodes';
+import { EditorTheme } from './themes';
 
 const INITIAL_CONFIG = {
   namespace: 'LexicalEditor',
   onError: (error: Error) => {
     console.error('Lexical Editor Error:', error);
   },
+  theme: EditorTheme,
+  nodes: EditorNodes,
   editorState: null,
 };
 
