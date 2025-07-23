@@ -42,6 +42,7 @@ export const Editor: FC<EditorProps> = ({
                 className='content-editable'
                 placeholder={placeholder || DEFAULT_PLACEHOLDER}
                 placeholderClassName='content-editable-placeholder'
+                aria-placeholder={placeholder || DEFAULT_PLACEHOLDER}
               />
             </div>
           </div>

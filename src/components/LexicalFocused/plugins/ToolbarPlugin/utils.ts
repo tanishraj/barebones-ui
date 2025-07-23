@@ -14,14 +14,34 @@ import {
 } from '@lexical/rich-text';
 import { $setBlocksType } from '@lexical/selection';
 import { $isTableSelection } from '@lexical/table';
-import { $getNearestBlockElementAncestorOrThrow } from '@lexical/utils';
+import {
+  $getNearestBlockElementAncestorOrThrow,
+  $findMatchingParent,
+} from '@lexical/utils';
 import {
   $createParagraphNode,
   $getSelection,
   $isRangeSelection,
+  $isRootOrShadowRoot,
   $isTextNode,
   LexicalEditor,
+  LexicalNode,
 } from 'lexical';
+
+export function $findTopLevelElement(node: LexicalNode) {
+  let topLevelElement =
+    node.getKey() === 'root'
+      ? node
+      : $findMatchingParent(node, e => {
+          const parent = e.getParent();
+          return parent !== null && $isRootOrShadowRoot(parent);
+        });
+
+  if (topLevelElement === null) {
+    topLevelElement = node.getTopLevelElementOrThrow();
+  }
+  return topLevelElement;
+}
 
 export const formatParagraph = (editor: LexicalEditor) => {
   editor.update(() => {

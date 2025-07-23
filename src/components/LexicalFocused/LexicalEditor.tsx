@@ -14,7 +14,7 @@ const INITIAL_CONFIG = {
   },
   theme: EditorTheme,
   nodes: EditorNodes,
-  editorState: null,
+  editorState: undefined,
 };
 
 export const LexicalEditor = () => {
