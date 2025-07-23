@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
@@ -34,6 +35,7 @@ export const Editor: FC<EditorProps> = ({
         editor={activeEditor}
         setIsLinkEditMode={setIsLinkEditMode}
       />
+      <AutoFocusPlugin />
       <RichTextPlugin
         contentEditable={
           <div className='editor-scroller'>

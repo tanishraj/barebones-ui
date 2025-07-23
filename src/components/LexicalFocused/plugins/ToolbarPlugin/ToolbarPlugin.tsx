@@ -11,7 +11,10 @@ import {
   $isElementNode,
   $isNodeSelection,
   $isRangeSelection,
-  COMMAND_PRIORITY_LOW,
+  CAN_REDO_COMMAND,
+  CAN_UNDO_COMMAND,
+  COMMAND_PRIORITY_CRITICAL,
+  FORMAT_TEXT_COMMAND,
   LexicalEditor,
   LexicalNode,
   NodeKey,
@@ -24,14 +27,16 @@ import {
   mergeRegister,
 } from '@lexical/utils';
 import { $isListNode, ListNode } from '@lexical/list';
-import { $isLinkNode } from '@lexical/link';
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { $isTableNode, $isTableSelection } from '@lexical/table';
 
 import { DropDown, DropDownItem } from '../../components/Dropdown';
 import {
   $findTopLevelElement,
   dropDownActiveClass,
+  formatBulletList,
   formatHeading,
+  formatNumberedList,
   formatParagraph,
 } from './utils';
 import {
@@ -41,6 +46,7 @@ import {
 import { SHORTCUTS } from '../ShortcutsPlugin';
 import { Divider } from '../../components/Divider';
 import { getSelectedNode } from '../../utils/getSelectedNode';
+import { sanitizeUrl } from '../../utils/url';
 
 interface ToolbarPluginProps {
   editor: LexicalEditor;
@@ -53,6 +59,8 @@ interface ToolbarPluginProps {
 export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
   editor,
   activeEditor,
+  setIsLinkEditMode,
+  setActiveEditor,
   isEditable,
 }) => {
   const { toolbarState, updateToolbarState } = useToolbarState();
@@ -172,28 +180,22 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
   }, [activeEditor, $handleHeadingNode, updateToolbarState]);
 
   useEffect(() => {
-    return mergeRegister(
-      editor.registerUpdateListener(({ editorState }) => {
-        editorState.read(() => {
-          $updateToolbar();
-        });
-      }),
-      editor.registerCommand(
-        SELECTION_CHANGE_COMMAND,
-        () => {
-          $updateToolbar();
-          return false;
-        },
-        COMMAND_PRIORITY_LOW,
-      ),
+    return editor.registerCommand(
+      SELECTION_CHANGE_COMMAND,
+      (_payload, newEditor) => {
+        setActiveEditor(newEditor);
+        $updateToolbar();
+        return false;
+      },
+      COMMAND_PRIORITY_CRITICAL,
     );
-  }, [editor, $updateToolbar]);
+  }, [editor, $updateToolbar, setActiveEditor]);
 
   useEffect(() => {
     activeEditor.getEditorState().read(() => {
       $updateToolbar();
     });
-  }, [$updateToolbar, activeEditor]);
+  }, [activeEditor, $updateToolbar]);
 
   useEffect(() => {
     return mergeRegister(
@@ -202,8 +204,37 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
           $updateToolbar();
         });
       }),
+      activeEditor.registerCommand<boolean>(
+        CAN_UNDO_COMMAND,
+        payload => {
+          updateToolbarState('canUndo', payload);
+          return false;
+        },
+        COMMAND_PRIORITY_CRITICAL,
+      ),
+      activeEditor.registerCommand<boolean>(
+        CAN_REDO_COMMAND,
+        payload => {
+          updateToolbarState('canRedo', payload);
+          return false;
+        },
+        COMMAND_PRIORITY_CRITICAL,
+      ),
     );
-  }, [$updateToolbar, activeEditor]);
+  }, [$updateToolbar, activeEditor, editor, updateToolbarState]);
+
+  const insertLink = useCallback(() => {
+    if (!toolbarState.isLink) {
+      setIsLinkEditMode(true);
+      activeEditor.dispatchCommand(
+        TOGGLE_LINK_COMMAND,
+        sanitizeUrl('https://'),
+      );
+    } else {
+      setIsLinkEditMode(false);
+      activeEditor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
+    }
+  }, [activeEditor, setIsLinkEditMode, toolbarState.isLink]);
 
   if (!isEditable) {
     return null;
@@ -262,6 +293,125 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
         </DropDownItem>
       </DropDown>
       <Divider />
+      <button
+        disabled={!isEditable}
+        onClick={() => {
+          activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
+        }}
+        className={
+          'toolbar-item spaced ' + (toolbarState.isBold ? 'active' : '')
+        }
+        title={`Bold (${SHORTCUTS.BOLD})`}
+        type='button'
+        aria-label={`Format text as bold. Shortcut: ${SHORTCUTS.BOLD}`}
+      >
+        <i className='format bold' />
+      </button>
+      <button
+        disabled={!isEditable}
+        onClick={() => {
+          activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
+        }}
+        className={
+          'toolbar-item spaced ' + (toolbarState.isItalic ? 'active' : '')
+        }
+        title={`Italic (${SHORTCUTS.ITALIC})`}
+        type='button'
+        aria-label={`Format text as italics. Shortcut: ${SHORTCUTS.ITALIC}`}
+      >
+        <i className='format italic' />
+      </button>
+      <button
+        disabled={!isEditable}
+        onClick={() => {
+          activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
+        }}
+        className={
+          'toolbar-item spaced ' + (toolbarState.isUnderline ? 'active' : '')
+        }
+        title={`Underline (${SHORTCUTS.UNDERLINE})`}
+        type='button'
+        aria-label={`Format text to underlined. Shortcut: ${SHORTCUTS.UNDERLINE}`}
+      >
+        <i className='format underline' />
+      </button>
+      <button
+        disabled={!isEditable}
+        onClick={() => {
+          activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
+        }}
+        className={
+          'toolbar-item spaced ' +
+          (toolbarState.isStrikethrough ? 'active' : '')
+        }
+        title={`Underline (${SHORTCUTS.STRIKETHROUGH})`}
+        type='button'
+        aria-label={`Format text to strike-through. Shortcut: ${SHORTCUTS.STRIKETHROUGH}`}
+      >
+        <i className='format strikethrough' />
+      </button>
+      <Divider />
+      <button
+        disabled={!isEditable}
+        onClick={() => formatNumberedList(editor, blockType)}
+        className={
+          'toolbar-item spaced ' + (blockType === 'number' ? 'active' : '')
+        }
+        title={`Underline (${SHORTCUTS.NUMBERED_LIST})`}
+        type='button'
+        aria-label={`Format text to strike-through. Shortcut: ${SHORTCUTS.NUMBERED_LIST}`}
+      >
+        <i className='format numbered-list' />
+      </button>
+      <button
+        disabled={!isEditable}
+        onClick={() => formatBulletList(editor, blockType)}
+        className={
+          'toolbar-item spaced ' + (blockType === 'bullet' ? 'active' : '')
+        }
+        title={`Underline (${SHORTCUTS.BULLET_LIST})`}
+        type='button'
+        aria-label={`Format text to strike-through. Shortcut: ${SHORTCUTS.BULLET_LIST}`}
+      >
+        <i className='format bullet-list' />
+      </button>
+      <Divider />
+      <button
+        disabled={!isEditable}
+        onClick={insertLink}
+        className={
+          'toolbar-item spaced ' + (toolbarState.isLink ? 'active' : '')
+        }
+        aria-label='Insert link'
+        title={`Insert link (${SHORTCUTS.INSERT_LINK})`}
+        type='button'
+      >
+        <i className='format link' />
+      </button>
+      <button
+        disabled={!isEditable}
+        onClick={insertLink}
+        className={
+          'toolbar-item spaced ' + (toolbarState.isLink ? 'active' : '')
+        }
+        aria-label='Insert link'
+        title={`Insert link`}
+        type='button'
+      >
+        <i className='format table' />
+      </button>
+      <button
+        disabled={!isEditable}
+        onClick={insertLink}
+        className={
+          'toolbar-item spaced ' + (toolbarState.isLink ? 'active' : '')
+        }
+        aria-label='Insert link'
+        title={`Insert link`}
+        type='button'
+      >
+        <i className='format equation' />
+      </button>
     </div>
   );
 };

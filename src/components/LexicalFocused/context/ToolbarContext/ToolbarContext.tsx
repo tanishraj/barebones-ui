@@ -25,6 +25,8 @@ const INITIAL_TOOLBAR_STATE = {
   isStrikethrough: false,
   isRTL: false,
   isLink: false,
+  canRedo: false,
+  canUndo: false,
 };
 
 export type ToolbarState = typeof INITIAL_TOOLBAR_STATE;
