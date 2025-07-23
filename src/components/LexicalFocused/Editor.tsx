@@ -6,7 +6,6 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
 import { ContentEditableUi } from './components/ContentEditableUi';
 import { EditorProps } from './types';
-import './Editor.css';
 
 import { cn } from '@/utils';
 
