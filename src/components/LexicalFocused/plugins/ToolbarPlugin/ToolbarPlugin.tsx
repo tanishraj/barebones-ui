@@ -53,6 +53,7 @@ import { getSelectedNode } from '../../utils/getSelectedNode';
 import { sanitizeUrl } from '../../utils/url';
 import { useModal } from '../../hooks';
 import { ShowClearDialog } from '../../components/Dialogs';
+import { InsertEquationDialog } from '../EquationsPlugin';
 
 interface ToolbarPluginProps {
   editor: LexicalEditor;
@@ -427,7 +428,14 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
         </button>
         <button
           disabled={!isEditable}
-          onClick={insertLink}
+          onClick={() => {
+            showModal('Insert Equation', onClose => (
+              <InsertEquationDialog
+                activeEditor={activeEditor}
+                onClose={onClose}
+              />
+            ));
+          }}
           className={
             'toolbar-item spaced ' + (toolbarState.isLink ? 'active' : '')
           }

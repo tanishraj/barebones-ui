@@ -7,6 +7,7 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
+import { EquationsPlugin } from './plugins/EquationsPlugin';
 import { ContentEditableUi } from './components/ContentEditableUi';
 import { EditorProps } from './types';
 import ShortcutsPlugin from './plugins/ShortcutsPlugin/ShortcutsPlugin';
@@ -55,6 +56,7 @@ export const Editor: FC<EditorProps> = ({
         ErrorBoundary={LexicalErrorBoundary}
       />
       <HistoryPlugin />
+      <EquationsPlugin />
     </div>
   );
 };

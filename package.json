@@ -27,9 +27,11 @@
   },
   "dependencies": {
     "@lexical/react": "^0.33.1",
+    "@types/katex": "^0.16.7",
     "@types/react-color": "^3.0.13",
     "@untitled-ui/icons-react": "^0.1.4",
     "daisyui": "^5.0.50",
+    "katex": "^0.16.22",
     "lexical": "^0.33.1",
     "lucide-react": "^0.511.0",
     "react": "^18.3.1",
