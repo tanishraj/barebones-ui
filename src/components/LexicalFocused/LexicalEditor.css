@@ -141,6 +141,14 @@ i.clear {
   background-image: url(./assets/icons/trash.svg);
 }
 
+i.undo {
+  background-image: url(./assets/icons/arrow-counterclockwise.svg);
+}
+
+i.redo {
+  background-image: url(./assets/icons/arrow-clockwise.svg);
+}
+
 /*
 ==================================================================
 ICON STYLES - END
@@ -316,7 +324,14 @@ TOOLBAR STYLES - START
   position: sticky;
   top: 0;
   z-index: 2;
-  overflow-y: hidden; /* disable vertical scroll*/
+  overflow-y: hidden;
+
+  div.item {
+    display: flex;
+    &:first-child {
+      flex: 1;
+    }
+  }
 }
 
 button.toolbar-item {

@@ -19,12 +19,15 @@ import {
   FORMAT_TEXT_COMMAND,
   LexicalEditor,
   LexicalNode,
+  REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
+  UNDO_COMMAND,
 } from 'lexical';
 import { $isHeadingNode } from '@lexical/rich-text';
 import {
   $findMatchingParent,
   $getNearestNodeOfType,
+  IS_APPLE,
   mergeRegister,
 } from '@lexical/utils';
 import { $isListNode, ListNode } from '@lexical/list';
@@ -263,190 +266,219 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
 
   return (
     <div className='toolbar'>
-      <DropDown
-        disabled={!isEditable}
-        buttonClassName='toolbar-item block-controls'
-        buttonIconClassName={'icon block-type ' + blockType}
-        buttonLabel={blockTypeToBlockName[blockType]}
-        buttonAriaLabel='Select language'
-      >
-        <DropDownItem
+      <div className='item'>
+        <DropDown
+          disabled={!isEditable}
+          buttonClassName='toolbar-item block-controls'
+          buttonIconClassName={'icon block-type ' + blockType}
+          buttonLabel={blockTypeToBlockName[blockType]}
+          buttonAriaLabel='Select language'
+        >
+          <DropDownItem
+            className={
+              'item wide ' + dropDownActiveClass(blockType === 'paragraph')
+            }
+            onClick={() => formatParagraph(editor)}
+          >
+            <div className='icon-text-container'>
+              <i className='icon paragraph' />
+              <span className='text'>Normal</span>
+            </div>
+            <span className='shortcut'>{SHORTCUTS.NORMAL}</span>
+          </DropDownItem>
+          <DropDownItem
+            className={'item wide ' + dropDownActiveClass(blockType === 'h1')}
+            onClick={() => formatHeading(editor, blockType, 'h1')}
+          >
+            <div className='icon-text-container'>
+              <i className='icon h1' />
+              <span className='text'>Heading 1</span>
+            </div>
+            <span className='shortcut'>{SHORTCUTS.HEADING1}</span>
+          </DropDownItem>
+          <DropDownItem
+            className={'item wide ' + dropDownActiveClass(blockType === 'h2')}
+            onClick={() => formatHeading(editor, blockType, 'h2')}
+          >
+            <div className='icon-text-container'>
+              <i className='icon h2' />
+              <span className='text'>Heading 2</span>
+            </div>
+            <span className='shortcut'>{SHORTCUTS.HEADING2}</span>
+          </DropDownItem>
+          <DropDownItem
+            className={'item wide ' + dropDownActiveClass(blockType === 'h3')}
+            onClick={() => formatHeading(editor, blockType, 'h3')}
+          >
+            <div className='icon-text-container'>
+              <i className='icon h3' />
+              <span className='text'>Heading 3</span>
+            </div>
+            <span className='shortcut'>{SHORTCUTS.HEADING3}</span>
+          </DropDownItem>
+        </DropDown>
+        <Divider />
+        <button
+          disabled={!isEditable}
+          onClick={() => {
+            activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
+          }}
           className={
-            'item wide ' + dropDownActiveClass(blockType === 'paragraph')
+            'toolbar-item spaced ' + (toolbarState.isBold ? 'active' : '')
           }
-          onClick={() => formatParagraph(editor)}
+          title={`Bold (${SHORTCUTS.BOLD})`}
+          type='button'
+          aria-label={`Format text as bold. Shortcut: ${SHORTCUTS.BOLD}`}
         >
-          <div className='icon-text-container'>
-            <i className='icon paragraph' />
-            <span className='text'>Normal</span>
-          </div>
-          <span className='shortcut'>{SHORTCUTS.NORMAL}</span>
-        </DropDownItem>
-        <DropDownItem
-          className={'item wide ' + dropDownActiveClass(blockType === 'h1')}
-          onClick={() => formatHeading(editor, blockType, 'h1')}
+          <i className='format bold' />
+        </button>
+        <button
+          disabled={!isEditable}
+          onClick={() => {
+            activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
+          }}
+          className={
+            'toolbar-item spaced ' + (toolbarState.isItalic ? 'active' : '')
+          }
+          title={`Italic (${SHORTCUTS.ITALIC})`}
+          type='button'
+          aria-label={`Format text as italics. Shortcut: ${SHORTCUTS.ITALIC}`}
         >
-          <div className='icon-text-container'>
-            <i className='icon h1' />
-            <span className='text'>Heading 1</span>
-          </div>
-          <span className='shortcut'>{SHORTCUTS.HEADING1}</span>
-        </DropDownItem>
-        <DropDownItem
-          className={'item wide ' + dropDownActiveClass(blockType === 'h2')}
-          onClick={() => formatHeading(editor, blockType, 'h2')}
+          <i className='format italic' />
+        </button>
+        <button
+          disabled={!isEditable}
+          onClick={() => {
+            activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
+          }}
+          className={
+            'toolbar-item spaced ' + (toolbarState.isUnderline ? 'active' : '')
+          }
+          title={`Underline (${SHORTCUTS.UNDERLINE})`}
+          type='button'
+          aria-label={`Format text to underlined. Shortcut: ${SHORTCUTS.UNDERLINE}`}
         >
-          <div className='icon-text-container'>
-            <i className='icon h2' />
-            <span className='text'>Heading 2</span>
-          </div>
-          <span className='shortcut'>{SHORTCUTS.HEADING2}</span>
-        </DropDownItem>
-        <DropDownItem
-          className={'item wide ' + dropDownActiveClass(blockType === 'h3')}
-          onClick={() => formatHeading(editor, blockType, 'h3')}
+          <i className='format underline' />
+        </button>
+        <button
+          disabled={!isEditable}
+          onClick={() => {
+            activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
+          }}
+          className={
+            'toolbar-item spaced ' +
+            (toolbarState.isStrikethrough ? 'active' : '')
+          }
+          title={`Underline (${SHORTCUTS.STRIKETHROUGH})`}
+          type='button'
+          aria-label={`Format text to strike-through. Shortcut: ${SHORTCUTS.STRIKETHROUGH}`}
         >
-          <div className='icon-text-container'>
-            <i className='icon h3' />
-            <span className='text'>Heading 3</span>
-          </div>
-          <span className='shortcut'>{SHORTCUTS.HEADING3}</span>
-        </DropDownItem>
-      </DropDown>
-      <Divider />
-      <button
-        disabled={!isEditable}
-        onClick={() => {
-          activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
-        }}
-        className={
-          'toolbar-item spaced ' + (toolbarState.isBold ? 'active' : '')
-        }
-        title={`Bold (${SHORTCUTS.BOLD})`}
-        type='button'
-        aria-label={`Format text as bold. Shortcut: ${SHORTCUTS.BOLD}`}
-      >
-        <i className='format bold' />
-      </button>
-      <button
-        disabled={!isEditable}
-        onClick={() => {
-          activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
-        }}
-        className={
-          'toolbar-item spaced ' + (toolbarState.isItalic ? 'active' : '')
-        }
-        title={`Italic (${SHORTCUTS.ITALIC})`}
-        type='button'
-        aria-label={`Format text as italics. Shortcut: ${SHORTCUTS.ITALIC}`}
-      >
-        <i className='format italic' />
-      </button>
-      <button
-        disabled={!isEditable}
-        onClick={() => {
-          activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
-        }}
-        className={
-          'toolbar-item spaced ' + (toolbarState.isUnderline ? 'active' : '')
-        }
-        title={`Underline (${SHORTCUTS.UNDERLINE})`}
-        type='button'
-        aria-label={`Format text to underlined. Shortcut: ${SHORTCUTS.UNDERLINE}`}
-      >
-        <i className='format underline' />
-      </button>
-      <button
-        disabled={!isEditable}
-        onClick={() => {
-          activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
-        }}
-        className={
-          'toolbar-item spaced ' +
-          (toolbarState.isStrikethrough ? 'active' : '')
-        }
-        title={`Underline (${SHORTCUTS.STRIKETHROUGH})`}
-        type='button'
-        aria-label={`Format text to strike-through. Shortcut: ${SHORTCUTS.STRIKETHROUGH}`}
-      >
-        <i className='format strikethrough' />
-      </button>
-      <Divider />
-      <button
-        disabled={!isEditable}
-        onClick={() => formatNumberedList(editor, blockType)}
-        className={
-          'toolbar-item spaced ' + (blockType === 'number' ? 'active' : '')
-        }
-        title={`Underline (${SHORTCUTS.NUMBERED_LIST})`}
-        type='button'
-        aria-label={`Format text to strike-through. Shortcut: ${SHORTCUTS.NUMBERED_LIST}`}
-      >
-        <i className='format numbered-list' />
-      </button>
-      <button
-        disabled={!isEditable}
-        onClick={() => formatBulletList(editor, blockType)}
-        className={
-          'toolbar-item spaced ' + (blockType === 'bullet' ? 'active' : '')
-        }
-        title={`Underline (${SHORTCUTS.BULLET_LIST})`}
-        type='button'
-        aria-label={`Format text to strike-through. Shortcut: ${SHORTCUTS.BULLET_LIST}`}
-      >
-        <i className='format bullet-list' />
-      </button>
-      <Divider />
-      <button
-        disabled={!isEditable}
-        onClick={insertLink}
-        className={
-          'toolbar-item spaced ' + (toolbarState.isLink ? 'active' : '')
-        }
-        aria-label='Insert link'
-        title={`Insert link (${SHORTCUTS.INSERT_LINK})`}
-        type='button'
-      >
-        <i className='format link' />
-      </button>
-      <button
-        disabled={!isEditable}
-        onClick={insertLink}
-        className={
-          'toolbar-item spaced ' + (toolbarState.isLink ? 'active' : '')
-        }
-        aria-label='Insert link'
-        title={`Insert link`}
-        type='button'
-      >
-        <i className='format table-content' />
-      </button>
-      <button
-        disabled={!isEditable}
-        onClick={insertLink}
-        className={
-          'toolbar-item spaced ' + (toolbarState.isLink ? 'active' : '')
-        }
-        aria-label='Insert link'
-        title={`Insert link`}
-        type='button'
-      >
-        <i className='format equation' />
-      </button>
-      <button
-        className='toolbar-item spaced'
-        disabled={isEditorEmpty}
-        onClick={() => {
-          showModal('Clear editor', onClose => (
-            <ShowClearDialog editor={editor} onClose={onClose} />
-          ));
-        }}
-        title='Clear'
-        aria-label='Clear editor contents'
-        type='button'
-      >
-        <i className='format clear' />
-      </button>
+          <i className='format strikethrough' />
+        </button>
+        <Divider />
+        <button
+          disabled={!isEditable}
+          onClick={() => formatNumberedList(editor, blockType)}
+          className={
+            'toolbar-item spaced ' + (blockType === 'number' ? 'active' : '')
+          }
+          title={`Underline (${SHORTCUTS.NUMBERED_LIST})`}
+          type='button'
+          aria-label={`Format text to strike-through. Shortcut: ${SHORTCUTS.NUMBERED_LIST}`}
+        >
+          <i className='format numbered-list' />
+        </button>
+        <button
+          disabled={!isEditable}
+          onClick={() => formatBulletList(editor, blockType)}
+          className={
+            'toolbar-item spaced ' + (blockType === 'bullet' ? 'active' : '')
+          }
+          title={`Underline (${SHORTCUTS.BULLET_LIST})`}
+          type='button'
+          aria-label={`Format text to strike-through. Shortcut: ${SHORTCUTS.BULLET_LIST}`}
+        >
+          <i className='format bullet-list' />
+        </button>
+        <Divider />
+        <button
+          disabled={!isEditable}
+          onClick={insertLink}
+          className={
+            'toolbar-item spaced ' + (toolbarState.isLink ? 'active' : '')
+          }
+          aria-label='Insert link'
+          title={`Insert link (${SHORTCUTS.INSERT_LINK})`}
+          type='button'
+        >
+          <i className='format link' />
+        </button>
+        <button
+          disabled={!isEditable}
+          onClick={insertLink}
+          className={
+            'toolbar-item spaced ' + (toolbarState.isLink ? 'active' : '')
+          }
+          aria-label='Insert link'
+          title={`Insert link`}
+          type='button'
+        >
+          <i className='format table-content' />
+        </button>
+        <button
+          disabled={!isEditable}
+          onClick={insertLink}
+          className={
+            'toolbar-item spaced ' + (toolbarState.isLink ? 'active' : '')
+          }
+          aria-label='Insert link'
+          title={`Insert link`}
+          type='button'
+        >
+          <i className='format equation' />
+        </button>
+      </div>
+      <div className='item'>
+        <button
+          className='toolbar-item spaced'
+          disabled={isEditorEmpty}
+          onClick={() => {
+            showModal('Clear editor', onClose => (
+              <ShowClearDialog editor={editor} onClose={onClose} />
+            ));
+          }}
+          title='Clear'
+          aria-label='Clear editor contents'
+          type='button'
+        >
+          <i className='format clear' />
+        </button>
+        <Divider />
+        <button
+          disabled={!toolbarState.canUndo || !isEditable}
+          onClick={() => {
+            activeEditor.dispatchCommand(UNDO_COMMAND, undefined);
+          }}
+          title={IS_APPLE ? 'Undo (⌘Z)' : 'Undo (Ctrl+Z)'}
+          type='button'
+          className='toolbar-item spaced'
+          aria-label='Undo'
+        >
+          <i className='format undo' />
+        </button>
+        <button
+          disabled={!toolbarState.canRedo || !isEditable}
+          onClick={() => {
+            activeEditor.dispatchCommand(REDO_COMMAND, undefined);
+          }}
+          title={IS_APPLE ? 'Redo (⇧⌘Z)' : 'Redo (Ctrl+Y)'}
+          type='button'
+          className='toolbar-item'
+          aria-label='Redo'
+        >
+          <i className='format redo' />
+        </button>
+      </div>
 
       {modal}
     </div>
