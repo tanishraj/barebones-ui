@@ -45,6 +45,7 @@ export const Editor: FC<EditorProps> = ({
       tableCellBackgroundColor,
       tableHorizontalScroll,
       hasLinkAttributes,
+      hasDraggableBlocks,
     },
   } = useAppSettings();
 
@@ -53,6 +54,9 @@ export const Editor: FC<EditorProps> = ({
   const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
+  const contentEditableClassName = cn('content-editable', {
+    'pl-10': hasDraggableBlocks,
+  });
 
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
@@ -81,7 +85,7 @@ export const Editor: FC<EditorProps> = ({
           <div className='editor-scroller'>
             <div className='editor' ref={onRef}>
               <ContentEditableUi
-                className='content-editable'
+                className={contentEditableClassName}
                 placeholder={placeholder || DEFAULT_PLACEHOLDER}
                 placeholderClassName='content-editable-placeholder'
                 aria-placeholder={placeholder || DEFAULT_PLACEHOLDER}
@@ -116,11 +120,11 @@ export const Editor: FC<EditorProps> = ({
           />
         </>
       )}
+      {floatingAnchorElem && hasDraggableBlocks && (
+        <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
+      )}
       {floatingAnchorElem && (
-        <>
-          <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
-          <TableHoverActionsPlugin anchorElem={floatingAnchorElem} />
-        </>
+        <TableHoverActionsPlugin anchorElem={floatingAnchorElem} />
       )}
       <EditablePlugin isEditable={isEditable} />
       <ContentPlugin

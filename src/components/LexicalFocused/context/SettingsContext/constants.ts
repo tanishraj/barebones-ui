@@ -5,6 +5,7 @@ const DEFAULT_SETTINGS = {
   tableHorizontalScroll: true,
   showTableOfContents: true,
   hasLinkAttributes: true,
+  hasDraggableBlocks: false,
 } as const;
 
 export const INITIAL_SETTINGS = {
