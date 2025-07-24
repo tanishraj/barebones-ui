@@ -2,15 +2,21 @@ import { FC, useState } from 'react';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
+import { TableCellResizerPlugin } from './plugins/TableCellResizer';
 import { EquationsPlugin } from './plugins/EquationsPlugin';
+import { TableHoverActionsPlugin } from './plugins/TableHoverActionsPlugin';
+import { FloatingLinkEditorPlugin } from './plugins/FloatingLinkEditorPlugin';
+import { TableActionMenuPlugin } from './plugins/TableActionMenuPlugin';
 import { ContentEditableUi } from './components/ContentEditableUi';
-import { EditorProps } from './types';
 import ShortcutsPlugin from './plugins/ShortcutsPlugin/ShortcutsPlugin';
+import { useAppSettings } from './context/SettingsContext';
+import { EditorProps } from './types';
 
 import { cn } from '@/utils';
 
@@ -21,9 +27,30 @@ export const Editor: FC<EditorProps> = ({
   editorShellClassName,
   isEditable = true,
 }) => {
+  const {
+    settings: {
+      isRichText,
+      listStrictIndent,
+      tableCellMerge,
+      tableCellBackgroundColor,
+      tableHorizontalScroll,
+      showTableOfContents,
+      showTreeView,
+      hasLinkAttributes,
+    },
+  } = useAppSettings();
+
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
   const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
+  const [floatingAnchorElem, setFloatingAnchorElem] =
+    useState<HTMLDivElement | null>(null);
+
+  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+    if (_floatingAnchorElem !== null) {
+      setFloatingAnchorElem(_floatingAnchorElem);
+    }
+  };
 
   return (
     <div className={cn('editor-shell', editorShellClassName)}>
@@ -43,7 +70,7 @@ export const Editor: FC<EditorProps> = ({
       <RichTextPlugin
         contentEditable={
           <div className='editor-scroller'>
-            <div className='editor'>
+            <div className='editor' ref={onRef}>
               <ContentEditableUi
                 className='content-editable'
                 placeholder={placeholder || DEFAULT_PLACEHOLDER}
@@ -57,6 +84,30 @@ export const Editor: FC<EditorProps> = ({
       />
       <HistoryPlugin />
       <EquationsPlugin />
+      <TablePlugin
+        hasCellMerge={tableCellMerge}
+        hasCellBackgroundColor={tableCellBackgroundColor}
+        hasHorizontalScroll={tableHorizontalScroll}
+      />
+      <TableCellResizerPlugin />
+      {floatingAnchorElem && (
+        <>
+          <FloatingLinkEditorPlugin
+            anchorElem={floatingAnchorElem}
+            isLinkEditMode={isLinkEditMode}
+            setIsLinkEditMode={setIsLinkEditMode}
+          />
+          <TableActionMenuPlugin
+            anchorElem={floatingAnchorElem}
+            cellMerge={true}
+          />
+        </>
+      )}
+      {floatingAnchorElem && (
+        <>
+          <TableHoverActionsPlugin anchorElem={floatingAnchorElem} />
+        </>
+      )}
     </div>
   );
 };

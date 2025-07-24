@@ -54,6 +54,7 @@ import { sanitizeUrl } from '../../utils/url';
 import { useModal } from '../../hooks';
 import { ShowClearDialog } from '../../components/Dialogs';
 import { InsertEquationDialog } from '../EquationsPlugin';
+import { InsertTableDialog } from '../TablePlugin';
 
 interface ToolbarPluginProps {
   editor: LexicalEditor;
@@ -416,12 +417,17 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
         </button>
         <button
           disabled={!isEditable}
-          onClick={insertLink}
-          className={
-            'toolbar-item spaced ' + (toolbarState.isLink ? 'active' : '')
-          }
-          aria-label='Insert link'
-          title={`Insert link`}
+          onClick={() => {
+            showModal('Insert Table', onClose => (
+              <InsertTableDialog
+                activeEditor={activeEditor}
+                onClose={onClose}
+              />
+            ));
+          }}
+          className='toolbar-item spaced'
+          aria-label='Insert table'
+          title={`Insert table`}
           type='button'
         >
           <i className='format table-content' />
@@ -436,11 +442,9 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
               />
             ));
           }}
-          className={
-            'toolbar-item spaced ' + (toolbarState.isLink ? 'active' : '')
-          }
-          aria-label='Insert link'
-          title={`Insert link`}
+          className='toolbar-item spaced'
+          aria-label='Insert equation'
+          title={`Insert equation`}
           type='button'
         >
           <i className='format equation' />
