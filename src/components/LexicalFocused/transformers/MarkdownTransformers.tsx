@@ -27,13 +27,38 @@ import {
   TableNode,
   TableRowNode,
 } from '@lexical/table';
-import { $isParagraphNode, $isTextNode, LexicalNode } from 'lexical';
+import { $isParagraphNode, $isTextNode, LexicalNode, TextNode } from 'lexical';
 
 import {
   $createEquationNode,
   $isEquationNode,
   EquationNode,
 } from '../nodes/EquationNode';
+import {
+  $createSourceNode,
+  $isSourceNode,
+  SourceNode,
+} from '../nodes/SourceNode';
+
+export const SOURCE_TRANSFORMER: TextMatchTransformer = {
+  dependencies: [SourceNode],
+  export: (node: LexicalNode) => {
+    if (!$isSourceNode(node)) {
+      return null;
+    }
+    return `[${node.__ids.join(',')}]`;
+  },
+  importRegExp: /\[(\d+(?:\s*,\s*\d+)*)\]/,
+  regExp: /\[(\d+(?:\s*,\s*\d+)*)\]$/,
+  replace: (textNode, match) => {
+    const [, id] = match;
+    const sourceIds = id.split(',').map(s => s.trim());
+    const sourceNode = $createSourceNode(sourceIds);
+    textNode.replace(sourceNode);
+  },
+  trigger: ']',
+  type: 'text-match',
+};
 
 export const HR: ElementTransformer = {
   dependencies: [HorizontalRuleNode],
@@ -250,6 +275,7 @@ MARKDOWN_TRANSFORMERS.push(
   ...MULTILINE_ELEMENT_TRANSFORMERS,
   ...TEXT_FORMAT_TRANSFORMERS,
   ...TEXT_MATCH_TRANSFORMERS,
+  SOURCE_TRANSFORMER,
 );
 
 export { MARKDOWN_TRANSFORMERS };
