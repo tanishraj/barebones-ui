@@ -2,15 +2,11 @@ import React from 'react';
 
 import { Context } from './Context';
 
-export type SourceType = {
-  id: string;
-  name: string;
-  content: string;
-};
+import { SectionSources } from '@/playground/components/LexicalFocusedExample/mockData';
 
 interface SourceContextProps {
   children: React.ReactNode;
-  value: SourceType[];
+  value: SectionSources;
 }
 
 export const SourceContext = ({ children, value }: SourceContextProps) => {

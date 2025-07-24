@@ -1,35 +1,53 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Tooltip } from 'react-tooltip';
 
 import { useSourceContext } from '../../context/SourceContext';
 import './SourceNodeComponent.css';
 
 export interface SourceNodeComponentProps {
-  sourceId: string;
+  sourceIds: string[];
 }
 
 export const SourceNodeComponent: React.FC<SourceNodeComponentProps> = ({
-  sourceId,
+  sourceIds,
 }) => {
   const sources = useSourceContext();
 
-  const source = useMemo(
-    () => sources?.find(s => s.id === sourceId),
-    [sources, sourceId],
-  );
+  const getTooltipContent = (sourceId: string) => {
+    if (!sources) return 'No sources available.';
 
-  const tooltipContent = source ? source.content : 'Source not found';
+    const source = sources.find(s => s.references === sourceId);
+    if (!source) return 'Source not found.';
+
+    return JSON.stringify(source, null, 2);
+  };
 
   return (
-    <React.Fragment key={sourceId}>
-      <span
-        className='source'
-        data-tooltip-id={source?.id}
-        data-tooltip-content={tooltipContent}
-      >
-        {sourceId}
-      </span>
-      <Tooltip id={source?.id} />
-    </React.Fragment>
+    <>
+      {sourceIds.map(id => {
+        return (
+          <React.Fragment key={id}>
+            <span
+              className='source'
+              data-tooltip-id={`source-tooltip-${id}`}
+              data-tooltip-content={getTooltipContent(id)}
+            >
+              {id}
+            </span>
+            <Tooltip
+              id={`source-tooltip-${id}`}
+              place='top'
+              delayShow={300}
+              delayHide={300}
+              style={{
+                maxWidth: '300px',
+                fontSize: '12px',
+                whiteSpace: 'pre-line',
+              }}
+            />
+          </React.Fragment>
+        );
+      })}
+    </>
   );
 };

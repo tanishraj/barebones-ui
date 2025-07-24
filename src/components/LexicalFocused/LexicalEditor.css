@@ -116,6 +116,10 @@ i.link {
 
 i.table-content {
   background-image: url(./assets/icons/table.svg);
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-size: contain;
 }
 
 i.bullet-list,
@@ -421,6 +425,11 @@ button.toolbar-item.active i {
   width: 1px;
   background-color: #eee;
   margin: 0 4px;
+
+  &::before,
+  &::after {
+    display: none;
+  }
 }
 
 .sticky-note-container {

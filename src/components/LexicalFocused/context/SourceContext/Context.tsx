@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-import { SourceType } from './SourceContext';
+import { SectionSources } from '@/playground/components/LexicalFocusedExample/mockData';
 
-export const Context = createContext<SourceType[]>([]);
+export const Context = createContext<SectionSources>([]);

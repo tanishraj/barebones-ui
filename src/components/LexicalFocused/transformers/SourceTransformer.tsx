@@ -8,13 +8,13 @@ export const SOURCE_TRANSFORMER: TextMatchTransformer = {
     if (!$isSourceNode(node)) {
       return null;
     }
-    return `[${node.__ids}]`;
+    return `[${node.__ids.join(',')}]`;
   },
-  importRegExp: /\[(\d+(?:,\d+)*)\]/,
-  regExp: /\[(\d+(?:,\d+)*)\]$/,
+  importRegExp: /\[(\d+(?:\s*,\s*\d+)*)\]/,
+  regExp: /\[(\d+(?:\s*,\s*\d+)*)\]$/,
   replace: (textNode, match) => {
     const [, id] = match;
-    const sourceIds = id.split(',');
+    const sourceIds = id.split(',').map(s => s.trim());
     const sourceNode = $createSourceNode(sourceIds);
     textNode.replace(sourceNode);
   },
