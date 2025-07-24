@@ -7,6 +7,7 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { ClickableLinkPlugin } from '@lexical/react/LexicalClickableLinkPlugin';
+import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
 import { TableCellResizerPlugin } from './plugins/TableCellResizer';
@@ -97,6 +98,7 @@ export const Editor: FC<EditorProps> = ({
       <TableCellResizerPlugin />
       <LinkPlugin hasLinkAttributes={hasLinkAttributes} />
       <ClickableLinkPlugin disabled={isEditable} />
+      <ListPlugin hasStrictIndent={listStrictIndent} />
       {floatingAnchorElem && (
         <>
           <FloatingLinkEditorPlugin

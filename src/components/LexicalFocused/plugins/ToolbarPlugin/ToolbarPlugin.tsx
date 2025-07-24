@@ -274,7 +274,7 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
           buttonClassName='toolbar-item block-controls'
           buttonIconClassName={'icon block-type ' + blockType}
           buttonLabel={blockTypeToBlockName[blockType]}
-          buttonAriaLabel='Select language'
+          buttonAriaLabel='Select Block'
         >
           <DropDownItem
             className={
