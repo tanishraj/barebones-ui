@@ -17,19 +17,25 @@ You can type in this editor and see how it behaves with different content. [3]
 
 You can type here and see how the editor behaves. [1,2]
 
-## Formular Equations
-$$e=mc^2$$
-
 ## Link:
 [Lexical Documentation](https://lexical.dev/docs/)
 
+## Formular Equations
+$$e=mc^2$$
+
 ## Table
 
-| Column 1 | Column 2 |
-| -------- | -------- |
-| Row 1    | Row 1 [1]  |
-| Row 2    | Row 2    |
+| Column1 | Column2 | Column3 | Column4 | Column5 |
+| ------- | ------- | ------- | ------- | ------- |
+| Row 1   | Row 1   | Row 1   | Row 1   | Row 1 [1]   |
+| Row 2   | Row 2   | Row 2   | Row 2   | Row 2   |
+| Row 3   | Row 3   | Row 3   | Row 3   | Row 3   |
+| Row 4   | Row 4   | Row 4   | Row 4   | Row 4   |
+| Row 5   | Row 5   | Row 5   | Row 5   | Row 5 [1]   |
 
+[1]: https://lexical.dev/docs/commands
+[2]: https://lexical.dev/docs/markdown
+[3]: https://lexical.dev/docs/tutorials
 `;
 
 export const LexicalFocusedExample = () => {
