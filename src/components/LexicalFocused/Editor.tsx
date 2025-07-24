@@ -16,6 +16,7 @@ import { EquationsPlugin } from './plugins/EquationsPlugin';
 import { LexicalAutoLinkPlugin } from './plugins/AutoLinkPlugin';
 import { TableHoverActionsPlugin } from './plugins/TableHoverActionsPlugin';
 import { FloatingLinkEditorPlugin } from './plugins/FloatingLinkEditorPlugin';
+import { DraggableBlockPlugin } from './plugins/DraggableBlockPlugin';
 import { EditablePlugin } from './plugins/EditablePlugin';
 import { LinkPlugin } from './plugins/LinkPlugin';
 import { TableActionMenuPlugin } from './plugins/TableActionMenuPlugin';
@@ -117,6 +118,7 @@ export const Editor: FC<EditorProps> = ({
       )}
       {floatingAnchorElem && (
         <>
+          <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
           <TableHoverActionsPlugin anchorElem={floatingAnchorElem} />
         </>
       )}
