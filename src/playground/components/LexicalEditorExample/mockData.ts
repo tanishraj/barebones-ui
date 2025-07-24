@@ -1846,3 +1846,397 @@ export const MOCK_SECTIONS_DATA = [
     __typename: 'AIShareReportSection',
   },
 ];
+
+
+export const MOCK_SECTION_SOURCES = [
+    {
+        "id": "503b9b08-5cac-48a6-a682-90d919ba974f-ref-3",
+        "title": "waterdrop_investor_deck_1752650935059.pdf",
+        "template": null,
+        "sourceType": "qualitative",
+        "order": 3,
+        "file_name": "waterdrop_investor_deck_1752650935059.pdf",
+        "file_manager_id": 71231,
+        "references": "3",
+        "creator": 10666,
+        "date": "2025-07-16",
+        "url": null,
+        "context": null,
+        "__typename": "AiSource"
+    },
+    {
+        "id": "752affef-373e-444a-bc67-4be4a7c1cfba-ref-1",
+        "title": "Company Profile Data",
+        "template": "company_profile",
+        "sourceType": "quantitative",
+        "order": 1,
+        "file_name": null,
+        "file_manager_id": null,
+        "references": "1",
+        "creator": 10666,
+        "date": "2024-12-31",
+        "url": null,
+        "context": null,
+        "__typename": "AiSource"
+    },
+    {
+        "id": "ca8e6e7b-2b9f-4d77-8546-238e194bf832-ref-4",
+        "title": "Waterdrop Metrics",
+        "template": "related_metrics",
+        "sourceType": "quantitative",
+        "order": 4,
+        "file_name": null,
+        "file_manager_id": null,
+        "references": "4",
+        "creator": 10666,
+        "date": "2024-12-01",
+        "url": null,
+        "context": {
+            "id": 241,
+            "system_name": null,
+            "name": "Market Size (TAM)",
+            "type": "metric",
+            "context": {
+                "type": "topic",
+                "id": 4,
+                "name": "market_and_team",
+                "innerContext": {
+                    "type": "score",
+                    "id": 19,
+                    "title": "Market",
+                    "__typename": "InnerContext"
+                },
+                "__typename": "Context"
+            },
+            "__typename": "AISourceContext"
+        },
+        "__typename": "AiSource"
+    },
+    {
+        "id": "ca8e6e7b-2b9f-4d77-8546-238e194bf832-ref-5",
+        "title": "Waterdrop Metrics",
+        "template": "related_metrics",
+        "sourceType": "quantitative",
+        "order": 4,
+        "file_name": null,
+        "file_manager_id": null,
+        "references": "5",
+        "creator": 10666,
+        "date": "2024-12-01",
+        "url": null,
+        "context": {
+            "id": 241,
+            "system_name": null,
+            "name": "Market Size (TAM)",
+            "type": "metric",
+            "context": {
+                "type": "topic",
+                "id": 4,
+                "name": "market_and_team",
+                "innerContext": {
+                    "type": "score",
+                    "id": 19,
+                    "title": "Market",
+                    "__typename": "InnerContext"
+                },
+                "__typename": "Context"
+            },
+            "__typename": "AISourceContext"
+        },
+        "__typename": "AiSource"
+    },
+    {
+        "id": "ca8e6e7b-2b9f-4d77-8546-238e194bf832-ref-6",
+        "title": "Waterdrop Metrics",
+        "template": "related_metrics",
+        "sourceType": "quantitative",
+        "order": 4,
+        "file_name": null,
+        "file_manager_id": null,
+        "references": "6",
+        "creator": 10666,
+        "date": "2024-12-01",
+        "url": null,
+        "context": {
+            "id": 241,
+            "system_name": null,
+            "name": "Market Size (TAM)",
+            "type": "metric",
+            "context": {
+                "type": "topic",
+                "id": 4,
+                "name": "market_and_team",
+                "innerContext": {
+                    "type": "score",
+                    "id": 19,
+                    "title": "Market",
+                    "__typename": "InnerContext"
+                },
+                "__typename": "Context"
+            },
+            "__typename": "AISourceContext"
+        },
+        "__typename": "AiSource"
+    },
+    {
+        "id": "ca8e6e7b-2b9f-4d77-8546-238e194bf832-ref-8",
+        "title": "Waterdrop Metrics",
+        "template": "related_metrics",
+        "sourceType": "quantitative",
+        "order": 4,
+        "file_name": null,
+        "file_manager_id": null,
+        "references": "8",
+        "creator": 10666,
+        "date": "2024-12-01",
+        "url": null,
+        "context": {
+            "id": 241,
+            "system_name": null,
+            "name": "Market Size (TAM)",
+            "type": "metric",
+            "context": {
+                "type": "topic",
+                "id": 4,
+                "name": "market_and_team",
+                "innerContext": {
+                    "type": "score",
+                    "id": 19,
+                    "title": "Market",
+                    "__typename": "InnerContext"
+                },
+                "__typename": "Context"
+            },
+            "__typename": "AISourceContext"
+        },
+        "__typename": "AiSource"
+    },
+    {
+        "id": "ca8e6e7b-2b9f-4d77-8546-238e194bf832-ref-9",
+        "title": "Waterdrop Metrics",
+        "template": "related_metrics",
+        "sourceType": "quantitative",
+        "order": 4,
+        "file_name": null,
+        "file_manager_id": null,
+        "references": "9",
+        "creator": 10666,
+        "date": "2024-12-01",
+        "url": null,
+        "context": {
+            "id": 241,
+            "system_name": null,
+            "name": "Market Size (TAM)",
+            "type": "metric",
+            "context": {
+                "type": "topic",
+                "id": 4,
+                "name": "market_and_team",
+                "innerContext": {
+                    "type": "score",
+                    "id": 19,
+                    "title": "Market",
+                    "__typename": "InnerContext"
+                },
+                "__typename": "Context"
+            },
+            "__typename": "AISourceContext"
+        },
+        "__typename": "AiSource"
+    },
+    {
+        "id": "6622703a-d4ce-4fe2-b997-2e609666c6d3-ref-7",
+        "title": "Waterdrop Scores",
+        "template": "scores",
+        "sourceType": "quantitative",
+        "order": 7,
+        "file_name": null,
+        "file_manager_id": null,
+        "references": "7",
+        "creator": 10666,
+        "date": "2024-12-01",
+        "url": null,
+        "context": null,
+        "__typename": "AiSource"
+    },
+    {
+        "id": "a0e39062-4423-4905-b7d2-a86b17694392-ref-2",
+        "title": "shopify",
+        "template": null,
+        "sourceType": "web",
+        "order": 2,
+        "file_name": null,
+        "file_manager_id": null,
+        "references": "2",
+        "creator": 0,
+        "date": "Tue Jul 22 2025 08:23:00 GMT+0000 (Coordinated Universal Time)",
+        "url": "https://www.shopify.com/sg/case-studies/waterdrop",
+        "context": null,
+        "__typename": "AiSource"
+    },
+    {
+        "id": "623b5787-f949-4a3d-bd8d-d0fef4d835c0-ref-10",
+        "title": "Waterdrop Metrics",
+        "template": "related_metrics",
+        "sourceType": "quantitative",
+        "order": 1,
+        "file_name": null,
+        "file_manager_id": null,
+        "references": "10",
+        "creator": 10666,
+        "date": "2024-12-01",
+        "url": null,
+        "context": {
+            "id": 81,
+            "system_name": null,
+            "name": "Annual Revenue",
+            "type": "metric",
+            "context": {
+                "type": "topic",
+                "id": 4,
+                "name": "market_and_team",
+                "innerContext": {
+                    "type": "score",
+                    "id": 19,
+                    "title": "Market",
+                    "__typename": "InnerContext"
+                },
+                "__typename": "Context"
+            },
+            "__typename": "AISourceContext"
+        },
+        "__typename": "AiSource"
+    },
+    {
+        "id": "623b5787-f949-4a3d-bd8d-d0fef4d835c0-ref-11",
+        "title": "Waterdrop Metrics",
+        "template": "related_metrics",
+        "sourceType": "quantitative",
+        "order": 1,
+        "file_name": null,
+        "file_manager_id": null,
+        "references": "11",
+        "creator": 10666,
+        "date": "2024-12-01",
+        "url": null,
+        "context": {
+            "id": 81,
+            "system_name": null,
+            "name": "Annual Revenue",
+            "type": "metric",
+            "context": {
+                "type": "topic",
+                "id": 4,
+                "name": "market_and_team",
+                "innerContext": {
+                    "type": "score",
+                    "id": 19,
+                    "title": "Market",
+                    "__typename": "InnerContext"
+                },
+                "__typename": "Context"
+            },
+            "__typename": "AISourceContext"
+        },
+        "__typename": "AiSource"
+    },
+    {
+        "id": "623b5787-f949-4a3d-bd8d-d0fef4d835c0-ref-12",
+        "title": "Waterdrop Metrics",
+        "template": "related_metrics",
+        "sourceType": "quantitative",
+        "order": 1,
+        "file_name": null,
+        "file_manager_id": null,
+        "references": "12",
+        "creator": 10666,
+        "date": "2024-12-01",
+        "url": null,
+        "context": {
+            "id": 81,
+            "system_name": null,
+            "name": "Annual Revenue",
+            "type": "metric",
+            "context": {
+                "type": "topic",
+                "id": 4,
+                "name": "market_and_team",
+                "innerContext": {
+                    "type": "score",
+                    "id": 19,
+                    "title": "Market",
+                    "__typename": "InnerContext"
+                },
+                "__typename": "Context"
+            },
+            "__typename": "AISourceContext"
+        },
+        "__typename": "AiSource"
+    },
+    {
+        "id": "623b5787-f949-4a3d-bd8d-d0fef4d835c0-ref-13",
+        "title": "Waterdrop Metrics",
+        "template": "related_metrics",
+        "sourceType": "quantitative",
+        "order": 1,
+        "file_name": null,
+        "file_manager_id": null,
+        "references": "13",
+        "creator": 10666,
+        "date": "2024-12-01",
+        "url": null,
+        "context": {
+            "id": 81,
+            "system_name": null,
+            "name": "Annual Revenue",
+            "type": "metric",
+            "context": {
+                "type": "topic",
+                "id": 4,
+                "name": "market_and_team",
+                "innerContext": {
+                    "type": "score",
+                    "id": 19,
+                    "title": "Market",
+                    "__typename": "InnerContext"
+                },
+                "__typename": "Context"
+            },
+            "__typename": "AISourceContext"
+        },
+        "__typename": "AiSource"
+    },
+    {
+        "id": "b4633400-3551-43ae-ac77-fdc6f1852827-ref-14",
+        "title": "Waterdrop Metrics",
+        "template": "related_metrics",
+        "sourceType": "quantitative",
+        "order": 5,
+        "file_name": null,
+        "file_manager_id": null,
+        "references": "14",
+        "creator": 10666,
+        "date": "2023-12-01",
+        "url": null,
+        "context": {
+            "id": 238,
+            "system_name": null,
+            "name": "Cash Conversion Cycle",
+            "type": "metric",
+            "context": {
+                "type": "topic",
+                "id": 3,
+                "name": "balance",
+                "innerContext": {
+                    "type": "score",
+                    "id": 18,
+                    "title": "Current Ratio",
+                    "__typename": "InnerContext"
+                },
+                "__typename": "Context"
+            },
+            "__typename": "AISourceContext"
+        },
+        "__typename": "AiSource"
+    }
+]
