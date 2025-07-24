@@ -582,12 +582,16 @@ TABLE STYLES - START
   align-items: center;
   border: 0;
   position: absolute;
-  top: 0px;
-  right: 10px;
+  top: 5px;
+  right: 5px;
   border-radius: 15px;
   color: #222;
   display: inline-block;
   cursor: pointer;
+  background: #eee;
+  line-height: 0;
+  height: 16px;
+  width: 16px;
 }
 
 i.chevron-down {
