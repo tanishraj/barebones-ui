@@ -5,6 +5,7 @@ import { AutoLinkNode, LinkNode } from '@lexical/link';
 import { ListItemNode, ListNode } from '@lexical/list';
 
 import { EquationNode } from './EquationNode';
+import { SourceNode } from './SourceNode';
 
 export const EditorNodes: Array<Klass<LexicalNode>> = [
   ParagraphNode,
@@ -18,4 +19,5 @@ export const EditorNodes: Array<Klass<LexicalNode>> = [
   EquationNode,
   LinkNode,
   AutoLinkNode,
+  SourceNode,
 ];

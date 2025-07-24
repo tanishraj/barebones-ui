@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { LexicalEditor } from '@/components';
 import { ChangeLogs } from '@/components/LexicalFocused/types';
+import { ReactTooltipAdapter } from '@/components/LexicalFocused/adapters/tooltip';
 
 const DEFAULT_CONTENT = `
 # Lexical Editor Example
@@ -43,6 +44,7 @@ export const LexicalFocusedExample = () => {
           markdown={content}
           onChange={setContent}
           onChangeLogs={setLogs}
+          tooltipProvider={ReactTooltipAdapter}
         />
       </div>
       <div className='card-footer gap-5 flex flex-col'>
