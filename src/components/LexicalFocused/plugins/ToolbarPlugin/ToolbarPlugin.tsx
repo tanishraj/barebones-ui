@@ -124,7 +124,7 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
           const type = parentList
             ? parentList.getListType()
             : element.getListType();
-          
+
           updateToolbarState('isBulletList', type === 'bullet');
           updateToolbarState('isNumberedList', type === 'number');
         } else {

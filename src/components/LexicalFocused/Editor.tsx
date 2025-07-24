@@ -8,6 +8,7 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { ClickableLinkPlugin } from '@lexical/react/LexicalClickableLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
 import { TableCellResizerPlugin } from './plugins/TableCellResizer';
@@ -99,6 +100,7 @@ export const Editor: FC<EditorProps> = ({
       <LinkPlugin hasLinkAttributes={hasLinkAttributes} />
       <ClickableLinkPlugin disabled={isEditable} />
       <ListPlugin hasStrictIndent={listStrictIndent} />
+      <TabIndentationPlugin maxIndent={7} />
       {floatingAnchorElem && (
         <>
           <FloatingLinkEditorPlugin
