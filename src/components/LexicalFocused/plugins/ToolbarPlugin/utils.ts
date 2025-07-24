@@ -28,7 +28,7 @@ import {
   LexicalNode,
 } from 'lexical';
 
-export function $findTopLevelElement(node: LexicalNode) {
+export const $findTopLevelElement = (node: LexicalNode) => {
   let topLevelElement =
     node.getKey() === 'root'
       ? node
@@ -41,7 +41,7 @@ export function $findTopLevelElement(node: LexicalNode) {
     topLevelElement = node.getTopLevelElementOrThrow();
   }
   return topLevelElement;
-}
+};
 
 export const formatParagraph = (editor: LexicalEditor) => {
   editor.update(() => {

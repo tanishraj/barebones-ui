@@ -116,6 +116,7 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
 
       if (elementDOM !== null) {
         if ($isListNode(element)) {
+          // Track list state separately without affecting dropdown
           const parentList = $getNearestNodeOfType<ListNode>(
             anchorNode,
             ListNode,
@@ -123,9 +124,13 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
           const type = parentList
             ? parentList.getListType()
             : element.getListType();
-
-          updateToolbarState('blockType', type);
+          
+          updateToolbarState('isBulletList', type === 'bullet');
+          updateToolbarState('isNumberedList', type === 'number');
         } else {
+          // Reset list states when not in a list
+          updateToolbarState('isBulletList', false);
+          updateToolbarState('isNumberedList', false);
           $handleHeadingNode(element);
         }
       }
@@ -168,10 +173,15 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
           ListNode,
         );
         if (parentList) {
+          // Track list state separately without affecting dropdown
           const type = parentList.getListType();
-          updateToolbarState('blockType', type);
+          updateToolbarState('isBulletList', type === 'bullet');
+          updateToolbarState('isNumberedList', type === 'number');
         } else {
           const selectedElement = $findTopLevelElement(selectedNode);
+          // Reset list states when not in a list
+          updateToolbarState('isBulletList', false);
+          updateToolbarState('isNumberedList', false);
           $handleHeadingNode(selectedElement);
           // Update elementFormat for node selection (e.g., images)
           if ($isElementNode(selectedElement)) {
@@ -382,11 +392,12 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
           disabled={!isEditable}
           onClick={() => formatNumberedList(editor, blockType)}
           className={
-            'toolbar-item spaced ' + (blockType === 'number' ? 'active' : '')
+            'toolbar-item spaced ' +
+            (toolbarState.isNumberedList ? 'active' : '')
           }
-          title={`Underline (${SHORTCUTS.NUMBERED_LIST})`}
+          title={`Numbered List (${SHORTCUTS.NUMBERED_LIST})`}
           type='button'
-          aria-label={`Format text to strike-through. Shortcut: ${SHORTCUTS.NUMBERED_LIST}`}
+          aria-label={`Format text as numbered list. Shortcut: ${SHORTCUTS.NUMBERED_LIST}`}
         >
           <i className='format numbered-list' />
         </button>
@@ -394,11 +405,11 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
           disabled={!isEditable}
           onClick={() => formatBulletList(editor, blockType)}
           className={
-            'toolbar-item spaced ' + (blockType === 'bullet' ? 'active' : '')
+            'toolbar-item spaced ' + (toolbarState.isBulletList ? 'active' : '')
           }
-          title={`Underline (${SHORTCUTS.BULLET_LIST})`}
+          title={`Bullet List (${SHORTCUTS.BULLET_LIST})`}
           type='button'
-          aria-label={`Format text to strike-through. Shortcut: ${SHORTCUTS.BULLET_LIST}`}
+          aria-label={`Format text as bullet list. Shortcut: ${SHORTCUTS.BULLET_LIST}`}
         >
           <i className='format bullet-list' />
         </button>

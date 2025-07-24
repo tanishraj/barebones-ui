@@ -25,6 +25,8 @@ const INITIAL_TOOLBAR_STATE = {
   isStrikethrough: false,
   isRTL: false,
   isLink: false,
+  isBulletList: false,
+  isNumberedList: false,
   canRedo: false,
   canUndo: false,
 };
