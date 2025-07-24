@@ -27,7 +27,7 @@ import {
   TableNode,
   TableRowNode,
 } from '@lexical/table';
-import { $isParagraphNode, $isTextNode, LexicalNode, TextNode } from 'lexical';
+import { $isParagraphNode, $isTextNode, LexicalNode } from 'lexical';
 
 import {
   $createEquationNode,
