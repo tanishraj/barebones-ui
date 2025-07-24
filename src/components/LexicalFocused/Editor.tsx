@@ -57,6 +57,9 @@ export const Editor: FC<EditorProps> = ({
   const contentEditableClassName = cn('content-editable', {
     'pl-10': hasDraggableBlocks,
   });
+  const placeholderClassName = cn('content-editable-placeholder', {
+    'left-10': hasDraggableBlocks,
+  });
 
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
@@ -87,7 +90,7 @@ export const Editor: FC<EditorProps> = ({
               <ContentEditableUi
                 className={contentEditableClassName}
                 placeholder={placeholder || DEFAULT_PLACEHOLDER}
-                placeholderClassName='content-editable-placeholder'
+                placeholderClassName={placeholderClassName}
                 aria-placeholder={placeholder || DEFAULT_PLACEHOLDER}
               />
             </div>
