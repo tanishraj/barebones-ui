@@ -1,11 +1,9 @@
 const DEFAULT_SETTINGS = {
-  isRichText: true,
   listStrictIndent: true,
   tableCellMerge: true,
   tableCellBackgroundColor: true,
   tableHorizontalScroll: true,
   showTableOfContents: true,
-  showTreeView: false,
   hasLinkAttributes: true,
 } as const;
 

@@ -1,11 +1,12 @@
+import { FC } from 'react';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 
-import { Button } from '../Button';
 import { Editor } from './Editor';
 import { ToolbarContext } from './context/ToolbarContext';
-import './LexicalEditor.css';
 import { EditorNodes } from './nodes';
 import { EditorTheme } from './themes';
+import { EditorProps } from './types';
+import './LexicalEditor.css';
 
 const INITIAL_CONFIG = {
   namespace: 'LexicalEditor',
@@ -17,18 +18,12 @@ const INITIAL_CONFIG = {
   editorState: undefined,
 };
 
-export const LexicalEditor = () => {
+export const LexicalEditor: FC<EditorProps> = props => {
   return (
-    <div>
-      <LexicalComposer initialConfig={INITIAL_CONFIG}>
-        <ToolbarContext>
-          <Editor />
-        </ToolbarContext>
-      </LexicalComposer>
-      <div className='flex justify-end items-center gap-2 mt-4'>
-        <Button variant='primary'>Save</Button>
-        <Button variant='secondary'>Cancel</Button>
-      </div>
-    </div>
+    <LexicalComposer initialConfig={INITIAL_CONFIG}>
+      <ToolbarContext>
+        <Editor {...props} />
+      </ToolbarContext>
+    </LexicalComposer>
   );
 };

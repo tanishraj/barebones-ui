@@ -22,6 +22,7 @@ import { TableActionMenuPlugin } from './plugins/TableActionMenuPlugin';
 import { ContentEditableUi } from './components/ContentEditableUi';
 import ShortcutsPlugin from './plugins/ShortcutsPlugin/ShortcutsPlugin';
 import { useAppSettings } from './context/SettingsContext';
+import { ContentPlugin } from './plugins/ContentPlugin';
 import { EditorProps } from './types';
 
 import { cn } from '@/utils';
@@ -29,19 +30,19 @@ import { cn } from '@/utils';
 const DEFAULT_PLACEHOLDER = 'Type something...';
 
 export const Editor: FC<EditorProps> = ({
+  markdown,
+  onChange,
+  onChangeLogs,
   placeholder,
   editorShellClassName,
   isEditable = true,
 }) => {
   const {
     settings: {
-      isRichText,
       listStrictIndent,
       tableCellMerge,
       tableCellBackgroundColor,
       tableHorizontalScroll,
-      showTableOfContents,
-      showTreeView,
       hasLinkAttributes,
     },
   } = useAppSettings();
@@ -120,6 +121,11 @@ export const Editor: FC<EditorProps> = ({
         </>
       )}
       <EditablePlugin isEditable={isEditable} />
+      <ContentPlugin
+        markdown={markdown}
+        onChange={onChange}
+        onChangeLogs={onChangeLogs}
+      />
     </div>
   );
 };
