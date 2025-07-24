@@ -6,12 +6,15 @@ import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { ClickableLinkPlugin } from '@lexical/react/LexicalClickableLinkPlugin';
 
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
 import { TableCellResizerPlugin } from './plugins/TableCellResizer';
 import { EquationsPlugin } from './plugins/EquationsPlugin';
+import { LexicalAutoLinkPlugin } from './plugins/AutoLinkPlugin';
 import { TableHoverActionsPlugin } from './plugins/TableHoverActionsPlugin';
 import { FloatingLinkEditorPlugin } from './plugins/FloatingLinkEditorPlugin';
+import { LinkPlugin } from './plugins/LinkPlugin';
 import { TableActionMenuPlugin } from './plugins/TableActionMenuPlugin';
 import { ContentEditableUi } from './components/ContentEditableUi';
 import ShortcutsPlugin from './plugins/ShortcutsPlugin/ShortcutsPlugin';
@@ -67,6 +70,7 @@ export const Editor: FC<EditorProps> = ({
       />
       <AutoFocusPlugin />
       <ClearEditorPlugin />
+      <LexicalAutoLinkPlugin />
       <RichTextPlugin
         contentEditable={
           <div className='editor-scroller'>
@@ -90,6 +94,8 @@ export const Editor: FC<EditorProps> = ({
         hasHorizontalScroll={tableHorizontalScroll}
       />
       <TableCellResizerPlugin />
+      <LinkPlugin hasLinkAttributes={hasLinkAttributes} />
+      <ClickableLinkPlugin disabled={isEditable} />
       {floatingAnchorElem && (
         <>
           <FloatingLinkEditorPlugin
