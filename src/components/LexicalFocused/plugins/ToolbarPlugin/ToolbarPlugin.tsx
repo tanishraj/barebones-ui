@@ -116,7 +116,7 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
 
       if (elementDOM !== null) {
         if ($isListNode(element)) {
-          // Track list state separately without affecting dropdown
+          // Track list state and set dropdown to "Normal" for lists
           const parentList = $getNearestNodeOfType<ListNode>(
             anchorNode,
             ListNode,
@@ -127,6 +127,7 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
 
           updateToolbarState('isBulletList', type === 'bullet');
           updateToolbarState('isNumberedList', type === 'number');
+          updateToolbarState('blockType', 'paragraph');
         } else {
           // Reset list states when not in a list
           updateToolbarState('isBulletList', false);
@@ -173,10 +174,11 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
           ListNode,
         );
         if (parentList) {
-          // Track list state separately without affecting dropdown
+          // Track list state and set dropdown to "Normal" for lists
           const type = parentList.getListType();
           updateToolbarState('isBulletList', type === 'bullet');
           updateToolbarState('isNumberedList', type === 'number');
+          updateToolbarState('blockType', 'paragraph');
         } else {
           const selectedElement = $findTopLevelElement(selectedNode);
           // Reset list states when not in a list
