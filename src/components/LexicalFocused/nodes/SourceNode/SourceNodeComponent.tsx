@@ -1,53 +1,36 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Tooltip } from 'react-tooltip';
 
 import { useSourceContext } from '../../context/SourceContext';
+
 import './SourceNodeComponent.css';
 
 export interface SourceNodeComponentProps {
-  sourceIds: string[];
+  sourceId: string;
 }
 
 export const SourceNodeComponent: React.FC<SourceNodeComponentProps> = ({
-  sourceIds,
+  sourceId,
 }) => {
   const sources = useSourceContext();
 
-  const getTooltipContent = (sourceId: string) => {
-    if (!sources) return 'No sources available.';
+  const source = useMemo(
+    () => sources?.find(s => s.id === sourceId),
+    [sources, sourceId],
+  );
 
-    const source = sources.find(s => s.references === sourceId);
-    if (!source) return 'Source not found.';
-
-    return JSON.stringify(source, null, 2);
-  };
+  const tooltipContent = source ? source.content : 'Source not found';
 
   return (
-    <>
-      {sourceIds.map(id => {
-        return (
-          <React.Fragment key={id}>
-            <span
-              className='source'
-              data-tooltip-id={`source-tooltip-${id}`}
-              data-tooltip-content={getTooltipContent(id)}
-            >
-              {id}
-            </span>
-            <Tooltip
-              id={`source-tooltip-${id}`}
-              place='top'
-              delayShow={300}
-              delayHide={300}
-              style={{
-                maxWidth: '300px',
-                fontSize: '12px',
-                whiteSpace: 'pre-line',
-              }}
-            />
-          </React.Fragment>
-        );
-      })}
-    </>
+    <React.Fragment key={sourceId}>
+      <span
+        className='source'
+        data-tooltip-id={source?.id}
+        data-tooltip-content={tooltipContent}
+      >
+        {sourceId}
+      </span>
+      <Tooltip id={source?.id} />
+    </React.Fragment>
   );
 };

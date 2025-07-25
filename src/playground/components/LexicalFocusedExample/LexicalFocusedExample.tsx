@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import { LexicalEditor } from '@/components';
 import { ChangeLogs } from '@/components/LexicalFocused/types';
-import { ReactTooltipAdapter } from '@/components/LexicalFocused/adapters/tooltip';
 
 const DEFAULT_CONTENT = `
 # Lexical Editor Example
@@ -27,7 +26,7 @@ $$e=mc^2$$
 
 | Column1 | Column2 | Column3 | Column4 | Column5 |
 | ------- | ------- | ------- | ------- | ------- |
-| Row 1   | Row 1   | Row 1   | Row 1   | Row 1 [1]   |
+| Row 1   | Row 1   | Row 1   | Row 1 [1]   | Row 1 [1]   |
 | Row 2   | Row 2   | Row 2   | Row 2   | Row 2   |
 | Row 3   | Row 3   | Row 3   | Row 3   | Row 3   |
 | Row 4   | Row 4   | Row 4   | Row 4   | Row 4   |
@@ -50,7 +49,6 @@ export const LexicalFocusedExample = () => {
           markdown={content}
           onChange={setContent}
           onChangeLogs={setLogs}
-          tooltipProvider={ReactTooltipAdapter}
         />
       </div>
       <div className='card-footer gap-5 flex flex-col'>

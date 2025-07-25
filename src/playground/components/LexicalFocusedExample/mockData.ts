@@ -2242,3 +2242,47 @@ export const MOCK_SECTION_SOURCES = [
 
 export type SectionSource = (typeof MOCK_SECTION_SOURCES)[number];
 export type SectionSources = typeof MOCK_SECTION_SOURCES;
+
+export interface DummySource {
+  id: string;
+  name: string;
+  content: string;
+}
+
+export const DUMMY_SOURCES = [
+  {
+    id: '1',
+    name: 'Source 1',
+    content: 'Source 1 ',
+  },
+  {
+    id: '2',
+    name: 'Source 2',
+    content: 'Source 2',
+  },
+  {
+    id: '3',
+    name: 'Source 3',
+    content: 'Source 3',
+  },
+  {
+    id: '4',
+    name: 'Source 4',
+    content: 'Source 4',
+  },
+  {
+    id: '5',
+    name: 'Source 5',
+    content: 'Source 5',
+  },
+  {
+    id: '6',
+    name: 'Source 6',
+    content: 'Source 6',
+  },
+  {
+    id: '7',
+    name: 'Source 7',
+    content: 'Source 7',
+  },
+];

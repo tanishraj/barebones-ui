@@ -34,15 +34,6 @@ export class SourceNode extends DecoratorNode<ReactNode> {
     return node;
   }
 
-  exportJSON(): SerializedNode {
-    return {
-      ...super.exportJSON(),
-      ids: this.__ids,
-      type: 'source',
-      version: 1,
-    };
-  }
-
   append(id: string): SourceNode {
     return new SourceNode([...this.__ids, id]);
   }
@@ -63,7 +54,7 @@ export class SourceNode extends DecoratorNode<ReactNode> {
   }
 
   decorate(): ReactNode {
-    return <SourceNodeComponent sourceIds={this.__ids} />;
+    return this.__ids.map(id => <SourceNodeComponent key={id} sourceId={id} />);
   }
 }
 

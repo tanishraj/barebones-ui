@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-import { SectionSources } from '@/playground/components/LexicalFocusedExample/mockData';
+import { DummySource } from '@/playground/components/LexicalFocusedExample/mockData';
 
-export const Context = createContext<SectionSources>([]);
+export const Context = createContext<DummySource[]>([]);

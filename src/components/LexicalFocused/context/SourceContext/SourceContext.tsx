@@ -2,11 +2,11 @@ import React from 'react';
 
 import { Context } from './Context';
 
-import { SectionSources } from '@/playground/components/LexicalFocusedExample/mockData';
+import { DummySource } from '@/playground/components/LexicalFocusedExample/mockData';
 
 interface SourceContextProps {
   children: React.ReactNode;
-  value: SectionSources;
+  value: DummySource[];
 }
 
 export const SourceContext = ({ children, value }: SourceContextProps) => {
