@@ -37,7 +37,7 @@ export const Editor: FC<EditorProps> = ({
   onChangeLogs,
   placeholder,
   editorShellClassName,
-  isEditable = true,
+  isEditable = false,
 }) => {
   const {
     settings: {
@@ -56,10 +56,10 @@ export const Editor: FC<EditorProps> = ({
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
   const contentEditableClassName = cn('content-editable', {
-    'pl-10': hasDraggableBlocks,
+    'pl-10': hasDraggableBlocks && isEditable,
   });
   const placeholderClassName = cn('content-editable-placeholder', {
-    'left-10': hasDraggableBlocks,
+    'left-10': hasDraggableBlocks && isEditable,
   });
 
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {

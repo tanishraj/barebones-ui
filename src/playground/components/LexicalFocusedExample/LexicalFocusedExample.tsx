@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { LexicalEditor } from '@/components';
+import { Button, LexicalEditor } from '@/components';
 import { ChangeLogs } from '@/components/LexicalFocused/types';
 
 const DEFAULT_CONTENT = `
@@ -40,6 +40,7 @@ $$e=mc^2$$
 export const LexicalFocusedExample = () => {
   const [content, setContent] = useState(DEFAULT_CONTENT);
   const [logs, setLogs] = useState({} as ChangeLogs);
+  const [isEditable, setIsEditable] = useState(false);
 
   return (
     <div className='card-bordered p-4 shadow-xs'>
@@ -49,7 +50,27 @@ export const LexicalFocusedExample = () => {
           markdown={content}
           onChange={setContent}
           onChangeLogs={setLogs}
+          isEditable={isEditable}
         />
+        <div className='flex justify-end gap-2 mt-2'>
+          {!isEditable ? (
+            <Button
+              variant='primary'
+              onClick={() => setIsEditable(!isEditable)}
+            >
+              Edit
+            </Button>
+          ) : (
+            <div className='flex items-center gap-2'>
+              <Button variant='secondary' onClick={() => setIsEditable(false)}>
+                Cancel
+              </Button>
+              <Button variant='primary' onClick={() => setIsEditable(false)}>
+                Save
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
       <div className='card-footer gap-5 flex flex-col'>
         <div className=''>
