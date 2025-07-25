@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { Tooltip } from 'react-tooltip';
 
 import { useSourceContext } from '../../context/SourceContext';
 
@@ -20,17 +19,15 @@ export const SourceNodeComponent: React.FC<SourceNodeComponentProps> = ({
   );
 
   const tooltipContent = source ? source.content : 'Source not found';
+  const tooltipId = `source-tooltip-${sourceId}`;
 
   return (
-    <React.Fragment key={sourceId}>
-      <span
-        className='source'
-        data-tooltip-id={source?.id}
-        data-tooltip-content={tooltipContent}
-      >
-        {sourceId}
-      </span>
-      <Tooltip id={source?.id} />
-    </React.Fragment>
+    <span
+      className='source'
+      data-tooltip-id={tooltipId}
+      data-tooltip-content={tooltipContent}
+    >
+      {sourceId}
+    </span>
   );
 };

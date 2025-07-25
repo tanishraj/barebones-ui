@@ -19,7 +19,7 @@ You can type here and see how the editor behaves. [1,2]
 ## Link:
 [Lexical Documentation](https://lexical.dev/docs/)
 
-## Formular Equations
+## Formular Equations [1]
 $$e=mc^2$$
 
 ## Table

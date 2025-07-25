@@ -21,6 +21,7 @@ import { EditablePlugin } from './plugins/EditablePlugin';
 import { LinkPlugin } from './plugins/LinkPlugin';
 import { TableActionMenuPlugin } from './plugins/TableActionMenuPlugin';
 import { ContentEditableUi } from './components/ContentEditableUi';
+import { SourceTooltips } from './components/SourceTooltips';
 import ShortcutsPlugin from './plugins/ShortcutsPlugin/ShortcutsPlugin';
 import { useAppSettings } from './context/SettingsContext';
 import { ContentPlugin } from './plugins/ContentPlugin';
@@ -135,6 +136,7 @@ export const Editor: FC<EditorProps> = ({
         onChange={onChange}
         onChangeLogs={onChangeLogs}
       />
+      <SourceTooltips />
     </div>
   );
 };
