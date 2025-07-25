@@ -1,4 +1,4 @@
-import type { ElementNode, LexicalEditor } from 'lexical';
+import type { ElementNode } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import {
@@ -38,8 +38,6 @@ import {
 import { ReactPortal, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { useModal } from '../../hooks/useModal';
-import { ColorPicker } from '../../components/ColorPicker';
 import { DropDown, DropDownItem } from '../../components/Dropdown';
 
 function computeSelectionCount(selection: TableSelection): {
@@ -77,27 +75,10 @@ function $selectLastDescendant(node: ElementNode): void {
   }
 }
 
-function currentCellBackgroundColor(editor: LexicalEditor): null | string {
-  return editor.getEditorState().read(() => {
-    const selection = $getSelection();
-    if ($isRangeSelection(selection) || $isTableSelection(selection)) {
-      const [cell] = $getNodeTriplet(selection.anchor);
-      if ($isTableCellNode(cell)) {
-        return cell.getBackgroundColor();
-      }
-    }
-    return null;
-  });
-}
-
 type TableCellActionMenuProps = Readonly<{
   contextRef: { current: null | HTMLElement };
   onClose: () => void;
   setIsMenuOpen: (isOpen: boolean) => void;
-  showColorPickerModal: (
-    title: string,
-    showModal: (onClose: () => void) => JSX.Element,
-  ) => void;
   tableCellNode: TableCellNode;
   cellMerge: boolean;
 }>;
@@ -108,7 +89,6 @@ function TableActionMenu({
   setIsMenuOpen,
   contextRef,
   cellMerge,
-  showColorPickerModal,
 }: TableCellActionMenuProps) {
   const [editor] = useLexicalComposerContext();
   const dropDownRef = useRef<HTMLDivElement | null>(null);
@@ -119,9 +99,6 @@ function TableActionMenu({
   });
   const [canMergeCells, setCanMergeCells] = useState(false);
   const [canUnmergeCell, setCanUnmergeCell] = useState(false);
-  const [backgroundColor, setBackgroundColor] = useState(
-    () => currentCellBackgroundColor(editor) || '',
-  );
 
   useEffect(() => {
     return editor.registerMutationListener(
@@ -134,7 +111,6 @@ function TableActionMenu({
           editor.getEditorState().read(() => {
             updateTableCellNode(tableCellNode.getLatest());
           });
-          setBackgroundColor(currentCellBackgroundColor(editor) || '');
         }
       },
       { skipInitialization: true },
@@ -410,32 +386,6 @@ function TableActionMenu({
     });
   }, [editor, tableCellNode, clearTableSelection, onClose]);
 
-  const handleCellBackgroundColor = useCallback(
-    (value: string) => {
-      editor.update(() => {
-        const selection = $getSelection();
-        if ($isRangeSelection(selection) || $isTableSelection(selection)) {
-          const [cell] = $getNodeTriplet(selection.anchor);
-          if ($isTableCellNode(cell)) {
-            cell.setBackgroundColor(value);
-          }
-
-          if ($isTableSelection(selection)) {
-            const nodes = selection.getNodes();
-
-            for (let i = 0; i < nodes.length; i++) {
-              const node = nodes[i];
-              if ($isTableCellNode(node)) {
-                node.setBackgroundColor(value);
-              }
-            }
-          }
-        }
-      });
-    },
-    [editor],
-  );
-
   const formatVerticalAlign = (value: string) => {
     editor.update(() => {
       const selection = $getSelection();
@@ -495,21 +445,6 @@ function TableActionMenu({
       }}
     >
       {mergeCellButton}
-      <button
-        type='button'
-        className='item'
-        onClick={() =>
-          showColorPickerModal('Cell background color', () => (
-            <ColorPicker
-              color={backgroundColor}
-              onChange={handleCellBackgroundColor}
-            />
-          ))
-        }
-        data-test-id='table-background-color'
-      >
-        <span className='text'>Background color</span>
-      </button>
       <button
         type='button'
         className='item'
@@ -702,8 +637,6 @@ function TableCellActionMenuContainer({
   const [tableCellNode, setTableMenuCellNode] = useState<TableCellNode | null>(
     null,
   );
-
-  const [colorPickerModal, showColorPickerModal] = useModal();
 
   const checkTableCellOverflow = useCallback(
     (tableCellParentNodeDOM: HTMLElement): boolean => {
@@ -910,7 +843,6 @@ function TableCellActionMenuContainer({
           >
             <i className='chevron-down' />
           </button>
-          {colorPickerModal}
           {isMenuOpen && (
             <TableActionMenu
               contextRef={menuRootRef}
@@ -918,7 +850,6 @@ function TableCellActionMenuContainer({
               onClose={() => setIsMenuOpen(false)}
               tableCellNode={tableCellNode}
               cellMerge={cellMerge}
-              showColorPickerModal={showColorPickerModal}
             />
           )}
         </>
