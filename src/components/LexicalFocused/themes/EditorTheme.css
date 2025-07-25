@@ -283,7 +283,7 @@
   padding: 6px 8px;
   position: relative;
   outline: none;
-  /* overflow: auto; */
+  overflow: auto;
 }
 /*
   A firefox workaround to allow scrolling of overflowing table cell
