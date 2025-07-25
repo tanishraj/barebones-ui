@@ -390,7 +390,12 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
         <Divider />
         <button
           disabled={!isEditable}
-          onClick={() => formatNumberedList(editor, blockType)}
+          onClick={() =>
+            formatNumberedList(
+              editor,
+              toolbarState.isNumberedList ? 'number' : blockType,
+            )
+          }
           className={
             'toolbar-item spaced ' +
             (toolbarState.isNumberedList ? 'active' : '')
@@ -403,7 +408,12 @@ export const ToolbarPlugin: FC<ToolbarPluginProps> = ({
         </button>
         <button
           disabled={!isEditable}
-          onClick={() => formatBulletList(editor, blockType)}
+          onClick={() =>
+            formatBulletList(
+              editor,
+              toolbarState.isBulletList ? 'bullet' : blockType,
+            )
+          }
           className={
             'toolbar-item spaced ' + (toolbarState.isBulletList ? 'active' : '')
           }
