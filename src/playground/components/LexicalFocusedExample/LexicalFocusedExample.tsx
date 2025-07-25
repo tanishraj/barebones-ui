@@ -81,7 +81,9 @@ export const LexicalFocusedExample = () => {
         </div>
         <div>
           <h3 className='text-lg font-semibold'>Content:</h3>
-          <p className='text-sm text-gray-500'>{content}</p>
+          <pre className='text-sm text-gray-500 whitespace-pre-wrap font-mono bg-gray-50 p-2 rounded overflow-x-auto'>
+            {JSON.stringify(content, null, 2)}
+          </pre>
         </div>
       </div>
     </div>
