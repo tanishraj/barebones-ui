@@ -7,17 +7,20 @@ type ContentEditableUiProps = {
   className?: string;
   placeholderClassName?: string;
   placeholder: string;
+  isEditable?: boolean;
 };
 
 export const ContentEditableUi: FC<ContentEditableUiProps> = ({
   className,
   placeholder,
   placeholderClassName,
+  isEditable,
 }): JSX.Element => {
   return (
     <ContentEditable
       className={cn(
-        'border-0 text-base block relative outline-0 px-2 py-2 min-h-[150px]',
+        'border-0 text-base block relative outline-0 min-h-[150px]',
+        { 'px-2 py-2': isEditable },
         className,
       )}
       aria-placeholder={placeholder}

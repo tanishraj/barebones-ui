@@ -61,6 +61,9 @@ export const Editor: FC<EditorProps> = ({
   const placeholderClassName = cn('content-editable-placeholder', {
     'left-10': hasDraggableBlocks && isEditable,
   });
+  const editorClassName = cn('editor-shell', editorShellClassName, {
+    'editor-shell-editable': isEditable,
+  });
 
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
@@ -69,7 +72,7 @@ export const Editor: FC<EditorProps> = ({
   };
 
   return (
-    <div className={cn('editor-shell', editorShellClassName)}>
+    <div className={editorClassName}>
       <ToolbarPlugin
         editor={editor}
         activeEditor={activeEditor}
@@ -93,6 +96,7 @@ export const Editor: FC<EditorProps> = ({
                 placeholder={placeholder || DEFAULT_PLACEHOLDER}
                 placeholderClassName={placeholderClassName}
                 aria-placeholder={placeholder || DEFAULT_PLACEHOLDER}
+                isEditable={isEditable}
               />
             </div>
           </div>

@@ -7,6 +7,9 @@
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.editor-shell-editable {
   border: 1px solid #eee;
   border-radius: 10px;
   box-shadow:
