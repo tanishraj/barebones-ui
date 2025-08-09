@@ -25,8 +25,6 @@ export default meta;
 interface PlaygroundArgs {
   horizontal: IndicatorHorizontal;
   vertical: IndicatorVertical;
-  indicatorClassName: string;
-  indicatorItemClassName: string;
 }
 
 export const Default = {
@@ -57,7 +55,7 @@ export const Default = {
     vertical: 'top' as IndicatorVertical,
   },
   render: (args: PlaygroundArgs) => (
-    <Indicator className={args.indicatorClassName}>
+    <Indicator>
       <IndicatorItem horizontal={args.horizontal} vertical={args.vertical}>
         <Badge variant='primary'>New</Badge>
       </IndicatorItem>
