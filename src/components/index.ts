@@ -13,6 +13,7 @@ export * from './Countdown';
 export * from './Difference';
 export * from './Divider';
 export * from './Drawer';
+export * from './Indicator';
 export * from './Kbd';
 export * from './List';
 export * from './Status';
