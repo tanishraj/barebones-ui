@@ -19,7 +19,6 @@ export const Badge: FC<BadgeProps> = ({
   softColor,
 }) => {
   const badgeClassName = clsx(
-    'badge',
     badgeStyles({ variant, size, outline, softColor }),
     className,
   );
