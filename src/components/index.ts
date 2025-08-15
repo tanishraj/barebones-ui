@@ -38,4 +38,5 @@ export * from './ColorPicker';
 export * from './Divider';
 export * from './Drawer';
 export * from './RichEditor';
+export * from './LexicalFocused';
 export * from './LexicalEditor';
