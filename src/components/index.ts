@@ -37,4 +37,3 @@ export * from './Rating';
 export * from './ColorPicker';
 export * from './Divider';
 export * from './Drawer';
-export * from './LexicalFocused';
