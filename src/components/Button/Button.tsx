@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { ButtonProps } from './types';
 import { buttonStyles } from './Button.styles';
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button = React.memo<ButtonProps>(({
   variant,
   size,
   icon,
@@ -40,4 +40,6 @@ export const Button: React.FC<ButtonProps> = ({
       {children && <span>{children}</span>}
     </button>
   );
-};
+});
+
+Button.displayName = 'Button';

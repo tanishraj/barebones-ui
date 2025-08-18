@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { ModalProps } from './types';
 import { modalStyles } from './Modal.styles';
 
-export const Modal: React.FC<ModalProps> = ({
+export const Modal = React.memo<ModalProps>(({
   isOpen,
   size = 'md',
   position = 'center',
@@ -84,4 +84,6 @@ export const Modal: React.FC<ModalProps> = ({
       </div>
     </>
   );
-};
+});
+
+Modal.displayName = 'Modal';

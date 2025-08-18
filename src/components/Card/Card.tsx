@@ -1,29 +1,29 @@
-import { FC, forwardRef, HTMLAttributes } from 'react';
+import React, { FC, forwardRef, HTMLAttributes } from 'react';
 import clsx from 'clsx';
 import { VariantProps } from 'class-variance-authority';
 
 import { BodyProps, FooterProps, HeaderProps, ImageProps } from './types';
 import { cardStyles } from './Card.styles';
 
-const Image: FC<ImageProps> = ({ children }) => <figure>{children}</figure>;
+const Image: FC<ImageProps> = React.memo(({ children }) => <figure>{children}</figure>);
 
-const Title: FC<HeaderProps> = ({ className, children, ...props }) => (
+const Title: FC<HeaderProps> = React.memo(({ className, children, ...props }) => (
   <h2 className={clsx('card-title', className)} {...props}>
     {children}
   </h2>
-);
+));
 
-const Body: FC<BodyProps> = ({ className, children, ...props }) => (
+const Body: FC<BodyProps> = React.memo(({ className, children, ...props }) => (
   <div className={clsx('card-body', className)} {...props}>
     {children}
   </div>
-);
+));
 
-const Actions: FC<FooterProps> = ({ className, children, ...props }) => (
+const Actions: FC<FooterProps> = React.memo(({ className, children, ...props }) => (
   <div className={clsx('card-actions', className)} {...props}>
     {children}
   </div>
-);
+));
 
 export interface CardProps
   extends HTMLAttributes<HTMLDivElement>,

@@ -1,3 +1,4 @@
+import React from 'react';
 import { VariantProps } from 'class-variance-authority';
 import { FC, HTMLAttributes, ReactNode } from 'react';
 import clsx from 'clsx';
@@ -10,7 +11,7 @@ export interface BadgeProps
   children: ReactNode;
 }
 
-export const Badge: FC<BadgeProps> = ({
+export const Badge: FC<BadgeProps> = React.memo(({
   children,
   variant,
   size,
@@ -24,4 +25,6 @@ export const Badge: FC<BadgeProps> = ({
   );
 
   return <span className={badgeClassName}>{children}</span>;
-};
+});
+
+Badge.displayName = 'Badge';

@@ -11,6 +11,7 @@ A modern, customizable React UI library built with TypeScript, Tailwind CSS v4, 
 - [Features](#features)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
+- [Performance Optimizations](#-performance-optimizations)
 - [Components](#components)
 - [Documentation](#documentation)
 - [Development](#development)
@@ -77,6 +78,51 @@ function App() {
   );
 }
 ```
+
+## 🚀 Performance Optimizations
+
+The library has been optimized for production use with the following features:
+
+### Bundle Size Optimization
+- **Tree Shaking**: Full support with `sideEffects: false` - only import what you use
+- **Code Splitting**: Separate entry points for optimal bundle sizes
+- **Minification**: Production builds are minified with terser, removing console logs and comments
+- **React.memo**: Frequently used components are wrapped with React.memo to prevent unnecessary re-renders
+
+### Import Strategies
+
+#### 1. Standard Import (All Components)
+```tsx
+import { Button, Modal, Card } from 'barebones-ui';
+```
+
+#### 2. Core Components Only (Smaller Bundle)
+Import only lightweight, frequently-used components for optimal initial bundle size:
+```tsx
+import { Button, Badge, Alert } from 'barebones-ui/core';
+```
+
+Core components include: Button, Dropdown, Select, Accordion, Avatar, Badge, Card, Alert, Loader, Progress, Tooltip, Toggle, Checkbox, Radio, and more.
+
+#### 3. Heavy Components (Code Splitting)
+Import heavy components separately for better code splitting and lazy loading:
+```tsx
+import { Modal, Drawer, Carousel, Table, Chat } from 'barebones-ui/heavy';
+
+// Or with lazy loading
+const Modal = React.lazy(() => import('barebones-ui/heavy').then(m => ({ default: m.Modal })));
+```
+
+Heavy components include: Modal, Drawer, Carousel, Table, and Chat.
+
+### Bundle Analysis
+After building, check `dist/bundle-stats.html` for a visual breakdown of your bundle composition.
+
+### Performance Best Practices
+1. **Use specific imports**: Import only the components you need
+2. **Lazy load heavy components**: Use React.lazy() for components like Modal, Drawer, and Carousel
+3. **Leverage code splitting**: Use the `/core` and `/heavy` entry points appropriately
+4. **Monitor bundle size**: Regularly check the bundle analyzer output
 
 ## Components
 

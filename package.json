@@ -29,7 +29,7 @@
     "@untitled-ui/icons-react": "^0.1.4",
     "daisyui": "^5.0.50",
     "lucide-react": "^0.511.0",
-    "react": "^18.3.1",
+    "react": ">=16",
     "react-dom": "^18.3.1",
     "react-error-boundary": "^6.0.0",
     "react-tooltip": "^5.29.1"
@@ -39,6 +39,7 @@
     "@eslint/js": "^9.13.0",
     "@rollup/plugin-commonjs": "^28.0.1",
     "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.1",
     "@storybook/addon-a11y": "^8.4.4",
     "@storybook/addon-actions": "^8.4.4",
@@ -84,6 +85,7 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-typescript2": "^0.36.0",
+    "rollup-plugin-visualizer": "^6.0.3",
     "storybook": "^8.6.4",
     "tailwind-merge": "^2.5.4",
     "tailwindcss": "^4.0.13",
@@ -97,6 +99,7 @@
   "engines": {
     "node": ">=18"
   },
+  "sideEffects": false,
   "peerDependencies": {
     "react": ">=16"
   },
@@ -109,6 +112,24 @@
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "style": "dist/cjs/index.css",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.cjs",
+      "import": "./dist/esm/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./core": {
+      "require": "./dist/cjs/core.cjs",
+      "import": "./dist/esm/core.js",
+      "types": "./dist/core.d.ts"
+    },
+    "./heavy": {
+      "require": "./dist/cjs/heavy.cjs",
+      "import": "./dist/esm/heavy.js",
+      "types": "./dist/heavy.d.ts"
+    },
+    "./style.css": "./dist/cjs/index.css"
+  },
   "type": "module",
   "files": [
     "dist"
