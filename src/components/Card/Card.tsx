@@ -5,13 +5,17 @@ import { VariantProps } from 'class-variance-authority';
 import { BodyProps, FooterProps, HeaderProps, ImageProps } from './types';
 import { cardStyles } from './Card.styles';
 
-const Image: FC<ImageProps> = React.memo(({ children }) => <figure>{children}</figure>);
-
-const Title: FC<HeaderProps> = React.memo(({ className, children, ...props }) => (
-  <h2 className={clsx('card-title', className)} {...props}>
-    {children}
-  </h2>
+const Image: FC<ImageProps> = React.memo(({ children }) => (
+  <figure>{children}</figure>
 ));
+
+const Title: FC<HeaderProps> = React.memo(
+  ({ className, children, ...props }) => (
+    <h2 className={clsx('card-title', className)} {...props}>
+      {children}
+    </h2>
+  ),
+);
 
 const Body: FC<BodyProps> = React.memo(({ className, children, ...props }) => (
   <div className={clsx('card-body', className)} {...props}>
@@ -19,11 +23,13 @@ const Body: FC<BodyProps> = React.memo(({ className, children, ...props }) => (
   </div>
 ));
 
-const Actions: FC<FooterProps> = React.memo(({ className, children, ...props }) => (
-  <div className={clsx('card-actions', className)} {...props}>
-    {children}
-  </div>
-));
+const Actions: FC<FooterProps> = React.memo(
+  ({ className, children, ...props }) => (
+    <div className={clsx('card-actions', className)} {...props}>
+      {children}
+    </div>
+  ),
+);
 
 export interface CardProps
   extends HTMLAttributes<HTMLDivElement>,

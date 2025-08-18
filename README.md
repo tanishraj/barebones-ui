@@ -73,7 +73,7 @@ function App() {
   return (
     <Card>
       <h2>Welcome to barebones-ui</h2>
-      <Button variant="primary">Get Started</Button>
+      <Button variant='primary'>Get Started</Button>
     </Card>
   );
 }
@@ -84,6 +84,7 @@ function App() {
 The library has been optimized for production use with the following features:
 
 ### Bundle Size Optimization
+
 - **Tree Shaking**: Full support with `sideEffects: false` - only import what you use
 - **Code Splitting**: Separate entry points for optimal bundle sizes
 - **Minification**: Production builds are minified with terser, removing console logs and comments
@@ -92,12 +93,15 @@ The library has been optimized for production use with the following features:
 ### Import Strategies
 
 #### 1. Standard Import (All Components)
+
 ```tsx
 import { Button, Modal, Card } from 'barebones-ui';
 ```
 
 #### 2. Core Components Only (Smaller Bundle)
+
 Import only lightweight, frequently-used components for optimal initial bundle size:
+
 ```tsx
 import { Button, Badge, Alert } from 'barebones-ui/core';
 ```
@@ -105,20 +109,26 @@ import { Button, Badge, Alert } from 'barebones-ui/core';
 Core components include: Button, Dropdown, Select, Accordion, Avatar, Badge, Card, Alert, Loader, Progress, Tooltip, Toggle, Checkbox, Radio, and more.
 
 #### 3. Heavy Components (Code Splitting)
+
 Import heavy components separately for better code splitting and lazy loading:
+
 ```tsx
 import { Modal, Drawer, Carousel, Table, Chat } from 'barebones-ui/heavy';
 
 // Or with lazy loading
-const Modal = React.lazy(() => import('barebones-ui/heavy').then(m => ({ default: m.Modal })));
+const Modal = React.lazy(() =>
+  import('barebones-ui/heavy').then(m => ({ default: m.Modal })),
+);
 ```
 
 Heavy components include: Modal, Drawer, Carousel, Table, and Chat.
 
 ### Bundle Analysis
+
 After building, check `dist/bundle-stats.html` for a visual breakdown of your bundle composition.
 
 ### Performance Best Practices
+
 1. **Use specific imports**: Import only the components you need
 2. **Lazy load heavy components**: Use React.lazy() for components like Modal, Drawer, and Carousel
 3. **Leverage code splitting**: Use the `/core` and `/heavy` entry points appropriately
@@ -127,6 +137,7 @@ After building, check `dist/bundle-stats.html` for a visual breakdown of your bu
 ## Components
 
 ### Layout Components
+
 - **Accordion** - Expandable content panels
 - **Card** - Container component with various styles
 - **Divider** - Visual separator with text support
@@ -135,12 +146,14 @@ After building, check `dist/bundle-stats.html` for a visual breakdown of your bu
 - **Table** - Data table with sorting and styling options
 
 ### Navigation
+
 - **Breadcrumbs** - Navigation trail component
 - **Dropdown** - Dropdown menu component
 - **Link** - Styled anchor component
 - **Timeline** - Vertical timeline display
 
 ### Form Controls
+
 - **Button** - Versatile button with multiple variants
 - **Checkbox** - Styled checkbox input
 - **ColorPicker** - Color selection component
@@ -152,6 +165,7 @@ After building, check `dist/bundle-stats.html` for a visual breakdown of your bu
 - **Toggle** - Toggle switch component
 
 ### Data Display
+
 - **Avatar** - User avatar display
 - **Badge** - Small count and labeling component
 - **Chat** - Chat message display
@@ -164,6 +178,7 @@ After building, check `dist/bundle-stats.html` for a visual breakdown of your bu
 - **Tooltip** - Hover tooltip component
 
 ### Feedback
+
 - **Alert** - Alert message component
 - **Loader** - Loading spinner/indicator
 - **Progress** - Progress bar component
@@ -171,26 +186,30 @@ After building, check `dist/bundle-stats.html` for a visual breakdown of your bu
 - **Skeleton** - Loading placeholder component
 
 ### Media & Content
+
 - **Carousel** - Image/content carousel
 - **Difference** - Before/after comparison
 - **Swap** - Animated content swap
 
 ### Rich Text
+
 - **RichEditor** - Feature-rich text editor
 - **LexicalFocused** - Advanced Lexical-based editor
 
 ## Component Usage Examples
 
 ### Button Component
+
 ```tsx
 import { Button } from 'barebones-ui';
 
-<Button variant="primary" size="lg" onClick={handleClick}>
+<Button variant='primary' size='lg' onClick={handleClick}>
   Click Me
-</Button>
+</Button>;
 ```
 
 ### Modal Component
+
 ```tsx
 import { Modal } from 'barebones-ui';
 
@@ -200,19 +219,20 @@ import { Modal } from 'barebones-ui';
   <Modal.Footer>
     <Button onClick={handleClose}>Close</Button>
   </Modal.Footer>
-</Modal>
+</Modal>;
 ```
 
 ### Indicator Component
+
 ```tsx
 import { Indicator, IndicatorItem, Badge } from 'barebones-ui';
 
 <Indicator>
-  <IndicatorItem horizontal="end" vertical="top">
-    <Badge variant="primary">New</Badge>
+  <IndicatorItem horizontal='end' vertical='top'>
+    <Badge variant='primary'>New</Badge>
   </IndicatorItem>
   <Button>Notifications</Button>
-</Indicator>
+</Indicator>;
 ```
 
 ## Documentation
@@ -226,6 +246,7 @@ npm run storybook
 ```
 
 This will start Storybook on `http://localhost:6006` where you can:
+
 - View all components
 - Interact with component props
 - See usage examples
@@ -242,23 +263,27 @@ import type { ButtonProps, ModalProps } from 'barebones-ui';
 ## Development
 
 ### Prerequisites
+
 - Node.js >= 18
 - npm or yarn
 
 ### Setup
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/tanishraj/barebones-ui.git
 cd barebones-ui
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Start development:
+
 ```bash
 npm run dev        # Start Vite dev server
 npm run storybook  # Start Storybook
