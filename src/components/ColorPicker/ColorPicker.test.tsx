@@ -92,7 +92,7 @@ describe('ColorPicker', () => {
   });
 
   it('handles labelPosition correctly', () => {
-    const { rerender } = render(
+    render(
       <ColorPicker
         {...defaultProps}
         label='Position Test'

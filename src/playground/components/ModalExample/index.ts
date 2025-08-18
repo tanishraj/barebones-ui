@@ -1,1 +1,0 @@
-export { ModalExample } from './ModalExample';
