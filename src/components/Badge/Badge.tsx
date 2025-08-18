@@ -1,5 +1,5 @@
+import React, { FC, HTMLAttributes, ReactNode } from 'react';
 import { VariantProps } from 'class-variance-authority';
-import { FC, HTMLAttributes, ReactNode } from 'react';
 import clsx from 'clsx';
 
 import { badgeStyles } from './Badge.styles';
@@ -10,18 +10,15 @@ export interface BadgeProps
   children: ReactNode;
 }
 
-export const Badge: FC<BadgeProps> = ({
-  children,
-  variant,
-  size,
-  outline,
-  className,
-  softColor,
-}) => {
-  const badgeClassName = clsx(
-    badgeStyles({ variant, size, outline, softColor }),
-    className,
-  );
+export const Badge: FC<BadgeProps> = React.memo(
+  ({ children, variant, size, outline, className, softColor }) => {
+    const badgeClassName = clsx(
+      badgeStyles({ variant, size, outline, softColor }),
+      className,
+    );
 
-  return <span className={badgeClassName}>{children}</span>;
-};
+    return <span className={badgeClassName}>{children}</span>;
+  },
+);
+
+Badge.displayName = 'Badge';

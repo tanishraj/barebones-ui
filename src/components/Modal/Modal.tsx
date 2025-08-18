@@ -4,84 +4,88 @@ import clsx from 'clsx';
 import { ModalProps } from './types';
 import { modalStyles } from './Modal.styles';
 
-export const Modal: React.FC<ModalProps> = ({
-  isOpen,
-  size = 'md',
-  position = 'center',
-  closeButton,
-  closeOnBackdropClick,
-  footer,
-  children,
-  onOpen,
-  onClose,
-}) => {
-  const modalRef = React.useRef<HTMLInputElement>(null);
+export const Modal = React.memo<ModalProps>(
+  ({
+    isOpen,
+    size = 'md',
+    position = 'center',
+    closeButton,
+    closeOnBackdropClick,
+    footer,
+    children,
+    onOpen,
+    onClose,
+  }) => {
+    const modalRef = React.useRef<HTMLInputElement>(null);
 
-  const openModal = useCallback(() => {
-    if (modalRef.current) {
-      modalRef.current.checked = true;
-      onOpen?.();
-    }
-  }, [onOpen]);
+    const openModal = useCallback(() => {
+      if (modalRef.current) {
+        modalRef.current.checked = true;
+        onOpen?.();
+      }
+    }, [onOpen]);
 
-  const closeModal = useCallback(() => {
-    if (modalRef.current) {
-      modalRef.current.checked = false;
-      onClose?.();
-    }
-  }, [onClose]);
+    const closeModal = useCallback(() => {
+      if (modalRef.current) {
+        modalRef.current.checked = false;
+        onClose?.();
+      }
+    }, [onClose]);
 
-  React.useEffect(() => {
-    if (isOpen) {
-      openModal();
-    } else {
-      closeModal();
-    }
-  }, [closeModal, isOpen, openModal]);
+    React.useEffect(() => {
+      if (isOpen) {
+        openModal();
+      } else {
+        closeModal();
+      }
+    }, [closeModal, isOpen, openModal]);
 
-  return (
-    <>
-      <input type='checkbox' ref={modalRef} className='modal-toggle' />
-      <div className={clsx('modal', modalStyles({ position }))} role='dialog'>
-        <div
-          className={clsx(
-            'modal-box',
-            modalStyles({ size }),
-            position !== 'center' && modalStyles({ size, position }),
-          )}
-        >
-          {children}
-
-          {typeof closeButton === 'boolean' && closeButton ? (
-            <form method='dialog'>
-              <button
-                className='btn btn-ghost btn-sm btn-circle absolute right-2 top-2'
-                onClick={closeModal}
-              >
-                ✕
-              </button>
-            </form>
-          ) : (
-            <>{closeButton}</>
-          )}
-
-          <div className='modal-action'>
-            {typeof footer === 'boolean' ? (
-              <button className='btn' onClick={closeModal}>
-                Close
-              </button>
-            ) : (
-              <>{footer}</>
+    return (
+      <>
+        <input type='checkbox' ref={modalRef} className='modal-toggle' />
+        <div className={clsx('modal', modalStyles({ position }))} role='dialog'>
+          <div
+            className={clsx(
+              'modal-box',
+              modalStyles({ size }),
+              position !== 'center' && modalStyles({ size, position }),
             )}
-          </div>
-        </div>
+          >
+            {children}
 
-        {closeOnBackdropClick && (
-          <label className='modal-backdrop' onClick={closeModal}>
-            Close
-          </label>
-        )}
-      </div>
-    </>
-  );
-};
+            {typeof closeButton === 'boolean' && closeButton ? (
+              <form method='dialog'>
+                <button
+                  className='btn btn-ghost btn-sm btn-circle absolute right-2 top-2'
+                  onClick={closeModal}
+                >
+                  ✕
+                </button>
+              </form>
+            ) : (
+              <>{closeButton}</>
+            )}
+
+            <div className='modal-action'>
+              {typeof footer === 'boolean' ? (
+                <button className='btn' onClick={closeModal}>
+                  Close
+                </button>
+              ) : (
+                <>{footer}</>
+              )}
+            </div>
+          </div>
+
+          {closeOnBackdropClick && (
+            <label className='modal-backdrop' onClick={closeModal}>
+              Close
+            </label>
+          )}
+        </div>
+      </>
+    );
+  },
+);
+
+Modal.displayName = 'Modal';
