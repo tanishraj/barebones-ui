@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { LexicalEditor } from 'lexical';
 import { Table } from 'lucide-react';
 import { INSERT_TABLE_COMMAND } from '@lexical/table';
 
 import { ToolbarButton } from '../ToolbarButton';
-import TableSelector from '../../../components/TableSelector';
+import TableSelectorMinimal from '../../../components/TableSelectorMinimal';
 
 interface TableSectionProps {
   editor: LexicalEditor;
@@ -13,10 +13,11 @@ interface TableSectionProps {
 
 export const TableSection: React.FC<TableSectionProps> = ({ editor }) => {
   const [showTableSelector, setShowTableSelector] = useState(false);
+  const buttonRef = useRef<HTMLDivElement>(null);
 
-  const handleInsertTable = useCallback(() => {
-    setShowTableSelector(true);
-  }, []);
+  const handleToggleSelector = useCallback(() => {
+    setShowTableSelector(!showTableSelector);
+  }, [showTableSelector]);
 
   const handleTableInsert = useCallback(
     (rows: number, cols: number) => {
@@ -30,26 +31,29 @@ export const TableSection: React.FC<TableSectionProps> = ({ editor }) => {
     [editor],
   );
 
-  const handleCancel = useCallback(() => {
+  const handleClose = useCallback(() => {
     setShowTableSelector(false);
   }, []);
 
   return (
     <>
-      <div className='flex gap-1'>
+      <div className='flex gap-1' ref={buttonRef}>
         <ToolbarButton
-          onClick={handleInsertTable}
+          onClick={handleToggleSelector}
           icon={<Table className='h-4 w-4' />}
           label='Insert Table'
+          active={showTableSelector}
         />
       </div>
-      {showTableSelector && createPortal(
-        <TableSelector
-          onInsert={handleTableInsert}
-          onCancel={handleCancel}
-        />,
-        document.body
-      )}
+      {showTableSelector &&
+        createPortal(
+          <TableSelectorMinimal
+            onInsert={handleTableInsert}
+            onClose={handleClose}
+            anchorElement={buttonRef.current}
+          />,
+          document.body,
+        )}
     </>
   );
 };
