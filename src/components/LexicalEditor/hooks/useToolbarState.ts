@@ -27,8 +27,6 @@ export const useToolbarState = () => {
     isStrikethrough: false,
     isCode: false,
     isLink: false,
-    isSubscript: false,
-    isSuperscript: false,
     blockType: 'paragraph',
   });
 
@@ -45,8 +43,6 @@ export const useToolbarState = () => {
         isUnderline: selection.hasFormat('underline'),
         isStrikethrough: selection.hasFormat('strikethrough'),
         isCode: selection.hasFormat('code'),
-        isSubscript: selection.hasFormat('subscript'),
-        isSuperscript: selection.hasFormat('superscript'),
       }));
 
       // Check for link

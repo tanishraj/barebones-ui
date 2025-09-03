@@ -1,3 +1,8 @@
+/**
+ * FloatingLinkEditorPlugin - Provides a floating UI for link editing
+ * Aligned with Lexical Playground implementation
+ */
+
 import React, {
   useCallback,
   useEffect,
@@ -8,20 +13,18 @@ import React, {
 import { createPortal } from 'react-dom';
 import {
   $getSelection,
-  $setSelection,
   $isRangeSelection,
   $isNodeSelection,
   $isLineBreakNode,
   COMMAND_PRIORITY_HIGH,
   COMMAND_PRIORITY_LOW,
+  COMMAND_PRIORITY_CRITICAL,
   KEY_ESCAPE_COMMAND,
   SELECTION_CHANGE_COMMAND,
   LexicalEditor,
   BaseSelection,
   CLICK_COMMAND,
   getDOMSelection,
-  COMMAND_PRIORITY_CRITICAL,
-  RangeSelection,
 } from 'lexical';
 import {
   $isLinkNode,
@@ -36,7 +39,6 @@ import { Check, Edit2, ExternalLink, Trash2, X } from 'lucide-react';
 import { getSelectedNode } from '../../utils/getSelectedNode';
 import { sanitizeUrl } from '../../utils/url';
 import { setFloatingElemPositionForLinkEditor } from '../../utils/setFloatingElemPositionForLinkEditor';
-import { OPEN_LINK_EDITOR_COMMAND } from '../../commands/linkCommands';
 
 interface FloatingLinkEditorProps {
   editor: LexicalEditor;
@@ -45,8 +47,6 @@ interface FloatingLinkEditorProps {
   anchorElem: HTMLElement;
   isLinkEditMode: boolean;
   setIsLinkEditMode: Dispatch<boolean>;
-  isCreatingNewLink: boolean;
-  setIsCreatingNewLink: Dispatch<boolean>;
 }
 
 function FloatingLinkEditor({
@@ -56,17 +56,12 @@ function FloatingLinkEditor({
   anchorElem,
   isLinkEditMode,
   setIsLinkEditMode,
-  isCreatingNewLink,
-  setIsCreatingNewLink,
 }: FloatingLinkEditorProps) {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [linkUrl, setLinkUrl] = useState('');
-  const [editedLinkUrl, setEditedLinkUrl] = useState('');
+  const [editedLinkUrl, setEditedLinkUrl] = useState('https://');
   const [lastSelection, setLastSelection] = useState<BaseSelection | null>(
-    null,
-  );
-  const [savedSelection, setSavedSelection] = useState<RangeSelection | null>(
     null,
   );
 
@@ -83,6 +78,9 @@ function FloatingLinkEditor({
       } else {
         setLinkUrl('');
       }
+      if (isLinkEditMode) {
+        setEditedLinkUrl(linkUrl);
+      }
     } else if ($isNodeSelection(selection)) {
       const nodes = selection.getNodes();
       if (nodes.length > 0) {
@@ -94,6 +92,9 @@ function FloatingLinkEditor({
           setLinkUrl(node.getURL());
         } else {
           setLinkUrl('');
+        }
+        if (isLinkEditMode) {
+          setEditedLinkUrl(linkUrl);
         }
       }
     }
@@ -108,12 +109,7 @@ function FloatingLinkEditor({
 
     const rootElement = editor.getRootElement();
 
-    if (
-      selection !== null &&
-      rootElement !== null &&
-      editor.isEditable() &&
-      (isLink || isCreatingNewLink)
-    ) {
+    if (selection !== null && rootElement !== null && editor.isEditable()) {
       let domRect: DOMRect | undefined;
 
       if ($isNodeSelection(selection)) {
@@ -147,22 +143,17 @@ function FloatingLinkEditor({
         );
       }
       setLastSelection(selection);
-    } else if (
-      !activeElement ||
-      !activeElement.classList.contains('link-input')
-    ) {
+    } else if (!activeElement || activeElement.className !== 'link-input') {
       if (rootElement !== null) {
         setFloatingElemPositionForLinkEditor(null, editorElem, anchorElem);
       }
       setLastSelection(null);
-      if (!isLink && !isCreatingNewLink) {
-        setIsLinkEditMode(false);
-        setLinkUrl('');
-      }
+      setIsLinkEditMode(false);
+      setLinkUrl('');
     }
 
     return true;
-  }, [anchorElem, editor, isLink, isCreatingNewLink, setIsLinkEditMode]);
+  }, [anchorElem, editor, setIsLinkEditMode, isLinkEditMode, linkUrl]);
 
   useEffect(() => {
     const scrollerElem = anchorElem.parentElement;
@@ -204,109 +195,20 @@ function FloatingLinkEditor({
         },
         COMMAND_PRIORITY_LOW,
       ),
-
+      
       editor.registerCommand(
         KEY_ESCAPE_COMMAND,
         () => {
-          if (isCreatingNewLink) {
-            // Cancel new link creation
-            setIsCreatingNewLink(false);
-            setIsLinkEditMode(false);
-            setSavedSelection(null);
-            setEditedLinkUrl('');
-            // Hide the floating editor
-            if (editorRef.current) {
-              setFloatingElemPositionForLinkEditor(
-                null,
-                editorRef.current,
-                anchorElem,
-              );
-            }
-            return true;
-          } else if (isLink) {
+          if (isLink) {
             setIsLink(false);
-            setIsLinkEditMode(false);
             return true;
           }
           return false;
         },
         COMMAND_PRIORITY_HIGH,
       ),
-
-      editor.registerCommand(
-        OPEN_LINK_EDITOR_COMMAND,
-        payload => {
-          const selection = $getSelection();
-          if (!$isRangeSelection(selection)) {
-            return false;
-          }
-
-          if (payload.mode === 'create') {
-            // Save the current selection before opening the link editor for new link
-            setSavedSelection(selection.clone());
-            setIsCreatingNewLink(true);
-            setIsLinkEditMode(true);
-            setEditedLinkUrl('https://');
-          } else if (payload.mode === 'edit') {
-            // Edit existing link - go directly to edit mode
-            const node = getSelectedNode(selection);
-            const linkParent = $findMatchingParent(node, $isLinkNode);
-            const linkNode = linkParent || ($isLinkNode(node) ? node : null);
-
-            if (linkNode) {
-              setEditedLinkUrl(linkNode.getURL());
-              setIsLinkEditMode(true);
-              setIsCreatingNewLink(false);
-            } else {
-              return false;
-            }
-          }
-
-          // Position the editor - matching Lexical's official implementation
-          const nativeSelection = window.getSelection();
-          const rootElement = editor.getRootElement();
-
-          if (
-            editorRef.current &&
-            nativeSelection !== null &&
-            rootElement !== null &&
-            rootElement.contains(nativeSelection.anchorNode)
-          ) {
-            const domRect =
-              nativeSelection.focusNode?.parentElement?.getBoundingClientRect();
-
-            if (domRect) {
-              // Create a new DOMRect-like object with adjusted y position
-              const adjustedRect = new DOMRect(
-                domRect.x,
-                domRect.y + 40,
-                domRect.width,
-                domRect.height,
-              );
-              setFloatingElemPositionForLinkEditor(
-                adjustedRect,
-                editorRef.current,
-                anchorElem,
-              );
-            }
-          }
-          return true;
-        },
-        COMMAND_PRIORITY_LOW,
-      ),
     );
-  }, [
-    editor,
-    $updateLinkEditor,
-    setIsLink,
-    isLink,
-    isCreatingNewLink,
-    setIsCreatingNewLink,
-    anchorElem,
-    setSavedSelection,
-    setEditedLinkUrl,
-    setIsLinkEditMode,
-  ]);
+  }, [editor, $updateLinkEditor, setIsLink, isLink]);
 
   useEffect(() => {
     editor.getEditorState().read(() => {
@@ -315,10 +217,10 @@ function FloatingLinkEditor({
   }, [editor, $updateLinkEditor]);
 
   useEffect(() => {
-    if ((isLinkEditMode || isCreatingNewLink) && inputRef.current) {
+    if (isLinkEditMode && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [isLinkEditMode, isCreatingNewLink]);
+  }, [isLinkEditMode, isLink]);
 
   useEffect(() => {
     const editorElement = editorRef.current;
@@ -326,24 +228,7 @@ function FloatingLinkEditor({
       return;
     }
     const handleBlur = (event: FocusEvent) => {
-      if (
-        !editorElement.contains(event.relatedTarget as Element) &&
-        (isLink || isCreatingNewLink)
-      ) {
-        if (isCreatingNewLink) {
-          // Cancel new link creation on blur
-          setIsCreatingNewLink(false);
-          setSavedSelection(null);
-          setEditedLinkUrl('');
-          // Hide the floating editor
-          if (editorRef.current) {
-            setFloatingElemPositionForLinkEditor(
-              null,
-              editorRef.current,
-              anchorElem,
-            );
-          }
-        }
+      if (!editorElement.contains(event.relatedTarget as Element) && isLink) {
         setIsLink(false);
         setIsLinkEditMode(false);
       }
@@ -352,16 +237,18 @@ function FloatingLinkEditor({
     return () => {
       editorElement.removeEventListener('focusout', handleBlur);
     };
-  }, [
-    setIsLink,
-    setIsLinkEditMode,
-    isLink,
-    isCreatingNewLink,
-    setIsCreatingNewLink,
-    anchorElem,
-    setSavedSelection,
-    setEditedLinkUrl,
-  ]);
+  }, [editorRef, setIsLink, setIsLinkEditMode, isLink]);
+
+  const monitorInputInteraction = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (event.key === 'Enter') {
+      handleLinkSubmission(event);
+    } else if (event.key === 'Escape') {
+      event.preventDefault();
+      setIsLinkEditMode(false);
+    }
+  };
 
   const handleLinkSubmission = (
     event:
@@ -369,33 +256,8 @@ function FloatingLinkEditor({
       | React.MouseEvent<HTMLElement>,
   ) => {
     event.preventDefault();
-
-    if (isCreatingNewLink && savedSelection) {
-      // Creating a new link
-      const url = editedLinkUrl.trim();
-      if (url) {
-        editor.update(() => {
-          // Restore the saved selection
-          $setSelection(savedSelection);
-          // Apply the link
-          editor.dispatchCommand(TOGGLE_LINK_COMMAND, sanitizeUrl(url));
-        });
-        // After creating link, show the link view (not edit mode)
-        setIsCreatingNewLink(false);
-        setIsLinkEditMode(false);
-        setEditedLinkUrl('');
-        setSavedSelection(null);
-        // The link will be detected on next update and isLink will be set to true
-      } else {
-        // No URL entered, just close
-        setIsCreatingNewLink(false);
-        setIsLinkEditMode(false);
-        setEditedLinkUrl('');
-        setSavedSelection(null);
-      }
-    } else if (isLinkEditMode && !isCreatingNewLink && lastSelection !== null) {
-      // Editing existing link
-      if (editedLinkUrl.trim()) {
+    if (lastSelection !== null) {
+      if (linkUrl !== '') {
         editor.update(() => {
           editor.dispatchCommand(
             TOGGLE_LINK_COMMAND,
@@ -415,28 +277,9 @@ function FloatingLinkEditor({
           }
         });
       }
-      setEditedLinkUrl('');
+      setEditedLinkUrl('https://');
       setIsLinkEditMode(false);
     }
-  };
-
-  const handleCancel = () => {
-    if (isCreatingNewLink) {
-      // Cancel new link creation - don't apply any link
-      setIsCreatingNewLink(false);
-      setSavedSelection(null);
-      setEditedLinkUrl('');
-      // Hide the floating editor completely
-      if (editorRef.current) {
-        setFloatingElemPositionForLinkEditor(
-          null,
-          editorRef.current,
-          anchorElem,
-        );
-      }
-    }
-    setIsLinkEditMode(false);
-    setEditedLinkUrl('');
   };
 
   const preventDefault = (
@@ -447,28 +290,16 @@ function FloatingLinkEditor({
     event.preventDefault();
   };
 
-  const monitorInputInteraction = (
-    event: React.KeyboardEvent<HTMLInputElement>,
-  ) => {
-    if (event.key === 'Enter') {
-      handleLinkSubmission(event);
-    } else if (event.key === 'Escape') {
-      event.preventDefault();
-      handleCancel();
-    }
-  };
-
   return (
     <div
       ref={editorRef}
-      className='absolute top-0 left-0 z-50 opacity-0 bg-base-100 shadow-lg rounded-lg border border-base-300'
+      className='link-editor absolute top-0 left-0 z-50 opacity-0 bg-base-100 shadow-lg rounded-lg border border-base-300'
     >
-      {!isLink && !isCreatingNewLink ? null : isLinkEditMode ||
-        isCreatingNewLink ? (
+      {!isLink ? null : isLinkEditMode ? (
         <div className='flex items-center gap-2 p-2'>
           <input
             ref={inputRef}
-            className='input input-bordered input-sm w-[200px] link-input'
+            className='input input-bordered input-sm w-[250px] link-input'
             value={editedLinkUrl}
             onChange={event => {
               setEditedLinkUrl(event.target.value);
@@ -477,21 +308,24 @@ function FloatingLinkEditor({
               monitorInputInteraction(event);
             }}
             placeholder='Enter URL'
-            autoFocus
           />
           <button
             className='btn btn-ghost btn-xs'
             onMouseDown={preventDefault}
-            onClick={handleCancel}
+            onClick={() => {
+              setIsLinkEditMode(false);
+            }}
             aria-label='Cancel'
+            title='Cancel'
           >
             <X className='h-3 w-3' />
           </button>
           <button
-            className='btn btn-ghost btn-xs btn-success'
+            className='btn btn-ghost btn-xs text-success'
             onMouseDown={preventDefault}
             onClick={handleLinkSubmission}
-            aria-label='Confirm link'
+            aria-label='Confirm'
+            title='Confirm'
           >
             <Check className='h-3 w-3' />
           </button>
@@ -502,20 +336,21 @@ function FloatingLinkEditor({
             href={sanitizeUrl(linkUrl)}
             target='_blank'
             rel='noopener noreferrer'
-            className='text-primary hover:text-primary-focus flex items-center gap-1 text-sm max-w-[200px] truncate'
+            className='text-primary hover:text-primary-focus flex items-center gap-1 text-sm max-w-[250px] truncate'
           >
-            <ExternalLink className='h-3 w-3' />
-            {linkUrl}
+            <ExternalLink className='h-3 w-3 flex-shrink-0' />
+            <span className='truncate'>{linkUrl}</span>
           </a>
           <button
             className='btn btn-ghost btn-xs'
             onMouseDown={preventDefault}
-            onClick={event => {
+            onClick={(event) => {
               event.preventDefault();
-              setEditedLinkUrl(linkUrl || '');
+              setEditedLinkUrl(linkUrl);
               setIsLinkEditMode(true);
             }}
             aria-label='Edit link'
+            title='Edit link'
           >
             <Edit2 className='h-3 w-3' />
           </button>
@@ -526,6 +361,7 @@ function FloatingLinkEditor({
               editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
             }}
             aria-label='Remove link'
+            title='Remove link'
           >
             <Trash2 className='h-3 w-3' />
           </button>
@@ -539,9 +375,9 @@ function useFloatingLinkEditorToolbar(
   editor: LexicalEditor,
   anchorElem: HTMLElement,
 ): JSX.Element | null {
+  const [activeEditor, setActiveEditor] = useState(editor);
   const [isLink, setIsLink] = useState(false);
   const [isLinkEditMode, setIsLinkEditMode] = useState(false);
-  const [isCreatingNewLink, setIsCreatingNewLink] = useState(false);
 
   useEffect(() => {
     function $updateToolbar() {
@@ -554,9 +390,7 @@ function useFloatingLinkEditorToolbar(
           $isAutoLinkNode,
         );
         if (!(focusLinkNode || focusAutoLinkNode)) {
-          if (!isCreatingNewLink) {
-            setIsLink(false);
-          }
+          setIsLink(false);
           return;
         }
         const badNode = selection
@@ -601,6 +435,7 @@ function useFloatingLinkEditorToolbar(
           $updateToolbar();
         });
       }),
+      
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
         () => {
@@ -609,6 +444,7 @@ function useFloatingLinkEditorToolbar(
         },
         COMMAND_PRIORITY_CRITICAL,
       ),
+      
       editor.registerCommand(
         CLICK_COMMAND,
         payload => {
@@ -626,7 +462,27 @@ function useFloatingLinkEditorToolbar(
         COMMAND_PRIORITY_LOW,
       ),
     );
-  }, [editor, isCreatingNewLink]);
+  }, [editor]);
+
+  useEffect(() => {
+    return editor.registerCommand(
+      TOGGLE_LINK_COMMAND,
+      (payload: string | { url: string } | null) => {
+        if (payload === null) {
+          setIsLink(false);
+          setIsLinkEditMode(false);
+        } else {
+          const url = typeof payload === 'string' ? payload : payload.url;
+          if (url === 'https://') {
+            // This is a new link being created from toolbar
+            setIsLinkEditMode(true);
+          }
+        }
+        return false;
+      },
+      COMMAND_PRIORITY_LOW,
+    );
+  }, [editor]);
 
   return createPortal(
     <FloatingLinkEditor
@@ -636,8 +492,6 @@ function useFloatingLinkEditorToolbar(
       anchorElem={anchorElem}
       isLinkEditMode={isLinkEditMode}
       setIsLinkEditMode={setIsLinkEditMode}
-      isCreatingNewLink={isCreatingNewLink}
-      setIsCreatingNewLink={setIsCreatingNewLink}
     />,
     anchorElem,
   );

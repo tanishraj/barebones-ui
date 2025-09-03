@@ -45,10 +45,7 @@ export type FormatType =
   | 'italic'
   | 'underline'
   | 'strikethrough'
-  | 'code'
-  | 'subscript'
-  | 'superscript'
-  | 'highlight';
+  | 'code';
 
 export interface EditorState {
   canUndo: boolean;
@@ -59,7 +56,5 @@ export interface EditorState {
   isStrikethrough: boolean;
   isCode: boolean;
   isLink: boolean;
-  isSubscript: boolean;
-  isSuperscript: boolean;
   blockType: string;
 }

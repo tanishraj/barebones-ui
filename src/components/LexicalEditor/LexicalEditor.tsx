@@ -25,9 +25,12 @@ import {
 } from './styles/LexicalEditor.styles';
 import ToolbarPlugin from './plugins/ToolbarPlugin';
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
+import AutoLinkPlugin from './plugins/AutoLinkPlugin';
 import EquationsPlugin from './plugins/EquationsPlugin';
 import TablePlugin from './plugins/TablePlugin';
+import TableActionMenuPlugin from './plugins/TableActionMenuPlugin';
 import InlineCodeExitPlugin from './plugins/InlineCodeExitPlugin';
+import ShortcutsPlugin from './plugins/ShortcutsPlugin';
 import { EquationNode } from './nodes/EquationNode';
 
 const LexicalEditor: React.FC<LexicalEditorProps> = ({
@@ -143,9 +146,12 @@ const LexicalEditor: React.FC<LexicalEditorProps> = ({
             {autoFocus && <AutoFocusPlugin />}
             <ListPlugin />
             <LinkPlugin />
+            <AutoLinkPlugin />
+            <ShortcutsPlugin />
             <InlineCodeExitPlugin />
             <EquationsPlugin />
             <TablePlugin />
+            <TableActionMenuPlugin />
             {floatingAnchorElem && (
               <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
             )}

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import katex from 'katex';
-import 'katex/dist/katex.min.css';
 
 interface KatexRendererProps {
   equation: string;

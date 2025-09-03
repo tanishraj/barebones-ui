@@ -4,10 +4,7 @@ import { HeadingTagType } from '@lexical/rich-text';
 import { ChevronDown } from 'lucide-react';
 
 import { EditorState } from '../../../types';
-import {
-  formatParagraph,
-  formatHeading,
-} from '../utils';
+import { formatParagraph, formatHeading } from '../utils';
 
 interface BlockTypeSectionProps {
   editor: LexicalEditor;
@@ -23,6 +20,8 @@ const blockTypeToBlockName: Record<string, string> = {
   h5: 'Heading 5',
   h6: 'Heading 6',
   quote: 'Quote',
+  bullet: 'Bullet List',
+  number: 'Numbered List',
 };
 
 const blockTypes = [
@@ -39,9 +38,14 @@ export const BlockTypeSection: React.FC<BlockTypeSectionProps> = ({
   editor,
   editorState,
 }) => {
-
   const handleBlockTypeChange = useCallback(
     (blockType: string) => {
+      // Focus the editor first if it's not focused
+      if (!editor.getRootElement()?.contains(document.activeElement)) {
+        editor.focus();
+      }
+
+      // Apply the formatting
       if (blockType === 'paragraph') {
         formatParagraph(editor);
       } else if (blockType.startsWith('h')) {
@@ -51,10 +55,11 @@ export const BlockTypeSection: React.FC<BlockTypeSectionProps> = ({
     [editor],
   );
 
-  // Don't show "Quote" in dropdown - keep showing the heading type or Normal
-  const displayBlockType = editorState.blockType === 'quote' ? 'paragraph' : editorState.blockType;
-  const currentBlockName =
-    blockTypeToBlockName[displayBlockType] || 'Normal';
+  // Only show heading types and paragraph in the dropdown
+  const displayBlockType = ['paragraph', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(editorState.blockType)
+    ? editorState.blockType
+    : 'paragraph';
+  const currentBlockName = blockTypeToBlockName[displayBlockType] || 'Normal';
 
   return (
     <div className='dropdown dropdown-bottom'>

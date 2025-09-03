@@ -1,264 +1,184 @@
+import type { JSX } from 'react';
+
 import * as React from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
-  $getSelection,
-  $isRangeSelection,
-  $isRootOrShadowRoot,
-  $createParagraphNode,
-  COMMAND_PRIORITY_EDITOR,
-  NodeKey,
-  LexicalEditor,
-} from 'lexical';
-import {
-  $createTableNodeWithDimensions,
-  $deleteTableColumn__EXPERIMENTAL,
-  $deleteTableRow__EXPERIMENTAL,
-  $getTableCellNodeFromLexicalNode,
-  $getTableNodeFromLexicalNodeOrThrow,
-  $insertTableColumn__EXPERIMENTAL,
-  $insertTableRow__EXPERIMENTAL,
-  $isTableCellNode,
-  $isTableNode,
-  $isTableRowNode,
-  $isTableSelection,
-  $unmergeCell,
   INSERT_TABLE_COMMAND,
   TableCellNode,
   TableNode,
   TableRowNode,
-  TableSelection,
 } from '@lexical/table';
-import { $insertNodes } from 'lexical';
-import { mergeRegister } from '@lexical/utils';
+import { 
+  EditorThemeClasses, 
+  Klass, 
+  LexicalEditor, 
+  LexicalNode 
+} from 'lexical';
 import { TablePlugin as LexicalTablePlugin } from '@lexical/react/LexicalTablePlugin';
 
-import TableActionMenu from '../../components/TableActionMenu';
+export type InsertTableCommandPayload = Readonly<{
+  columns: string;
+  rows: string;
+  includeHeaders?: boolean;
+}>;
 
-export default function TablePlugin(): JSX.Element {
-  const [editor] = useLexicalComposerContext();
-  const [tableSelection, setTableSelection] = useState<TableSelection | null>(null);
-  const [tableCellNode, setTableCellNode] = useState<TableCellNode | null>(null);
-  const [menuPosition, setMenuPosition] = useState<{ x: number; y: number } | null>(null);
-  const [isTableNode, setIsTableNode] = useState(false);
+export type CellContextShape = {
+  cellEditorConfig: null | CellEditorConfig;
+  cellEditorPlugins: null | JSX.Element | Array<JSX.Element>;
+  set: (
+    cellEditorConfig: null | CellEditorConfig,
+    cellEditorPlugins: null | JSX.Element | Array<JSX.Element>,
+  ) => void;
+};
+
+export type CellEditorConfig = Readonly<{
+  namespace: string;
+  nodes?: ReadonlyArray<Klass<LexicalNode>>;
+  onError: (error: Error, editor: LexicalEditor) => void;
+  readOnly?: boolean;
+  theme?: EditorThemeClasses;
+}>;
+
+export const CellContext = createContext<CellContextShape>({
+  cellEditorConfig: null,
+  cellEditorPlugins: null,
+  set: () => {
+    // Empty
+  },
+});
+
+export function TableContext({ children }: { children: JSX.Element }) {
+  const [contextValue, setContextValue] = useState<{
+    cellEditorConfig: null | CellEditorConfig;
+    cellEditorPlugins: null | JSX.Element | Array<JSX.Element>;
+  }>({
+    cellEditorConfig: null,
+    cellEditorPlugins: null,
+  });
+  
+  return (
+    <CellContext.Provider
+      value={useMemo(
+        () => ({
+          cellEditorConfig: contextValue.cellEditorConfig,
+          cellEditorPlugins: contextValue.cellEditorPlugins,
+          set: (cellEditorConfig, cellEditorPlugins) => {
+            setContextValue({ cellEditorConfig, cellEditorPlugins });
+          },
+        }),
+        [contextValue.cellEditorConfig, contextValue.cellEditorPlugins],
+      )}>
+      {children}
+    </CellContext.Provider>
+  );
+}
+
+export function InsertTableDialog({
+  activeEditor,
+  onClose,
+}: {
+  activeEditor: LexicalEditor;
+  onClose: () => void;
+}): JSX.Element {
+  const [rows, setRows] = useState('5');
+  const [columns, setColumns] = useState('5');
+  const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
-    if (!editor.hasNodes([TableNode, TableCellNode, TableRowNode])) {
-      console.error(
-        'TablePlugin: TableNode, TableCellNode or TableRowNode not registered on editor'
-      );
-      return;
+    const row = Number(rows);
+    const column = Number(columns);
+    if (row && row > 0 && row <= 500 && column && column > 0 && column <= 50) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
     }
+  }, [rows, columns]);
 
-    const unregister = editor.registerCommand(
-      INSERT_TABLE_COMMAND,
-      ({ columns, rows, includeHeaders }) => {
-        const selection = $getSelection();
-
-        if (!$isRangeSelection(selection)) {
-          return true;
-        }
-
-        const focus = selection.focus;
-        const focusNode = focus.getNode();
-
-        if (focusNode !== null) {
-          const tableNode = $createTableNodeWithDimensions(
-            Number(rows),
-            Number(columns),
-            includeHeaders,
-          );
-
-          if ($isRootOrShadowRoot(focusNode)) {
-            const target = focusNode.getChildAtIndex(focus.offset);
-
-            if (target !== null) {
-              target.insertBefore(tableNode);
-            } else {
-              focusNode.append(tableNode);
-            }
-
-            tableNode.insertBefore($createParagraphNode());
-          } else {
-            const topLevelNode = focusNode.getTopLevelElementOrThrow();
-            topLevelNode.insertAfter(tableNode);
-          }
-
-          tableNode.insertAfter($createParagraphNode());
-          const firstCell = tableNode
-            .getFirstChild()
-            ?.getFirstChild();
-          
-          if ($isTableCellNode(firstCell)) {
-            firstCell.select();
-          }
-        }
-
-        return true;
-      },
-      COMMAND_PRIORITY_EDITOR,
-    );
-
-    return () => {
-      unregister();
-    };
-  }, [editor]);
-
-  // Handle table selection updates
-  useEffect(() => {
-    const unregister = editor.registerUpdateListener(({ editorState }) => {
-      editorState.read(() => {
-        const selection = $getSelection();
-        
-        if ($isTableSelection(selection)) {
-          setTableSelection(selection);
-          
-          const anchor = selection.anchor.getNode();
-          const cell = $getTableCellNodeFromLexicalNode(anchor);
-          setTableCellNode(cell);
-          
-          // Check if we're in a table
-          if (cell) {
-            const table = $getTableNodeFromLexicalNodeOrThrow(cell);
-            setIsTableNode(true);
-          }
-        } else if ($isRangeSelection(selection)) {
-          const anchorNode = selection.anchor.getNode();
-          const cell = $getTableCellNodeFromLexicalNode(anchorNode);
-          
-          setTableCellNode(cell);
-          setTableSelection(null);
-          setIsTableNode(cell !== null);
-        } else {
-          setTableSelection(null);
-          setTableCellNode(null);
-          setIsTableNode(false);
-        }
-      });
+  const onClick = () => {
+    activeEditor.dispatchCommand(INSERT_TABLE_COMMAND, {
+      columns,
+      rows,
     });
-
-    return unregister;
-  }, [editor]);
-
-  // Table manipulation callbacks
-  const handleInsertRowAbove = useCallback(() => {
-    editor.update(() => {
-      if (tableCellNode) {
-        $insertTableRow__EXPERIMENTAL(false);
-      }
-    });
-  }, [editor, tableCellNode]);
-
-  const handleInsertRowBelow = useCallback(() => {
-    editor.update(() => {
-      if (tableCellNode) {
-        $insertTableRow__EXPERIMENTAL(true);
-      }
-    });
-  }, [editor, tableCellNode]);
-
-  const handleInsertColumnLeft = useCallback(() => {
-    editor.update(() => {
-      if (tableCellNode) {
-        $insertTableColumn__EXPERIMENTAL(false);
-      }
-    });
-  }, [editor, tableCellNode]);
-
-  const handleInsertColumnRight = useCallback(() => {
-    editor.update(() => {
-      if (tableCellNode) {
-        $insertTableColumn__EXPERIMENTAL(true);
-      }
-    });
-  }, [editor, tableCellNode]);
-
-  const handleDeleteRow = useCallback(() => {
-    editor.update(() => {
-      if (tableCellNode) {
-        $deleteTableRow__EXPERIMENTAL();
-      }
-    });
-  }, [editor, tableCellNode]);
-
-  const handleDeleteColumn = useCallback(() => {
-    editor.update(() => {
-      if (tableCellNode) {
-        $deleteTableColumn__EXPERIMENTAL();
-      }
-    });
-  }, [editor, tableCellNode]);
-
-  const handleDeleteTable = useCallback(() => {
-    editor.update(() => {
-      if (tableCellNode) {
-        const tableNode = $getTableNodeFromLexicalNodeOrThrow(tableCellNode);
-        tableNode.remove();
-      }
-    });
-  }, [editor, tableCellNode]);
-
-  const handleUnmergeCells = useCallback(() => {
-    editor.update(() => {
-      if (tableCellNode) {
-        $unmergeCell();
-      }
-    });
-  }, [editor, tableCellNode]);
-
-  // Show context menu on right click
-  useEffect(() => {
-    const handleContextMenu = (event: MouseEvent) => {
-      event.preventDefault();
-      
-      editor.getEditorState().read(() => {
-        const selection = $getSelection();
-        
-        if ($isRangeSelection(selection) || $isTableSelection(selection)) {
-          const anchorNode = selection.anchor.getNode();
-          const cell = $getTableCellNodeFromLexicalNode(anchorNode);
-          
-          if (cell) {
-            setMenuPosition({ x: event.clientX, y: event.clientY });
-          }
-        }
-      });
-    };
-
-    const rootElement = editor.getRootElement();
-    if (rootElement) {
-      rootElement.addEventListener('contextmenu', handleContextMenu);
-    }
-
-    return () => {
-      if (rootElement) {
-        rootElement.removeEventListener('contextmenu', handleContextMenu);
-      }
-    };
-  }, [editor]);
+    onClose();
+  };
 
   return (
-    <>
-      <LexicalTablePlugin
-        hasCellMerge={false}
-        hasCellBackgroundColor={false}
-        hasTabHandler={true}
-      />
-      {menuPosition && tableCellNode && (
-        <TableActionMenu
-          position={menuPosition}
-          onClose={() => setMenuPosition(null)}
-          onInsertRowAbove={handleInsertRowAbove}
-          onInsertRowBelow={handleInsertRowBelow}
-          onInsertColumnLeft={handleInsertColumnLeft}
-          onInsertColumnRight={handleInsertColumnRight}
-          onDeleteRow={handleDeleteRow}
-          onDeleteColumn={handleDeleteColumn}
-          onDeleteTable={handleDeleteTable}
-          onUnmergeCells={handleUnmergeCells}
-          canUnmergeCells={tableCellNode.getColSpan() > 1 || tableCellNode.getRowSpan() > 1}
+    <div className="space-y-4">
+      <div>
+        <label className="label">
+          <span className="text-sm font-medium">Rows</span>
+        </label>
+        <input
+          type="number"
+          placeholder="# of rows (1-500)"
+          onChange={(e) => setRows(e.target.value)}
+          value={rows}
+          className="input input-bordered w-full"
+          min="1"
+          max="500"
         />
-      )}
-    </>
+      </div>
+      <div>
+        <label className="label">
+          <span className="text-sm font-medium">Columns</span>
+        </label>
+        <input
+          type="number"
+          placeholder="# of columns (1-50)"
+          onChange={(e) => setColumns(e.target.value)}
+          value={columns}
+          className="input input-bordered w-full"
+          min="1"
+          max="50"
+        />
+      </div>
+      <div className="flex justify-end">
+        <button
+          className="btn btn-primary btn-sm"
+          disabled={isDisabled}
+          onClick={onClick}
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default function TablePlugin({
+  cellEditorConfig,
+  children,
+}: {
+  cellEditorConfig?: CellEditorConfig;
+  children?: JSX.Element | Array<JSX.Element>;
+}): JSX.Element | null {
+  const [editor] = useLexicalComposerContext();
+  const cellContext = useContext(CellContext);
+
+  useEffect(() => {
+    if (!editor.hasNodes([TableNode, TableRowNode, TableCellNode])) {
+      throw new Error(
+        'TablePlugin: TableNode, TableRowNode, or TableCellNode is not registered on editor',
+      );
+    }
+    
+    if (cellEditorConfig) {
+      cellContext.set(cellEditorConfig, children || null);
+    }
+    
+    return () => {
+      if (cellEditorConfig) {
+        cellContext.set(null, null);
+      }
+    };
+  }, [cellContext, cellEditorConfig, children, editor]);
+
+  return (
+    <LexicalTablePlugin
+      hasCellMerge={true}
+      hasCellBackgroundColor={true}
+      hasTabHandler={true}
+    />
   );
 }
