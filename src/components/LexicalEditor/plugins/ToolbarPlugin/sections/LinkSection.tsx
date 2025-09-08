@@ -20,6 +20,11 @@ export const LinkSection: React.FC<LinkSectionProps> = ({
   const [isLinkEditMode, setIsLinkEditMode] = useState(false);
   
   const insertLink = useCallback(() => {
+    // Focus the editor first if it's not focused
+    if (!editor.getRootElement()?.contains(document.activeElement)) {
+      editor.focus();
+    }
+    
     if (!editorState.isLink) {
       // Insert new link
       setIsLinkEditMode(true);

@@ -17,6 +17,10 @@ export const FormatSection: React.FC<FormatSectionProps> = ({
 }) => {
   const formatText = useCallback(
     (format: string) => {
+      // Focus the editor first if it's not focused
+      if (!editor.getRootElement()?.contains(document.activeElement)) {
+        editor.focus();
+      }
       editor.dispatchCommand(FORMAT_TEXT_COMMAND, format);
     },
     [editor],

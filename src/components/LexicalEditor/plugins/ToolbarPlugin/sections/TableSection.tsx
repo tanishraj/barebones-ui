@@ -21,6 +21,11 @@ export const TableSection: React.FC<TableSectionProps> = ({ editor }) => {
 
   const handleTableInsert = useCallback(
     (rows: number, cols: number) => {
+      // Focus the editor first if it's not focused
+      if (!editor.getRootElement()?.contains(document.activeElement)) {
+        editor.focus();
+      }
+      
       editor.dispatchCommand(INSERT_TABLE_COMMAND, {
         rows: String(rows),
         columns: String(cols),

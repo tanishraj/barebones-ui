@@ -36,6 +36,10 @@ export function InsertEquationDialog({
 }): JSX.Element {
   const onEquationConfirm = useCallback(
     (equation: string, inline: boolean) => {
+      // Focus the editor first if it's not focused
+      if (!activeEditor.getRootElement()?.contains(document.activeElement)) {
+        activeEditor.focus();
+      }
       activeEditor.dispatchCommand(INSERT_EQUATION_COMMAND, { equation, inline });
       onClose();
     },
