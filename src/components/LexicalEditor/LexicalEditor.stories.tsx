@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
+import { useState, useCallback, useRef } from 'react';
+import { Tooltip } from 'react-tooltip';
+import 'react-tooltip/dist/react-tooltip.css';
 
 import LexicalEditor from './LexicalEditor';
 
@@ -392,5 +394,253 @@ export const CustomHeight: Story = {
     autoFocus: false,
     minHeight: '100px',
     maxHeight: '300px',
+  },
+};
+
+export const WithSources: Story = {
+  args: {
+    placeholder: 'Click the sparkles icon to add source citations...',
+    showToolbar: true,
+    disabled: false,
+    readOnly: false,
+    autoFocus: false,
+    minHeight: '250px',
+    maxHeight: '500px',
+  },
+  render: args => {
+    const sources = [
+      {
+        id: '1',
+        title: 'Introduction to React',
+        url: 'https://react.dev/learn',
+        author: 'React Team',
+        snippet: 'React is a JavaScript library for building user interfaces.',
+      },
+      {
+        id: '2',
+        title: 'Understanding Hooks',
+        url: 'https://react.dev/reference/react',
+        author: 'React Team',
+        snippet:
+          'Hooks let you use state and other React features without writing a class.',
+      },
+      {
+        id: '3',
+        title: 'Advanced Patterns',
+        url: 'https://react.dev/learn/advanced',
+        author: 'React Community',
+        snippet:
+          'Advanced React patterns help you build more scalable applications.',
+      },
+    ];
+
+    return (
+      <div className='w-full'>
+        <div className='alert alert-info mb-4'>
+          <div>
+            <h4 className='font-bold'>
+              ✨ Source Citations with React Tooltip
+            </h4>
+            <p className='mt-2'>
+              Simple integration with React Tooltip - just pass sources and add
+              your tooltip!
+            </p>
+            <ol className='list-decimal list-inside mt-2 space-y-1'>
+              <li>Click the sparkles (✨) button in the toolbar</li>
+              <li>Enter source numbers (e.g., "1, 2, 3" or "1,2,3")</li>
+              <li>Citations appear as numbered circles: [1], [2,3]</li>
+              <li>Hover over citations to see React Tooltip</li>
+              <li>Click citations to open source URLs (if URL provided)</li>
+            </ol>
+            <div className='mt-3'>
+              <p className='font-semibold'>Available sources for this demo:</p>
+              <ul className='list-disc list-inside mt-1 text-sm'>
+                {sources.map(source => (
+                  <li key={source.id}>
+                    Source {source.id}: {source.title}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <LexicalEditor
+          {...args}
+          sources={sources}
+          sourceTooltipId='source-tooltip'
+        />
+
+        <Tooltip
+          id='source-tooltip'
+          place='top'
+          className='!bg-base-100 !text-base-content !opacity-100 !shadow-xl !border !border-base-300 !z-50'
+          render={({ content }) => {
+            const source = sources.find(s => s.id === content);
+            if (!source) return null;
+
+            return (
+              <div className='max-w-xs p-2'>
+                <div className='font-semibold text-sm'>{source.title}</div>
+                {source.author && (
+                  <div className='text-xs opacity-70 mt-1'>
+                    by {source.author}
+                  </div>
+                )}
+                {source.snippet && (
+                  <div className='text-xs mt-2 opacity-80'>
+                    {source.snippet}
+                  </div>
+                )}
+                {source.url && (
+                  <div className='text-xs mt-2 text-primary'>
+                    Click to visit source
+                  </div>
+                )}
+              </div>
+            );
+          }}
+        />
+      </div>
+    );
+  },
+};
+
+export const ResearchPaperExample: Story = {
+  args: {
+    placeholder: 'Write your research paper with citations...',
+    showToolbar: true,
+    disabled: false,
+    readOnly: false,
+    autoFocus: false,
+    minHeight: '350px',
+    maxHeight: '600px',
+  },
+  render: args => {
+    const researchSources = [
+      {
+        id: '1',
+        title: 'Machine Learning: A Probabilistic Perspective',
+        author: 'Kevin P. Murphy',
+        year: 2012,
+        type: 'Book',
+        publisher: 'MIT Press',
+      },
+      {
+        id: '2',
+        title: 'Deep Learning',
+        author: 'Ian Goodfellow, Yoshua Bengio, Aaron Courville',
+        year: 2016,
+        type: 'Book',
+        url: 'https://www.deeplearningbook.org/',
+      },
+      {
+        id: '3',
+        title: 'Attention Is All You Need',
+        author: 'Vaswani et al.',
+        year: 2017,
+        type: 'Paper',
+        conference: 'NeurIPS',
+        url: 'https://arxiv.org/abs/1706.03762',
+      },
+      {
+        id: '4',
+        title: 'BERT: Pre-training of Deep Bidirectional Transformers',
+        author: 'Devlin et al.',
+        year: 2018,
+        type: 'Paper',
+        conference: 'NAACL',
+        url: 'https://arxiv.org/abs/1810.04805',
+      },
+      {
+        id: '5',
+        title: 'GPT-3: Language Models are Few-Shot Learners',
+        author: 'Brown et al.',
+        year: 2020,
+        type: 'Paper',
+        conference: 'NeurIPS',
+        url: 'https://arxiv.org/abs/2005.14165',
+      },
+    ];
+
+    return (
+      <div className='w-full'>
+        <div className='alert alert-warning mb-4'>
+          <div>
+            <h4 className='font-bold'>📚 Academic Research Paper Example</h4>
+            <p className='mt-2 text-sm'>
+              Academic-style citations with React Tooltip showing paper details.
+            </p>
+            <div className='mt-3 grid grid-cols-2 gap-4'>
+              <div>
+                <p className='font-semibold text-sm'>Available Citations:</p>
+                <ul className='text-xs mt-1 space-y-1'>
+                  {researchSources.map(source => (
+                    <li key={source.id}>
+                      [{source.id}] {source.title.substring(0, 30)}...
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className='font-semibold text-sm'>Try writing:</p>
+                <p className='text-xs mt-1'>
+                  "The transformer architecture [3] revolutionized NLP.
+                  Subsequent models like BERT [4] and GPT-3 [5] built upon this
+                  foundation."
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <LexicalEditor
+          {...args}
+          sources={researchSources}
+          sourceTooltipId='academic-tooltip'
+        />
+
+        <Tooltip
+          id='academic-tooltip'
+          place='top'
+          className='!bg-base-100 !text-base-content !opacity-100 !shadow-2xl !border !border-base-300 !z-50 !max-w-sm'
+          render={({ content }) => {
+            const source = researchSources.find(s => s.id === content);
+            if (!source) return null;
+
+            return (
+              <div className='p-3'>
+                <div className='font-semibold text-sm'>{source.title}</div>
+                <div className='text-xs opacity-70 mt-1'>
+                  {source.author} ({source.year})
+                </div>
+                {source.type && (
+                  <div className='text-xs mt-2'>
+                    <span className='badge badge-sm badge-outline'>
+                      {source.type}
+                    </span>
+                    {source.conference && (
+                      <span className='ml-2 opacity-60'>
+                        {source.conference}
+                      </span>
+                    )}
+                  </div>
+                )}
+                {source.publisher && (
+                  <div className='text-xs opacity-60 mt-1'>
+                    {source.publisher}
+                  </div>
+                )}
+                {source.url && (
+                  <div className='text-xs mt-2 text-primary'>
+                    📄 Click to view paper
+                  </div>
+                )}
+              </div>
+            );
+          }}
+        />
+      </div>
+    );
   },
 };

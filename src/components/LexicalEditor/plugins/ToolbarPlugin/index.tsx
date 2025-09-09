@@ -11,6 +11,7 @@ import { ListSection } from './sections/ListSection';
 import { QuoteSection } from './sections/QuoteSection';
 import { EquationSection } from './sections/EquationSection';
 import { TableSection } from './sections/TableSection';
+import { SourceSection } from './sections/SourceSection';
 
 const ToolbarPlugin: React.FC = () => {
   const { editor, editorState } = useToolbarState();
@@ -30,6 +31,7 @@ const ToolbarPlugin: React.FC = () => {
         <Divider />
         <EquationSection editor={editor} />
         <TableSection editor={editor} />
+        <SourceSection editor={editor} />
       </div>
 
       {/* History controls - end */}

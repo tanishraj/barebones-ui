@@ -30,6 +30,16 @@ export interface LexicalEditorProps {
   theme?: Partial<InitialConfigType['theme']>;
   /** Additional plugins as children */
   children?: ReactNode;
+  /** Source data - array of source objects */
+  sources?: Array<{
+    id: string;
+    title?: string;
+    url?: string;
+    author?: string;
+    [key: string]: any;
+  }>;
+  /** Tooltip ID for React Tooltip */
+  sourceTooltipId?: string;
 }
 
 export interface ToolbarButtonProps {

@@ -32,6 +32,8 @@ import TableActionMenuPlugin from './plugins/TableActionMenuPlugin';
 import InlineCodeExitPlugin from './plugins/InlineCodeExitPlugin';
 import ShortcutsPlugin from './plugins/ShortcutsPlugin';
 import { EquationNode } from './nodes/EquationNode';
+import { SourceNode } from './nodes/SourceNode';
+import SourcePlugin from './plugins/SourcePlugin';
 
 const LexicalEditor: React.FC<LexicalEditorProps> = ({
   value,
@@ -48,6 +50,8 @@ const LexicalEditor: React.FC<LexicalEditorProps> = ({
   onFocus,
   theme: customTheme,
   children,
+  sources,
+  sourceTooltipId = 'source-tooltip',
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [floatingAnchorElem, setFloatingAnchorElem] =
@@ -71,6 +75,7 @@ const LexicalEditor: React.FC<LexicalEditorProps> = ({
       LinkNode,
       AutoLinkNode,
       EquationNode,
+      SourceNode,
       TableNode,
       TableRowNode,
       TableCellNode,
@@ -152,6 +157,10 @@ const LexicalEditor: React.FC<LexicalEditorProps> = ({
             <EquationsPlugin />
             <TablePlugin />
             <TableActionMenuPlugin />
+            <SourcePlugin
+              sources={sources}
+              tooltipId={sourceTooltipId}
+            />
             {floatingAnchorElem && (
               <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
             )}
