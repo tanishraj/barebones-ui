@@ -215,6 +215,74 @@ export const WithEquations: Story = {
   },
 };
 
+export const WithLists: Story = {
+  args: {
+    placeholder: 'Create lists and use Tab/Shift+Tab for indentation...',
+    showToolbar: true,
+    disabled: false,
+    readOnly: false,
+    autoFocus: false,
+    minHeight: '300px',
+    maxHeight: '500px',
+  },
+  render: args => {
+    return (
+      <div className='w-full'>
+        <div className='alert alert-info mb-4'>
+          <div>
+            <h4 className='font-bold'>📝 List Indentation with Tab Key</h4>
+            <p className='mt-2'>
+              Create nested lists easily using Tab and Shift+Tab keys for indentation.
+            </p>
+            <div className='mt-3 grid grid-cols-2 gap-4'>
+              <div>
+                <p className='font-semibold text-sm'>Keyboard Shortcuts:</p>
+                <ul className='text-xs mt-1 space-y-1 list-disc list-inside'>
+                  <li><kbd className='kbd kbd-xs'>Tab</kbd> - Indent list item</li>
+                  <li><kbd className='kbd kbd-xs'>Shift+Tab</kbd> - Outdent list item</li>
+                  <li><kbd className='kbd kbd-xs'>Enter</kbd> - New list item</li>
+                  <li><kbd className='kbd kbd-xs'>Enter×2</kbd> - Exit list</li>
+                </ul>
+              </div>
+              <div>
+                <p className='font-semibold text-sm'>Try this:</p>
+                <ol className='text-xs mt-1 space-y-1 list-decimal list-inside'>
+                  <li>Click the bullet or numbered list button</li>
+                  <li>Type your first item</li>
+                  <li>Press Enter for a new item</li>
+                  <li>Press Tab to indent (create sub-list)</li>
+                  <li>Press Shift+Tab to outdent</li>
+                </ol>
+              </div>
+            </div>
+            <div className='mt-3 p-2 bg-base-200 rounded'>
+              <p className='text-xs'>
+                <strong>💡 Tip:</strong> You can create mixed nested lists - numbered lists inside bullet lists and vice versa!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <LexicalEditor {...args} />
+
+        <div className='mt-4 p-4 bg-base-200 rounded-lg'>
+          <p className='text-sm font-semibold mb-2'>Example Structure:</p>
+          <div className='text-xs space-y-1'>
+            <div>• Main Topic 1</div>
+            <div className='ml-4'>◦ Subtopic 1.1</div>
+            <div className='ml-8'>▪ Detail 1.1.1</div>
+            <div className='ml-8'>▪ Detail 1.1.2</div>
+            <div className='ml-4'>◦ Subtopic 1.2</div>
+            <div>• Main Topic 2</div>
+            <div className='ml-4'>1. Numbered item</div>
+            <div className='ml-8'>a. Sub-item</div>
+          </div>
+        </div>
+      </div>
+    );
+  },
+};
+
 export const WithLinks: Story = {
   args: {
     placeholder: 'Select text and click the link button to add a link...',

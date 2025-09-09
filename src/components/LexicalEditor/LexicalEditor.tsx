@@ -9,6 +9,7 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 import { HeadingNode, QuoteNode } from '@lexical/rich-text';
 import { ListItemNode, ListNode } from '@lexical/list';
 import { LinkNode, AutoLinkNode } from '@lexical/link';
@@ -150,6 +151,7 @@ const LexicalEditor: React.FC<LexicalEditorProps> = ({
             <HistoryPlugin />
             {autoFocus && <AutoFocusPlugin />}
             <ListPlugin />
+            <TabIndentationPlugin />
             <LinkPlugin />
             <AutoLinkPlugin />
             <ShortcutsPlugin />
@@ -157,10 +159,7 @@ const LexicalEditor: React.FC<LexicalEditorProps> = ({
             <EquationsPlugin />
             <TablePlugin />
             <TableActionMenuPlugin />
-            <SourcePlugin
-              sources={sources}
-              tooltipId={sourceTooltipId}
-            />
+            <SourcePlugin sources={sources} tooltipId={sourceTooltipId} />
             {floatingAnchorElem && (
               <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
             )}
