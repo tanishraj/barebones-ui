@@ -37,3 +37,4 @@ export * from './Rating';
 export * from './ColorPicker';
 export * from './Input';
 export * from './FileInput';
+export * from './Tab';
