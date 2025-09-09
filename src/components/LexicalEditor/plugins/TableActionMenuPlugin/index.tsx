@@ -290,7 +290,10 @@ function TableCellActionMenuContainer({
         editor.getEditorState().read(() => {
           const selection = $getSelection();
           // Close menu if selection changed to a different cell
-          if (selection && ($isRangeSelection(selection) || $isTableSelection(selection))) {
+          if (
+            selection &&
+            ($isRangeSelection(selection) || $isTableSelection(selection))
+          ) {
             const currentCellNode = $getTableCellNodeFromLexicalNode(
               selection.anchor.getNode(),
             );
@@ -330,7 +333,10 @@ function TableCellActionMenuContainer({
   // Close menu when table cell changes
   const prevTableCellNode = useRef(tableCellNode);
   useEffect(() => {
-    if (prevTableCellNode.current !== tableCellNode && prevTableCellNode.current !== null) {
+    if (
+      prevTableCellNode.current !== tableCellNode &&
+      prevTableCellNode.current !== null
+    ) {
       setIsMenuOpen(false);
     }
     prevTableCellNode.current = tableCellNode;
@@ -364,7 +370,7 @@ function TableCellActionMenuContainer({
 
       document.addEventListener('click', handleClickOutside);
       document.addEventListener('focusin', handleFocusChange);
-      
+
       return () => {
         document.removeEventListener('click', handleClickOutside);
         document.removeEventListener('focusin', handleFocusChange);
