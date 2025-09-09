@@ -25,11 +25,14 @@ export const TableSection: React.FC<TableSectionProps> = ({ editor }) => {
       if (!editor.getRootElement()?.contains(document.activeElement)) {
         editor.focus();
       }
-      
+
       editor.dispatchCommand(INSERT_TABLE_COMMAND, {
         rows: String(rows),
         columns: String(cols),
-        includeHeaders: true,
+        includeHeaders: {
+          rows: true, // Keep row headers (first row as headers)
+          columns: false, // No column headers (first column)
+        },
       });
       setShowTableSelector(false);
     },

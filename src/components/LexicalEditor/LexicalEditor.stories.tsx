@@ -101,35 +101,64 @@ export const WithTables: Story = {
     disabled: false,
     readOnly: false,
     autoFocus: false,
-    minHeight: '300px',
-    maxHeight: '500px',
+    minHeight: '350px',
+    maxHeight: '600px',
   },
   render: args => {
     return (
       <div className='w-full'>
         <div className='alert alert-info mb-4'>
           <div>
-            <h4 className='font-bold'>📊 Table Support</h4>
-            <p className='mt-2'>Create and manage tables with ease:</p>
+            <h4 className='font-bold'>
+              📊 Table Support - Aligned with Lexical Playground
+            </h4>
+            <p className='mt-2'>
+              Create and manage tables with powerful features:
+            </p>
             <ul className='list-disc list-inside mt-2 space-y-1'>
               <li>Click the table icon in the toolbar to insert a table</li>
-              <li>Choose table dimensions using the grid selector or manual input</li>
-              <li>Right-click on any cell for table operations menu</li>
+              <li>
+                Choose table dimensions using the grid selector (hover over
+                cells)
+              </li>
+              <li>First row is automatically formatted as header row</li>
+              <li>
+                Click on any table cell to see the action menu (chevron button)
+              </li>
               <li>Use Tab key to navigate between cells</li>
-              <li>Press Enter to add content to cells</li>
+              <li>Shift+Tab to go back to previous cell</li>
             </ul>
-            <div className='mt-3'>
-              <p className='font-semibold'>Available operations:</p>
-              <ul className='list-disc list-inside mt-1 text-sm'>
-                <li>Insert rows above/below</li>
-                <li>Insert columns left/right</li>
-                <li>Delete rows/columns</li>
-                <li>Delete entire table</li>
-              </ul>
+            <div className='mt-3 grid grid-cols-2 gap-4'>
+              <div>
+                <p className='font-semibold'>Table Actions Menu:</p>
+                <ul className='list-disc list-inside mt-1 text-sm'>
+                  <li>Insert row above/below</li>
+                  <li>Insert column left/right</li>
+                  <li>Delete row</li>
+                  <li>Delete column</li>
+                  <li>Delete entire table</li>
+                </ul>
+              </div>
+              <div>
+                <p className='font-semibold'>Navigation:</p>
+                <ul className='list-disc list-inside mt-1 text-sm'>
+                  <li>Tab - Next cell</li>
+                  <li>Shift+Tab - Previous cell</li>
+                  <li>Arrow keys - Move within cell</li>
+                  <li>Enter - New line in cell</li>
+                </ul>
+              </div>
+            </div>
+            <div className='mt-3 p-2 bg-base-200 rounded'>
+              <p className='text-xs'>
+                <strong>💡 Tip:</strong> Tables have row headers by default
+                (first row). The table cell action menu appears when you select
+                a cell.
+              </p>
             </div>
           </div>
         </div>
-        
+
         <LexicalEditor {...args} />
       </div>
     );
@@ -152,7 +181,9 @@ export const WithEquations: Story = {
         <div className='alert alert-info mb-4'>
           <div>
             <h4 className='font-bold'>📐 Mathematical Equations Support</h4>
-            <p className='mt-2'>This editor supports LaTeX mathematical expressions using KaTeX.</p>
+            <p className='mt-2'>
+              This editor supports LaTeX mathematical expressions using KaTeX.
+            </p>
             <ol className='list-decimal list-inside mt-2 space-y-1'>
               <li>Click the Σ (Sigma) button in the toolbar</li>
               <li>Enter a LaTeX expression (e.g., x^2 + y^2 = z^2)</li>
@@ -163,14 +194,19 @@ export const WithEquations: Story = {
             <div className='mt-3'>
               <p className='font-semibold'>Example equations to try:</p>
               <ul className='list-disc list-inside mt-1 text-sm'>
-                <li>Quadratic: x = \frac{"{-b \\pm \\sqrt{b^2-4ac}}"}{"{2a}"}</li>
+                <li>
+                  Quadratic: x = \frac{'{-b \\pm \\sqrt{b^2-4ac}}'}
+                  {'{2a}'}
+                </li>
                 <li>Integral: \int_a^b f(x)dx</li>
-                <li>Matrix: \begin{"{pmatrix}"} a & b \\ c & d \end{"{pmatrix}"}</li>
+                <li>
+                  Matrix: \begin{'{pmatrix}'} a & b \\ c & d \end{'{pmatrix}'}
+                </li>
               </ul>
             </div>
           </div>
         </div>
-        
+
         <LexicalEditor {...args} />
       </div>
     );
@@ -189,7 +225,7 @@ export const WithLinks: Story = {
   },
   render: args => {
     const [content, setContent] = useState('');
-    
+
     return (
       <div className='w-full'>
         <div className='alert alert-info mb-4'>
@@ -204,13 +240,9 @@ export const WithLinks: Story = {
             </ol>
           </div>
         </div>
-        
-        <LexicalEditor 
-          {...args} 
-          onChange={setContent}
-          value={undefined}
-        />
-        
+
+        <LexicalEditor {...args} onChange={setContent} value={undefined} />
+
         {content && (
           <div className='mt-4 p-4 bg-base-200 rounded-lg'>
             <p className='text-sm font-semibold mb-2'>Editor content:</p>
@@ -229,48 +261,87 @@ export const Playground: Story = {
     disabled: false,
     readOnly: false,
     autoFocus: true,
-    minHeight: '300px',
-    maxHeight: '500px',
+    minHeight: '400px',
+    maxHeight: '600px',
   },
   render: args => {
+    const [content, setContent] = useState('');
+
     return (
       <div className='w-full'>
         <div className='mb-4'>
-          <h3 className='text-lg font-bold mb-2'>🎮 Playground Mode</h3>
+          <h3 className='text-lg font-bold mb-2'>
+            🎮 Full-Featured Playground
+          </h3>
           <p className='text-sm text-base-content/70'>
-            Test all editor features including headings, formatting, lists, and links.
+            Test all editor features: rich text formatting, tables, equations,
+            links, and more.
           </p>
         </div>
-        
-        <LexicalEditor {...args} />
-        
-        <div className='mt-6 grid grid-cols-2 gap-4'>
+
+        <LexicalEditor {...args} onChange={setContent} />
+
+        <div className='mt-6 grid grid-cols-3 gap-4'>
           <div className='card bg-base-200'>
-            <div className='card-body'>
+            <div className='card-body p-4'>
               <h4 className='card-title text-sm'>Text Formatting</h4>
               <ul className='text-xs space-y-1'>
-                <li>• <strong>Bold</strong>: Ctrl+B</li>
-                <li>• <em>Italic</em>: Ctrl+I</li>
-                <li>• <u>Underline</u>: Ctrl+U</li>
-                <li>• <s>Strikethrough</s>: Button</li>
-                <li>• <code>Code</code>: Button</li>
+                <li>
+                  • <strong>Bold</strong>: Ctrl+B
+                </li>
+                <li>
+                  • <em>Italic</em>: Ctrl+I
+                </li>
+                <li>
+                  • <u>Underline</u>: Ctrl+U
+                </li>
+                <li>
+                  • <s>Strikethrough</s>: Button
+                </li>
+                <li>
+                  • <code>Code</code>: Button
+                </li>
               </ul>
             </div>
           </div>
-          
+
           <div className='card bg-base-200'>
-            <div className='card-body'>
+            <div className='card-body p-4'>
               <h4 className='card-title text-sm'>Block Types</h4>
               <ul className='text-xs space-y-1'>
                 <li>• Headings: H1-H6</li>
-                <li>• Paragraph: Normal text</li>
-                <li>• Lists: Bullet & Numbered</li>
+                <li>• Paragraph: Normal</li>
+                <li>• Lists: Bullet/Numbered</li>
                 <li>• Quotes: Blockquote</li>
-                <li>• Links: Select + Link button</li>
+                <li>• Code blocks</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className='card bg-base-200'>
+            <div className='card-body p-4'>
+              <h4 className='card-title text-sm'>Advanced</h4>
+              <ul className='text-xs space-y-1'>
+                <li>• Tables with actions</li>
+                <li>• Math equations (LaTeX)</li>
+                <li>• Links with editor</li>
+                <li>• Auto-link detection</li>
+                <li>• Undo/Redo history</li>
               </ul>
             </div>
           </div>
         </div>
+
+        {content && (
+          <details className='mt-4'>
+            <summary className='cursor-pointer text-sm font-semibold'>
+              Show raw content
+            </summary>
+            <div className='mt-2 p-3 bg-base-200 rounded text-xs'>
+              <pre className='whitespace-pre-wrap'>{content}</pre>
+            </div>
+          </details>
+        )}
       </div>
     );
   },
