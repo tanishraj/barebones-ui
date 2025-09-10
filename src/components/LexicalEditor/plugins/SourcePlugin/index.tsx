@@ -1,5 +1,6 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
+  $getRoot,
   $getSelection,
   $isRangeSelection,
   COMMAND_PRIORITY_EDITOR,
@@ -55,7 +56,7 @@ export default function SourcePlugin({
         // Set data attributes for React Tooltip
         element.setAttribute('data-tooltip-id', tooltipId);
         element.setAttribute('data-tooltip-content', sourceId);
-        
+
         // If source has a URL, make it clickable
         const source = sourceMap[sourceId];
         if (source?.url) {
@@ -83,10 +84,22 @@ export default function SourcePlugin({
       INSERT_SOURCE_COMMAND,
       (payload: InsertSourcePayload) => {
         const { sources } = payload;
-        const selection = $getSelection();
+        let selection = $getSelection();
 
+        // If no selection exists, create one at the current position
         if (!$isRangeSelection(selection)) {
-          return false;
+          // Try to get the root and set selection at the end
+          const root = $getRoot();
+          const lastChild = root.getLastChild();
+          if (lastChild) {
+            lastChild.selectEnd();
+            selection = $getSelection();
+          }
+
+          // If still no valid selection, return false
+          if (!$isRangeSelection(selection)) {
+            return false;
+          }
         }
 
         const sourceNode = $createSourceNode(sources);

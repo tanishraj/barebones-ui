@@ -29,9 +29,9 @@ export const toolbarStyles =
   'flex items-center justify-between p-2 bg-base-100 border-b border-base-300 rounded-t-lg';
 
 export const contentEditableStyles =
-  'relative outline-none p-4 min-h-[100px] prose prose-base max-w-none focus:outline-none [&_.editor-equation]:cursor-pointer [&_.editor-equation]:select-none [&_.editor-equation]:user-select-none [&_.editor-equation-inline]:inline-block [&_.editor-equation-inline]:px-1 [&_.editor-equation-block]:block [&_.editor-equation-block]:text-center [&_.editor-equation-block]:py-4 [&_.editor-equation-block]:my-2 [&_pre]:bg-base-200 [&_pre]:rounded-lg [&_pre]:p-4 [&_pre]:my-2 [&_pre]:overflow-x-auto [&_code]:bg-base-200 [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-sm [&_code]:font-mono';
+  'flex-auto relative outline-none p-4 prose prose-base max-w-none focus:outline-none [&_.editor-equation]:cursor-pointer [&_.editor-equation]:select-none [&_.editor-equation]:user-select-none [&_.editor-equation-inline]:inline-block [&_.editor-equation-inline]:px-1 [&_.editor-equation-block]:block [&_.editor-equation-block]:text-center [&_.editor-equation-block]:py-4 [&_.editor-equation-block]:my-2 [&_pre]:bg-base-200 [&_pre]:rounded-lg [&_pre]:p-4 [&_pre]:my-2 [&_pre]:overflow-x-auto [&_code]:bg-base-200 [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-sm [&_code]:font-mono';
 
-export const editorContentStyles = 'overflow-y-auto relative';
+export const editorContentStyles = 'overflow-y-auto relative flex flex-col';
 
 // Table styles as Tailwind classes
 export const tableStyles = {

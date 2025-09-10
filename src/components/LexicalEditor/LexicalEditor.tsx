@@ -130,18 +130,20 @@ const LexicalEditor: React.FC<LexicalEditorProps> = ({
           >
             <RichTextPlugin
               contentEditable={
-                <ContentEditable
-                  className={contentEditableStyles}
-                  aria-label='Editor'
-                  aria-placeholder={placeholder}
-                  placeholder={
-                    <div className='editor-placeholder text-base-content/50 pointer-events-none absolute top-4 left-4 select-none'>
-                      {placeholder}
-                    </div>
-                  }
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                />
+                <div className='flex flex-col min-h-full'>
+                  <ContentEditable
+                    className={contentEditableStyles}
+                    aria-label='Editor'
+                    aria-placeholder={placeholder}
+                    placeholder={
+                      <div className='editor-placeholder text-base-content/50 pointer-events-none absolute top-4 left-4 select-none'>
+                        {placeholder}
+                      </div>
+                    }
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                  />
+                </div>
               }
               placeholder={null}
               ErrorBoundary={LexicalErrorBoundary}

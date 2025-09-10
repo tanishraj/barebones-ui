@@ -19,6 +19,11 @@ export const SourceSection: React.FC<SourceSectionProps> = ({ editor }) => {
 
   const handleSubmit = useCallback(
     (sources: string[]) => {
+      // Ensure editor is focused before inserting sources
+      if (!editor.getRootElement()?.contains(document.activeElement)) {
+        editor.focus();
+      }
+
       editor.dispatchCommand(INSERT_SOURCE_COMMAND, { sources });
       setShowDialog(false);
     },
