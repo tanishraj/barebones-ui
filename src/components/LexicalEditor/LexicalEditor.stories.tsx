@@ -96,6 +96,91 @@ export const Default: Story = {
   },
 };
 
+export const WithImages: Story = {
+  args: {
+    placeholder: 'Insert images via upload, paste, or drag & drop...',
+    showToolbar: true,
+    disabled: false,
+    readOnly: false,
+    autoFocus: false,
+    minHeight: '400px',
+    maxHeight: '600px',
+  },
+  render: args => {
+    return (
+      <div className='w-full'>
+        <div className='alert alert-info mb-4'>
+          <div>
+            <h4 className='font-bold'>🖼️ Image Support with Resizing</h4>
+            <p className='mt-2'>
+              Insert and resize images using three different methods.
+            </p>
+            <div className='mt-3 grid grid-cols-3 gap-4'>
+              <div>
+                <p className='font-semibold text-sm'>📤 Upload</p>
+                <ul className='text-xs mt-1 space-y-1'>
+                  <li>• Click the image button in toolbar</li>
+                  <li>• Select "Upload File"</li>
+                  <li>• Choose image from your device</li>
+                  <li>• Add alt text for accessibility</li>
+                </ul>
+              </div>
+              <div>
+                <p className='font-semibold text-sm'>📋 Paste</p>
+                <ul className='text-xs mt-1 space-y-1'>
+                  <li>• Copy an image to clipboard</li>
+                  <li>• Click in the editor</li>
+                  <li>• Press Ctrl+V (Cmd+V on Mac)</li>
+                  <li>• Image appears instantly</li>
+                </ul>
+              </div>
+              <div>
+                <p className='font-semibold text-sm'>🎯 Drag & Drop</p>
+                <ul className='text-xs mt-1 space-y-1'>
+                  <li>• Drag image file from desktop</li>
+                  <li>• Drop it into the editor</li>
+                  <li>• Position cursor where needed</li>
+                  <li>• Works with multiple files</li>
+                </ul>
+              </div>
+            </div>
+            <div className='mt-3 p-2 bg-base-200 rounded'>
+              <p className='text-xs'>
+                <strong>💡 Tips:</strong> 
+                • Click on an image to select it
+                • Drag the corner handles to resize (maintains aspect ratio)
+                • Press Delete or Backspace to remove selected image
+                • Press Escape to deselect image
+                • Images are automatically constrained to editor width
+                • Supports JPEG, PNG, GIF, WebP, and HEIC/HEIF formats
+              </p>
+            </div>
+            <div className='mt-3 p-2 bg-warning/20 border border-warning rounded'>
+              <p className='text-xs font-semibold'>🔄 Resizing Feature:</p>
+              <p className='text-xs mt-1'>
+                Select any image to see resize handles at the corners. Drag any corner to resize while maintaining aspect ratio.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <LexicalEditor {...args} />
+
+        <div className='mt-4 p-4 bg-base-200 rounded-lg'>
+          <p className='text-sm font-semibold mb-2'>Supported Formats:</p>
+          <div className='flex flex-wrap gap-2'>
+            {['JPEG', 'PNG', 'GIF', 'WebP', 'HEIC', 'HEIF'].map(format => (
+              <span key={format} className='badge badge-outline badge-sm'>
+                {format}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  },
+};
+
 export const WithTables: Story = {
   args: {
     placeholder: 'Click the table icon to insert a table...',

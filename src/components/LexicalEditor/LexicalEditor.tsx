@@ -34,7 +34,9 @@ import InlineCodeExitPlugin from './plugins/InlineCodeExitPlugin';
 import ShortcutsPlugin from './plugins/ShortcutsPlugin';
 import { EquationNode } from './nodes/EquationNode';
 import { SourceNode } from './nodes/SourceNode';
+import { ImageNode } from './nodes/ImageNode';
 import SourcePlugin from './plugins/SourcePlugin';
+import ImagePlugin, { DragDropPastePlugin } from './plugins/ImagePlugin';
 
 const LexicalEditor: React.FC<LexicalEditorProps> = ({
   value,
@@ -77,6 +79,7 @@ const LexicalEditor: React.FC<LexicalEditorProps> = ({
       AutoLinkNode,
       EquationNode,
       SourceNode,
+      ImageNode,
       TableNode,
       TableRowNode,
       TableCellNode,
@@ -161,6 +164,8 @@ const LexicalEditor: React.FC<LexicalEditorProps> = ({
             <EquationsPlugin />
             <TablePlugin />
             <TableActionMenuPlugin />
+            <ImagePlugin />
+            <DragDropPastePlugin />
             <SourcePlugin sources={sources} tooltipId={sourceTooltipId} />
             {floatingAnchorElem && (
               <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />

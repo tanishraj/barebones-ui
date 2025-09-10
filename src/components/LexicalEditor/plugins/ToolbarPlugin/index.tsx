@@ -12,6 +12,7 @@ import { QuoteSection } from './sections/QuoteSection';
 import { EquationSection } from './sections/EquationSection';
 import { TableSection } from './sections/TableSection';
 import { SourceSection } from './sections/SourceSection';
+import { ImageSection } from './sections/ImageSection';
 
 const ToolbarPlugin: React.FC = () => {
   const { editor, editorState } = useToolbarState();
@@ -31,6 +32,7 @@ const ToolbarPlugin: React.FC = () => {
         <Divider />
         <EquationSection editor={editor} />
         <TableSection editor={editor} />
+        <ImageSection editor={editor} />
         <SourceSection editor={editor} />
       </div>
 
