@@ -8,3 +8,9 @@
 .color-input[type='color']::-webkit-color-swatch {
   border: none;
 }
+
+/* Lexical Editor: Combined text decorations */
+.lexical-underline-strikethrough {
+  text-decoration: underline line-through;
+  text-underline-offset: 2px;
+}

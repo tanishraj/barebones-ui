@@ -1,0 +1,25 @@
+/* Table Action Menu CSS */
+.table-cell-action-button-container {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+
+.table-cell-action-button-container--active {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.table-cell-action-button-container--inactive {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.table-cell-action-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
