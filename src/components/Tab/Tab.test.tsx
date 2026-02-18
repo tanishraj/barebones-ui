@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { Tabs, Tab, TabList, TabPanels, TabPanel, SimpleTabs } from './Tab';
 
@@ -93,7 +94,7 @@ describe('Tab Components', () => {
     });
 
     it('handles controlled component correctly', () => {
-      const handleChange = jest.fn();
+      const handleChange = vi.fn();
       const { rerender } = render(
         <Tabs value='tab1' onChange={handleChange}>
           <TabList>
@@ -215,7 +216,7 @@ describe('Tab Components', () => {
     });
 
     it('calls onClick handler when clicked', () => {
-      const handleClick = jest.fn();
+      const handleClick = vi.fn();
 
       render(
         <Tabs defaultValue='tab1'>
@@ -314,8 +315,10 @@ describe('Tab Components', () => {
         </Tabs>,
       );
 
-      const activePanel = screen.getByText('Active Panel').parentElement;
-      const inactivePanel = screen.getByText('Inactive Panel').parentElement;
+      const activePanel = screen.getByText('Active Panel').closest('[role="tabpanel"]');
+      const inactivePanel = screen
+        .getByText('Inactive Panel')
+        .closest('[role="tabpanel"]');
 
       expect(activePanel).toHaveAttribute('role', 'tabpanel');
       expect(activePanel).toHaveAttribute('aria-hidden', 'false');
@@ -389,7 +392,7 @@ describe('Tab Components', () => {
     });
 
     it('handles onChange callback', () => {
-      const handleChange = jest.fn();
+      const handleChange = vi.fn();
 
       render(<SimpleTabs items={items} onChange={handleChange} />);
 

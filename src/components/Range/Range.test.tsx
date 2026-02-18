@@ -25,6 +25,10 @@ describe('Range', () => {
   it('shows labels when showLabels is true', () => {
     render(<Range showLabels min={0} max={100} step={25} value={25} />);
     expect(screen.getAllByText('|')).toHaveLength(5);
-    expect(screen.getAllByText(/1|2|3|4|5/)).toHaveLength(5);
+    expect(screen.getByText('0')).toBeInTheDocument();
+    expect(screen.getByText('25')).toBeInTheDocument();
+    expect(screen.getByText('50')).toBeInTheDocument();
+    expect(screen.getByText('75')).toBeInTheDocument();
+    expect(screen.getByText('100')).toBeInTheDocument();
   });
 });

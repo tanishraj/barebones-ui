@@ -111,19 +111,19 @@
   "style": "dist/cjs/index.css",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "require": "./dist/cjs/index.cjs",
-      "import": "./dist/esm/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/esm/index.js"
     },
     "./core": {
+      "types": "./dist/core.d.ts",
       "require": "./dist/cjs/core.cjs",
-      "import": "./dist/esm/core.js",
-      "types": "./dist/core.d.ts"
+      "import": "./dist/esm/core.js"
     },
     "./heavy": {
+      "types": "./dist/heavy.d.ts",
       "require": "./dist/cjs/heavy.cjs",
-      "import": "./dist/esm/heavy.js",
-      "types": "./dist/heavy.d.ts"
+      "import": "./dist/esm/heavy.js"
     },
     "./style.css": "./dist/cjs/index.css"
   },

@@ -1,5 +1,7 @@
+import { createRef } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { Input } from './Input';
 
@@ -117,7 +119,7 @@ describe('Input', () => {
   });
 
   it('handles value changes', async () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(<Input placeholder='test' onChange={handleChange} />);
 
     const input = screen.getByPlaceholderText('test');
@@ -128,7 +130,7 @@ describe('Input', () => {
   });
 
   it('forwards ref correctly', () => {
-    const ref = React.createRef<HTMLInputElement>();
+    const ref = createRef<HTMLInputElement>();
     render(<Input ref={ref} placeholder='test' />);
 
     expect(ref.current).toBeInstanceOf(HTMLInputElement);
@@ -189,8 +191,8 @@ describe('Input', () => {
   });
 
   it('handles focus and blur events', () => {
-    const handleFocus = jest.fn();
-    const handleBlur = jest.fn();
+    const handleFocus = vi.fn();
+    const handleBlur = vi.fn();
 
     render(
       <Input placeholder='test' onFocus={handleFocus} onBlur={handleBlur} />,
