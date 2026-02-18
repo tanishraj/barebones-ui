@@ -103,7 +103,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:tanishraj/barebones-ui.git"
+    "url": "git+ssh://git@github.com/tanishraj/barebones-ui.git"
   },
   "homepage": "https://tanishraj.github.io/barebones-ui/",
   "main": "dist/cjs/index.cjs",
