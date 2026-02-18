@@ -32,8 +32,7 @@ const Actions: FC<FooterProps> = React.memo(
 );
 
 export interface CardProps
-  extends HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof cardStyles> {
+  extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof cardStyles> {
   children?: React.ReactNode;
 }
 

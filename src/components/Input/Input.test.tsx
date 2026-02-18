@@ -1,5 +1,8 @@
+import { createRef } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
+
 import { Input } from './Input';
 
 describe('Input', () => {
@@ -36,7 +39,9 @@ describe('Input', () => {
     expect(screen.getByPlaceholderText('test')).toHaveClass('input-bordered');
 
     rerender(<Input bordered={false} placeholder='test' />);
-    expect(screen.getByPlaceholderText('test')).not.toHaveClass('input-bordered');
+    expect(screen.getByPlaceholderText('test')).not.toHaveClass(
+      'input-bordered',
+    );
   });
 
   it('handles disabled state', () => {
@@ -74,7 +79,7 @@ describe('Input', () => {
         success='Success message'
         helper='Helper text'
         placeholder='test'
-      />
+      />,
     );
     expect(screen.getByText('Error message')).toBeInTheDocument();
     expect(screen.queryByText('Success message')).not.toBeInTheDocument();
@@ -86,7 +91,7 @@ describe('Input', () => {
       <Input
         startAdornment={<span data-testid='start-icon'>@</span>}
         placeholder='test'
-      />
+      />,
     );
     expect(screen.getByTestId('start-icon')).toBeInTheDocument();
   });
@@ -96,7 +101,7 @@ describe('Input', () => {
       <Input
         endAdornment={<span data-testid='end-icon'>✓</span>}
         placeholder='test'
-      />
+      />,
     );
     expect(screen.getByTestId('end-icon')).toBeInTheDocument();
   });
@@ -107,54 +112,58 @@ describe('Input', () => {
         startAdornment={<span data-testid='start'>$</span>}
         endAdornment={<span data-testid='end'>.00</span>}
         placeholder='test'
-      />
+      />,
     );
     expect(screen.getByTestId('start')).toBeInTheDocument();
     expect(screen.getByTestId('end')).toBeInTheDocument();
   });
 
   it('handles value changes', async () => {
-    const handleChange = jest.fn();
-    render(
-      <Input
-        placeholder='test'
-        onChange={handleChange}
-      />
-    );
-    
+    const handleChange = vi.fn();
+    render(<Input placeholder='test' onChange={handleChange} />);
+
     const input = screen.getByPlaceholderText('test');
     await userEvent.type(input, 'Hello');
-    
+
     expect(handleChange).toHaveBeenCalled();
     expect(input).toHaveValue('Hello');
   });
 
   it('forwards ref correctly', () => {
-    const ref = React.createRef<HTMLInputElement>();
+    const ref = createRef<HTMLInputElement>();
     render(<Input ref={ref} placeholder='test' />);
-    
+
     expect(ref.current).toBeInstanceOf(HTMLInputElement);
     expect(ref.current?.placeholder).toBe('test');
   });
 
   it('renders with different input types', () => {
     const { rerender } = render(<Input type='email' placeholder='email' />);
-    expect(screen.getByPlaceholderText('email')).toHaveAttribute('type', 'email');
+    expect(screen.getByPlaceholderText('email')).toHaveAttribute(
+      'type',
+      'email',
+    );
 
     rerender(<Input type='password' placeholder='password' />);
-    expect(screen.getByPlaceholderText('password')).toHaveAttribute('type', 'password');
+    expect(screen.getByPlaceholderText('password')).toHaveAttribute(
+      'type',
+      'password',
+    );
 
     rerender(<Input type='number' placeholder='number' />);
-    expect(screen.getByPlaceholderText('number')).toHaveAttribute('type', 'number');
+    expect(screen.getByPlaceholderText('number')).toHaveAttribute(
+      'type',
+      'number',
+    );
   });
 
   it('positions label on top by default', () => {
     const { container } = render(
-      <Input label='Top Label' labelPosition='top' placeholder='test' />
+      <Input label='Top Label' labelPosition='top' placeholder='test' />,
     );
     const formControl = container.querySelector('.form-control');
     const label = container.querySelector('.label');
-    
+
     expect(formControl).toBeInTheDocument();
     expect(label).toBeInTheDocument();
     expect(label?.querySelector('.label-text')).toHaveTextContent('Top Label');
@@ -162,42 +171,38 @@ describe('Input', () => {
 
   it('positions label on the left when specified', () => {
     const { container } = render(
-      <Input label='Left Label' labelPosition='left' placeholder='test' />
+      <Input label='Left Label' labelPosition='left' placeholder='test' />,
     );
     const labelElement = container.querySelector('.label.cursor-pointer');
-    
+
     expect(labelElement).toBeInTheDocument();
     expect(labelElement).toHaveClass('gap-3');
-    expect(labelElement?.querySelector('.label-text')).toHaveTextContent('Left Label');
+    expect(labelElement?.querySelector('.label-text')).toHaveTextContent(
+      'Left Label',
+    );
   });
 
   it('accepts and applies custom className', () => {
-    render(
-      <Input
-        className='custom-class another-class'
-        placeholder='test'
-      />
+    render(<Input className='custom-class another-class' placeholder='test' />);
+    expect(screen.getByPlaceholderText('test')).toHaveClass(
+      'custom-class',
+      'another-class',
     );
-    expect(screen.getByPlaceholderText('test')).toHaveClass('custom-class', 'another-class');
   });
 
   it('handles focus and blur events', () => {
-    const handleFocus = jest.fn();
-    const handleBlur = jest.fn();
-    
+    const handleFocus = vi.fn();
+    const handleBlur = vi.fn();
+
     render(
-      <Input
-        placeholder='test'
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-      />
+      <Input placeholder='test' onFocus={handleFocus} onBlur={handleBlur} />,
     );
-    
+
     const input = screen.getByPlaceholderText('test');
-    
+
     fireEvent.focus(input);
     expect(handleFocus).toHaveBeenCalled();
-    
+
     fireEvent.blur(input);
     expect(handleBlur).toHaveBeenCalled();
   });
@@ -215,11 +220,17 @@ describe('Input', () => {
 
   it('supports maxLength attribute', () => {
     render(<Input maxLength={10} placeholder='test' />);
-    expect(screen.getByPlaceholderText('test')).toHaveAttribute('maxLength', '10');
+    expect(screen.getByPlaceholderText('test')).toHaveAttribute(
+      'maxLength',
+      '10',
+    );
   });
 
   it('supports pattern attribute', () => {
     render(<Input pattern='[0-9]*' placeholder='test' />);
-    expect(screen.getByPlaceholderText('test')).toHaveAttribute('pattern', '[0-9]*');
+    expect(screen.getByPlaceholderText('test')).toHaveAttribute(
+      'pattern',
+      '[0-9]*',
+    );
   });
 });

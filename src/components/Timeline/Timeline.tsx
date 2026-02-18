@@ -26,7 +26,8 @@ const defaultMarkerIcon = (
 );
 
 export interface TimelineProps
-  extends Omit<HTMLAttributes<HTMLUListElement>, 'color'>,
+  extends
+    Omit<HTMLAttributes<HTMLUListElement>, 'color'>,
     VariantProps<typeof timelineOrientationStyles>,
     VariantProps<typeof timelineContentAlignmentStyles>,
     VariantProps<typeof timelineConnectorStyles>,

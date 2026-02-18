@@ -40,16 +40,18 @@ export default [
       peerDepsExternal(),
       commonjs(),
       typescript({
-        tsconfig: './tsconfig.json',
+        tsconfig: './tsconfig.build.json',
         useTsconfigDeclarationDir: true,
         clean: true,
       }),
       postcss({
         config: {
-          path: './postcss.config.js',
+          path: './postcss.config.cjs',
         },
         extensions: ['.css'],
-        minimize: true,
+        // DaisyUI/Tailwind emit modern CSS math functions that older minifiers
+        // can mis-parse. Ship library CSS unminified and let app bundlers minify.
+        minimize: false,
       }),
       terser({
         compress: {

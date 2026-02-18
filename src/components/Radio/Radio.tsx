@@ -5,7 +5,8 @@ import { radioStyles } from './Radio.styles';
 import { cn } from '../../utils';
 
 export interface RadioProps
-  extends Omit<ComponentPropsWithoutRef<'input'>, 'size' | 'disabled'>,
+  extends
+    Omit<ComponentPropsWithoutRef<'input'>, 'size' | 'disabled'>,
     VariantProps<typeof radioStyles> {}
 
 export const Radio = forwardRef<HTMLInputElement, RadioProps>(

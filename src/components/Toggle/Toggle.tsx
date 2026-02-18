@@ -7,7 +7,8 @@ import { toggleStyles } from './Toggle.styles';
 type ToggleVariantProps = VariantProps<typeof toggleStyles>;
 
 export interface ToggleProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'variant'>,
+  extends
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'variant'>,
     ToggleVariantProps {
   labelClassName?: string;
   indeterminate?: boolean;

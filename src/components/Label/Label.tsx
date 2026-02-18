@@ -6,7 +6,8 @@ import { labelContainerStyles, labelStyles } from './Label.styles';
 import { cn } from '../../utils';
 
 export interface LabelProps
-  extends VariantProps<typeof labelContainerStyles>,
+  extends
+    VariantProps<typeof labelContainerStyles>,
     VariantProps<typeof labelStyles>,
     Omit<HTMLProps<HTMLLabelElement>, 'type' | 'size'> {
   text?: string;

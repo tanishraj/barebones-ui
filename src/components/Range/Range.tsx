@@ -27,6 +27,10 @@ const Range = forwardRef<HTMLInputElement, RangeProps>(
     const maxNum = Number(max);
     const stepNum = Number(step);
     const stepsCount = Math.floor((maxNum - minNum) / stepNum) + 1;
+    const stepValues = Array.from(
+      { length: stepsCount },
+      (_, i) => minNum + i * stepNum,
+    );
 
     const inputElement = (
       <input
@@ -48,13 +52,13 @@ const Range = forwardRef<HTMLInputElement, RangeProps>(
       <div className='w-full max-w-xs'>
         {inputElement}
         <div className='flex justify-between px-2.5 mt-2 text-xs'>
-          {Array.from({ length: stepsCount }).map((_, i) => (
-            <span key={`marker-${i}`}>|</span>
+          {stepValues.map(value => (
+            <span key={`marker-${value}`}>|</span>
           ))}
         </div>
         <div className='flex justify-between px-2.5 mt-2 text-xs'>
-          {Array.from({ length: stepsCount }).map((_, i) => (
-            <span key={`label-${i}`}>{i + 1}</span>
+          {stepValues.map(value => (
+            <span key={`label-${value}`}>{value}</span>
           ))}
         </div>
       </div>

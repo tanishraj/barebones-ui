@@ -5,7 +5,8 @@ import { ComponentPropsWithoutRef, forwardRef, useId } from 'react';
 import { ratingContainerStyles, ratingItemStyles } from './Rating.styles';
 
 export interface RatingProps
-  extends VariantProps<typeof ratingContainerStyles>,
+  extends
+    VariantProps<typeof ratingContainerStyles>,
     VariantProps<typeof ratingItemStyles>,
     Omit<ComponentPropsWithoutRef<'div'>, 'onChange'> {
   value: number;

@@ -8,7 +8,8 @@ export type AnimationType = NonNullable<
 export type Active = NonNullable<VariantProps<typeof swapStyles>['isActive']>;
 
 export interface SwapProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof swapStyles> {
   children?: [React.ReactNode, React.ReactNode];
   onClick?: () => void;

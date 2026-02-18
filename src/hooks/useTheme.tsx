@@ -47,29 +47,28 @@ export const useTheme = ({ defaultTheme, themes }: UseThemeOptions) => {
       ? savedTheme!
       : defaultTheme || themes[0];
   });
+  const fallbackTheme = defaultTheme || themes[0];
+  const resolvedTheme = themes.includes(currentTheme)
+    ? currentTheme
+    : fallbackTheme;
 
   useEffect(() => {
-    if (themes.length === 0) return;
-    if (!themes.includes(currentTheme)) {
-      setCurrentTheme(defaultTheme || themes[0]);
+    if (typeof window !== 'undefined' && resolvedTheme) {
+      document.documentElement.setAttribute('data-theme', resolvedTheme);
+      localStorage.setItem('theme', resolvedTheme);
     }
-  }, [currentTheme, defaultTheme, themes]);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      document.documentElement.setAttribute('data-theme', currentTheme);
-      localStorage.setItem('theme', currentTheme);
-    }
-  }, [currentTheme]);
+  }, [resolvedTheme]);
 
   const setTheme = (theme: string) => {
     if (themes.includes(theme)) setCurrentTheme(theme);
   };
 
   const toggleTheme = () => {
-    const nextIndex = (themes.indexOf(currentTheme) + 1) % themes.length;
+    if (themes.length === 0) return;
+    const currentIndex = Math.max(themes.indexOf(resolvedTheme), 0);
+    const nextIndex = (currentIndex + 1) % themes.length;
     setCurrentTheme(themes[nextIndex]);
   };
 
-  return { currentTheme, setTheme, toggleTheme };
+  return { currentTheme: resolvedTheme, setTheme, toggleTheme };
 };

@@ -1,18 +1,24 @@
 import { type VariantProps } from 'class-variance-authority';
 import { forwardRef, useState, useRef, ChangeEvent } from 'react';
-import { Upload, X, File, FileText, Image, Music, Video, Archive } from 'lucide-react';
+import { X, File, FileText, Image, Music, Video, Archive } from 'lucide-react';
 
 import { fileInputStyles } from './FileInput.styles';
 import { cn } from '../../utils';
 
-export type FileInputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type' | 'onChange'> &
+export type FileInputProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'size' | 'type' | 'onChange'
+> &
   VariantProps<typeof fileInputStyles> & {
     label?: string;
     labelPosition?: 'top' | 'left';
     helper?: React.ReactNode;
     error?: React.ReactNode;
     success?: React.ReactNode;
-    onChange?: (files: FileList | null, event: ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (
+      files: FileList | null,
+      event: ChangeEvent<HTMLInputElement>,
+    ) => void;
     onClear?: () => void;
     showPreview?: boolean;
     showFileList?: boolean;
@@ -26,7 +32,11 @@ const getFileIcon = (fileType: string) => {
   if (fileType.startsWith('video/')) return <Video className='h-4 w-4' />;
   if (fileType.startsWith('audio/')) return <Music className='h-4 w-4' />;
   if (fileType.includes('pdf')) return <FileText className='h-4 w-4' />;
-  if (fileType.includes('zip') || fileType.includes('rar') || fileType.includes('7z')) 
+  if (
+    fileType.includes('zip') ||
+    fileType.includes('rar') ||
+    fileType.includes('7z')
+  )
     return <Archive className='h-4 w-4' />;
   return <File className='h-4 w-4' />;
 };
@@ -36,8 +46,11 @@ const formatFileSize = (bytes: number): string => {
   const k = 1024;
   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+  return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
 };
+
+const getFileKey = (file: File) =>
+  `${file.name}-${file.size}-${file.lastModified}-${file.type}`;
 
 export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
   (
@@ -61,6 +74,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       accept,
       multiple,
       buttonText,
+      'aria-label': ariaLabel,
       ...props
     },
     ref,
@@ -92,10 +106,12 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
 
       // Validate file size
       if (maxFileSize) {
-        const oversizedFiles = Array.from(files).filter(file => file.size > maxFileSize);
+        const oversizedFiles = Array.from(files).filter(
+          file => file.size > maxFileSize,
+        );
         if (oversizedFiles.length > 0) {
           setValidationError(
-            `File(s) too large. Maximum size is ${formatFileSize(maxFileSize)}`
+            `File(s) too large. Maximum size is ${formatFileSize(maxFileSize)}`,
           );
           return;
         }
@@ -104,11 +120,11 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       // Validate file types
       if (acceptedFileTypes && acceptedFileTypes.length > 0) {
         const invalidFiles = Array.from(files).filter(
-          file => !acceptedFileTypes.some(type => file.type.includes(type))
+          file => !acceptedFileTypes.some(type => file.type.includes(type)),
         );
         if (invalidFiles.length > 0) {
           setValidationError(
-            `Invalid file type(s). Accepted types: ${acceptedFileTypes.join(', ')}`
+            `Invalid file type(s). Accepted types: ${acceptedFileTypes.join(', ')}`,
           );
           return;
         }
@@ -135,19 +151,30 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       setSelectedFiles([]);
       setPreview(null);
       setValidationError(null);
-      if (combinedRef && typeof combinedRef !== 'function' && combinedRef.current) {
+      if (
+        combinedRef &&
+        typeof combinedRef !== 'function' &&
+        combinedRef.current
+      ) {
         combinedRef.current.value = '';
       }
       onClear?.();
     };
 
-    const handleRemoveFile = (index: number) => {
-      const newFiles = selectedFiles.filter((_, i) => i !== index);
+    const handleRemoveFile = (fileKey: string) => {
+      const fileIndex = selectedFiles.findIndex(
+        file => getFileKey(file) === fileKey,
+      );
+      const newFiles = selectedFiles.filter((_, i) => i !== fileIndex);
       setSelectedFiles(newFiles);
-      
+
       if (newFiles.length === 0) {
         setPreview(null);
-        if (combinedRef && typeof combinedRef !== 'function' && combinedRef.current) {
+        if (
+          combinedRef &&
+          typeof combinedRef !== 'function' &&
+          combinedRef.current
+        ) {
           combinedRef.current.value = '';
         }
       }
@@ -158,6 +185,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
         <input
           type='file'
           className={fileInputClassName}
+          aria-label={ariaLabel ?? buttonText}
           disabled={disabled}
           ref={combinedRef}
           accept={accept || acceptedFileTypes?.join(',')}
@@ -165,14 +193,14 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           onChange={handleFileChange}
           {...props}
         />
-        
+
         {/* Preview */}
         {showPreview && preview && (
           <div className='mt-2'>
             <div className='relative inline-block'>
-              <img 
-                src={preview} 
-                alt='Preview' 
+              <img
+                src={preview}
+                alt='Preview'
                 className='h-32 w-32 object-cover rounded-lg border border-base-300'
               />
               {!disabled && (
@@ -192,9 +220,9 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
         {/* File List */}
         {showFileList && selectedFiles.length > 0 && (
           <div className='mt-2 space-y-1'>
-            {selectedFiles.map((file, index) => (
-              <div 
-                key={`${file.name}-${index}`}
+            {selectedFiles.map(file => (
+              <div
+                key={getFileKey(file)}
                 className='flex items-center justify-between p-2 bg-base-200 rounded-lg'
               >
                 <div className='flex items-center gap-2'>
@@ -209,7 +237,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                 {!disabled && (
                   <button
                     type='button'
-                    onClick={() => handleRemoveFile(index)}
+                    onClick={() => handleRemoveFile(getFileKey(file))}
                     className='btn btn-ghost btn-xs'
                     aria-label={`Remove ${file.name}`}
                   >
@@ -220,15 +248,17 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
             ))}
           </div>
         )}
-        
+
         {/* Helper text */}
         {(helper || error || validationError || success) && (
           <div className='label'>
-            <span className={cn(
-              'label-text-alt',
-              (error || validationError) && 'text-error',
-              success && 'text-success',
-            )}>
+            <span
+              className={cn(
+                'label-text-alt',
+                (error || validationError) && 'text-error',
+                success && 'text-success',
+              )}
+            >
               {error || validationError || success || helper}
             </span>
           </div>

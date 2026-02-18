@@ -16,8 +16,9 @@ export interface IndicatorProps extends VariantProps<typeof indicatorStyles> {
   className?: string;
 }
 
-export interface IndicatorItemProps
-  extends VariantProps<typeof indicatorItemStyles> {
+export interface IndicatorItemProps extends VariantProps<
+  typeof indicatorItemStyles
+> {
   children?: ReactNode;
   className?: string;
 }

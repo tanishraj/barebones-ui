@@ -1,5 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { createRef } from 'react';
+import { afterEach, vi } from 'vitest';
+
 import { FileInput } from './FileInput';
 
 // Mock file for testing
@@ -9,11 +11,22 @@ const createMockFile = (name: string, size: number, type: string): File => {
   return file;
 };
 
+const setInputFiles = (input: HTMLInputElement, files: File[]) => {
+  Object.defineProperty(input, 'files', {
+    value: files,
+    writable: true,
+    configurable: true,
+  });
+};
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
 describe('FileInput', () => {
   it('renders file input element', () => {
     render(<FileInput />);
-    const input = screen.getByRole('textbox', { hidden: true }) || 
-                 document.querySelector('input[type="file"]');
+    const input = document.querySelector('input[type="file"]');
     expect(input).toBeInTheDocument();
     expect(input).toHaveAttribute('type', 'file');
   });
@@ -93,67 +106,58 @@ describe('FileInput', () => {
   });
 
   it('handles file selection', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(<FileInput onChange={handleChange} />);
-    
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+    const input = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
     const file = createMockFile('test.txt', 1024, 'text/plain');
-    
-    Object.defineProperty(input, 'files', {
-      value: [file],
-      writable: false,
-    });
-    
+
+    setInputFiles(input, [file]);
+
     fireEvent.change(input);
-    
+
     expect(handleChange).toHaveBeenCalled();
-    expect(handleChange).toHaveBeenCalledWith(
-      expect.any(FileList),
-      expect.any(Object)
-    );
+    const [filesArg, eventArg] = handleChange.mock.calls[0];
+    expect(Array.from(filesArg as ArrayLike<File>)).toEqual([file]);
+    expect(eventArg).toEqual(expect.any(Object));
   });
 
   it('validates file size', async () => {
     render(
-      <FileInput 
+      <FileInput
         maxFileSize={1024} // 1KB
         showFileList
-      />
+      />,
     );
-    
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+    const input = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
     const largeFile = createMockFile('large.txt', 2048, 'text/plain'); // 2KB
-    
-    Object.defineProperty(input, 'files', {
-      value: [largeFile],
-      writable: false,
-    });
-    
+
+    setInputFiles(input, [largeFile]);
+
     fireEvent.change(input);
-    
+
     await waitFor(() => {
       expect(screen.getByText(/File\(s\) too large/)).toBeInTheDocument();
     });
   });
 
   it('validates file types', async () => {
-    render(
-      <FileInput 
-        acceptedFileTypes={['image']}
-        showFileList
-      />
-    );
-    
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    render(<FileInput acceptedFileTypes={['image']} showFileList />);
+
+    const input = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
     const textFile = createMockFile('test.txt', 1024, 'text/plain');
-    
-    Object.defineProperty(input, 'files', {
-      value: [textFile],
-      writable: false,
-    });
-    
+
+    setInputFiles(input, [textFile]);
+
     fireEvent.change(input);
-    
+
     await waitFor(() => {
       expect(screen.getByText(/Invalid file type/)).toBeInTheDocument();
     });
@@ -161,48 +165,44 @@ describe('FileInput', () => {
 
   it('shows file list when showFileList is true', () => {
     render(<FileInput showFileList />);
-    
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+    const input = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
     const file = createMockFile('test.txt', 1024, 'text/plain');
-    
-    Object.defineProperty(input, 'files', {
-      value: [file],
-      writable: false,
-    });
-    
+
+    setInputFiles(input, [file]);
+
     fireEvent.change(input);
-    
+
     expect(screen.getByText('test.txt')).toBeInTheDocument();
     expect(screen.getByText('1 KB')).toBeInTheDocument();
   });
 
   it('shows image preview when showPreview is true and file is an image', async () => {
     render(<FileInput showPreview />);
-    
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+    const input = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
     const imageFile = createMockFile('test.jpg', 2048, 'image/jpeg');
-    
-    // Mock FileReader
-    const mockFileReader = {
-      readAsDataURL: jest.fn(),
-      onloadend: null as any,
-      result: 'data:image/jpeg;base64,test',
-    };
-    
-    jest.spyOn(global, 'FileReader').mockImplementation(() => mockFileReader as any);
-    
-    Object.defineProperty(input, 'files', {
-      value: [imageFile],
-      writable: false,
-    });
-    
+
+    vi.spyOn(FileReader.prototype, 'readAsDataURL').mockImplementation(
+      function () {
+        Object.defineProperty(this, 'result', {
+          value: 'data:image/jpeg;base64,test',
+          configurable: true,
+        });
+        this.onloadend?.(
+          new ProgressEvent('loadend') as ProgressEvent<FileReader>,
+        );
+      },
+    );
+
+    setInputFiles(input, [imageFile]);
+
     fireEvent.change(input);
-    
-    // Trigger the onloadend callback
-    if (mockFileReader.onloadend) {
-      mockFileReader.onloadend();
-    }
-    
+
     await waitFor(() => {
       const preview = screen.getByAltText('Preview');
       expect(preview).toBeInTheDocument();
@@ -212,54 +212,50 @@ describe('FileInput', () => {
 
   it('handles file removal from list', () => {
     render(<FileInput showFileList />);
-    
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+    const input = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
     const file = createMockFile('test.txt', 1024, 'text/plain');
-    
-    Object.defineProperty(input, 'files', {
-      value: [file],
-      writable: false,
-    });
-    
+
+    setInputFiles(input, [file]);
+
     fireEvent.change(input);
-    
+
     expect(screen.getByText('test.txt')).toBeInTheDocument();
-    
+
     const removeButton = screen.getByLabelText('Remove test.txt');
     fireEvent.click(removeButton);
-    
+
     expect(screen.queryByText('test.txt')).not.toBeInTheDocument();
   });
 
-  it('handles clear callback', () => {
-    const handleClear = jest.fn();
+  it('handles clear callback', async () => {
+    const handleClear = vi.fn();
     render(<FileInput onClear={handleClear} showPreview />);
-    
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+    const input = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
     const imageFile = createMockFile('test.jpg', 2048, 'image/jpeg');
-    
-    // Mock FileReader
-    const mockFileReader = {
-      readAsDataURL: jest.fn(),
-      onloadend: null as any,
-      result: 'data:image/jpeg;base64,test',
-    };
-    
-    jest.spyOn(global, 'FileReader').mockImplementation(() => mockFileReader as any);
-    
-    Object.defineProperty(input, 'files', {
-      value: [imageFile],
-      writable: false,
-    });
-    
+
+    vi.spyOn(FileReader.prototype, 'readAsDataURL').mockImplementation(
+      function () {
+        Object.defineProperty(this, 'result', {
+          value: 'data:image/jpeg;base64,test',
+          configurable: true,
+        });
+        this.onloadend?.(
+          new ProgressEvent('loadend') as ProgressEvent<FileReader>,
+        );
+      },
+    );
+
+    setInputFiles(input, [imageFile]);
+
     fireEvent.change(input);
-    
-    // Trigger the onloadend callback
-    if (mockFileReader.onloadend) {
-      mockFileReader.onloadend();
-    }
-    
-    waitFor(() => {
+
+    await waitFor(() => {
       const clearButton = screen.getByLabelText('Remove file');
       fireEvent.click(clearButton);
       expect(handleClear).toHaveBeenCalled();
@@ -268,11 +264,11 @@ describe('FileInput', () => {
 
   it('positions label on top by default', () => {
     const { container } = render(
-      <FileInput label='Top Label' labelPosition='top' />
+      <FileInput label='Top Label' labelPosition='top' />,
     );
     const formControl = container.querySelector('.form-control');
     const label = container.querySelector('.label');
-    
+
     expect(formControl).toBeInTheDocument();
     expect(label).toBeInTheDocument();
     expect(label?.querySelector('.label-text')).toHaveTextContent('Top Label');
@@ -280,13 +276,15 @@ describe('FileInput', () => {
 
   it('positions label on the left when specified', () => {
     const { container } = render(
-      <FileInput label='Left Label' labelPosition='left' />
+      <FileInput label='Left Label' labelPosition='left' />,
     );
     const labelElement = container.querySelector('.label.cursor-pointer');
-    
+
     expect(labelElement).toBeInTheDocument();
     expect(labelElement).toHaveClass('gap-3');
-    expect(labelElement?.querySelector('.label-text')).toHaveTextContent('Left Label');
+    expect(labelElement?.querySelector('.label-text')).toHaveTextContent(
+      'Left Label',
+    );
   });
 
   it('accepts and applies custom className', () => {
@@ -296,9 +294,9 @@ describe('FileInput', () => {
   });
 
   it('forwards ref correctly', () => {
-    const ref = React.createRef<HTMLInputElement>();
+    const ref = createRef<HTMLInputElement>();
     render(<FileInput ref={ref} />);
-    
+
     expect(ref.current).toBeInstanceOf(HTMLInputElement);
     expect(ref.current?.type).toBe('file');
   });
@@ -310,57 +308,49 @@ describe('FileInput', () => {
   });
 
   it('handles multiple file selection', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(<FileInput multiple onChange={handleChange} showFileList />);
-    
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+    const input = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
     const file1 = createMockFile('test1.txt', 1024, 'text/plain');
     const file2 = createMockFile('test2.txt', 2048, 'text/plain');
-    
-    Object.defineProperty(input, 'files', {
-      value: [file1, file2],
-      writable: false,
-    });
-    
+
+    setInputFiles(input, [file1, file2]);
+
     fireEvent.change(input);
-    
+
     expect(screen.getByText('test1.txt')).toBeInTheDocument();
     expect(screen.getByText('test2.txt')).toBeInTheDocument();
     expect(handleChange).toHaveBeenCalledWith(
       expect.objectContaining({ length: 2 }),
-      expect.any(Object)
+      expect.any(Object),
     );
   });
 
   it('formats file sizes correctly', () => {
     render(<FileInput showFileList />);
-    
-    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+    const input = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
     const smallFile = createMockFile('small.txt', 500, 'text/plain');
     const kbFile = createMockFile('kb.txt', 2048, 'text/plain');
     const mbFile = createMockFile('mb.txt', 2097152, 'text/plain');
-    
+
     // Test small file
-    Object.defineProperty(input, 'files', {
-      value: [smallFile],
-      writable: false,
-    });
+    setInputFiles(input, [smallFile]);
     fireEvent.change(input);
     expect(screen.getByText('500 Bytes')).toBeInTheDocument();
-    
+
     // Test KB file
-    Object.defineProperty(input, 'files', {
-      value: [kbFile],
-      writable: false,
-    });
+    setInputFiles(input, [kbFile]);
     fireEvent.change(input);
     expect(screen.getByText('2 KB')).toBeInTheDocument();
-    
+
     // Test MB file
-    Object.defineProperty(input, 'files', {
-      value: [mbFile],
-      writable: false,
-    });
+    setInputFiles(input, [mbFile]);
     fireEvent.change(input);
     expect(screen.getByText('2 MB')).toBeInTheDocument();
   });

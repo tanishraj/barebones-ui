@@ -1,10 +1,22 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { Tabs, Tab, TabList, TabPanels, TabPanel, SimpleTabs } from './Tab';
-import { 
-  Home, User, Settings, Bell, Mail, Heart, Star, ShoppingCart, 
-  FileText, Image, Music, Video, Download, Upload, Trash, Edit 
+import {
+  Home,
+  User,
+  Settings,
+  Bell,
+  Heart,
+  Star,
+  ShoppingCart,
+  FileText,
+  Image,
+  Music,
+  Video,
+  Download,
+  Trash,
 } from 'lucide-react';
+
+import { Tabs, Tab, TabList, TabPanels, TabPanel, SimpleTabs } from './Tab';
 
 const meta: Meta<typeof Tabs> = {
   title: 'Components/Tab',
@@ -13,7 +25,8 @@ const meta: Meta<typeof Tabs> = {
     layout: 'padded',
     docs: {
       description: {
-        component: 'Tab component based on DaisyUI with various styles, sizes, and orientations.',
+        component:
+          'Tab component based on DaisyUI with various styles, sizes, and orientations.',
       },
     },
   },
@@ -190,10 +203,18 @@ export const WithIcons: Story = {
   render: () => (
     <Tabs defaultValue='home' variant='boxed'>
       <TabList>
-        <Tab value='home' icon={<Home className='h-4 w-4' />}>Home</Tab>
-        <Tab value='profile' icon={<User className='h-4 w-4' />}>Profile</Tab>
-        <Tab value='settings' icon={<Settings className='h-4 w-4' />}>Settings</Tab>
-        <Tab value='notifications' icon={<Bell className='h-4 w-4' />}>Notifications</Tab>
+        <Tab value='home' icon={<Home className='h-4 w-4' />}>
+          Home
+        </Tab>
+        <Tab value='profile' icon={<User className='h-4 w-4' />}>
+          Profile
+        </Tab>
+        <Tab value='settings' icon={<Settings className='h-4 w-4' />}>
+          Settings
+        </Tab>
+        <Tab value='notifications' icon={<Bell className='h-4 w-4' />}>
+          Notifications
+        </Tab>
       </TabList>
       <TabPanels>
         <TabPanel value='home'>
@@ -222,9 +243,13 @@ export const DisabledTabs: Story = {
     <Tabs defaultValue='tab1' variant='bordered'>
       <TabList>
         <Tab value='tab1'>Active Tab</Tab>
-        <Tab value='tab2' disabled>Disabled Tab</Tab>
+        <Tab value='tab2' disabled>
+          Disabled Tab
+        </Tab>
         <Tab value='tab3'>Another Active</Tab>
-        <Tab value='tab4' disabled>Another Disabled</Tab>
+        <Tab value='tab4' disabled>
+          Another Disabled
+        </Tab>
       </TabList>
       <TabPanels>
         <TabPanel value='tab1'>This tab is active and clickable.</TabPanel>
@@ -241,26 +266,17 @@ export const ControlledTabs: Story = {
     return (
       <div className='space-y-4'>
         <div className='flex gap-2'>
-          <button 
-            className='btn btn-sm'
-            onClick={() => setActiveTab('tab1')}
-          >
+          <button className='btn btn-sm' onClick={() => setActiveTab('tab1')}>
             Go to Tab 1
           </button>
-          <button 
-            className='btn btn-sm'
-            onClick={() => setActiveTab('tab2')}
-          >
+          <button className='btn btn-sm' onClick={() => setActiveTab('tab2')}>
             Go to Tab 2
           </button>
-          <button 
-            className='btn btn-sm'
-            onClick={() => setActiveTab('tab3')}
-          >
+          <button className='btn btn-sm' onClick={() => setActiveTab('tab3')}>
             Go to Tab 3
           </button>
         </div>
-        
+
         <Tabs value={activeTab} onChange={setActiveTab} variant='lifted'>
           <TabList>
             <Tab value='tab1'>Tab 1</Tab>
@@ -273,8 +289,10 @@ export const ControlledTabs: Story = {
             <TabPanel value='tab3'>Content for Tab 3</TabPanel>
           </TabPanels>
         </Tabs>
-        
-        <p className='text-sm'>Active tab: <strong>{activeTab}</strong></p>
+
+        <p className='text-sm'>
+          Active tab: <strong>{activeTab}</strong>
+        </p>
       </div>
     );
   },
@@ -305,7 +323,9 @@ export const VerticalTabs: Story = {
             <p>Control your privacy settings.</p>
           </TabPanel>
           <TabPanel value='notifications'>
-            <h3 className='text-lg font-semibold mb-2'>Notification Settings</h3>
+            <h3 className='text-lg font-semibold mb-2'>
+              Notification Settings
+            </h3>
             <p>Manage notification preferences.</p>
           </TabPanel>
           <TabPanel value='account'>
@@ -372,16 +392,27 @@ export const MediaTabs: Story = {
   render: () => (
     <Tabs defaultValue='images' variant='lifted'>
       <TabList>
-        <Tab value='images' icon={<Image className='h-4 w-4' />}>Images</Tab>
-        <Tab value='videos' icon={<Video className='h-4 w-4' />}>Videos</Tab>
-        <Tab value='music' icon={<Music className='h-4 w-4' />}>Music</Tab>
-        <Tab value='documents' icon={<FileText className='h-4 w-4' />}>Documents</Tab>
+        <Tab value='images' icon={<Image className='h-4 w-4' />}>
+          Images
+        </Tab>
+        <Tab value='videos' icon={<Video className='h-4 w-4' />}>
+          Videos
+        </Tab>
+        <Tab value='music' icon={<Music className='h-4 w-4' />}>
+          Music
+        </Tab>
+        <Tab value='documents' icon={<FileText className='h-4 w-4' />}>
+          Documents
+        </Tab>
       </TabList>
       <TabPanels>
         <TabPanel value='images'>
           <div className='grid grid-cols-3 gap-4'>
             {[1, 2, 3, 4, 5, 6].map(i => (
-              <div key={i} className='aspect-square bg-base-200 rounded-lg flex items-center justify-center'>
+              <div
+                key={i}
+                className='aspect-square bg-base-200 rounded-lg flex items-center justify-center'
+              >
                 <Image className='h-8 w-8 text-base-content/30' />
               </div>
             ))}
@@ -390,7 +421,10 @@ export const MediaTabs: Story = {
         <TabPanel value='videos'>
           <div className='grid grid-cols-2 gap-4'>
             {[1, 2, 3, 4].map(i => (
-              <div key={i} className='aspect-video bg-base-200 rounded-lg flex items-center justify-center'>
+              <div
+                key={i}
+                className='aspect-video bg-base-200 rounded-lg flex items-center justify-center'
+              >
                 <Video className='h-8 w-8 text-base-content/30' />
               </div>
             ))}
@@ -399,11 +433,16 @@ export const MediaTabs: Story = {
         <TabPanel value='music'>
           <div className='space-y-2'>
             {[1, 2, 3, 4, 5].map(i => (
-              <div key={i} className='p-3 bg-base-200 rounded-lg flex items-center gap-3'>
+              <div
+                key={i}
+                className='p-3 bg-base-200 rounded-lg flex items-center gap-3'
+              >
                 <Music className='h-5 w-5 text-base-content/50' />
                 <div className='flex-1'>
                   <div className='text-sm font-medium'>Song Title {i}</div>
-                  <div className='text-xs text-base-content/60'>Artist Name</div>
+                  <div className='text-xs text-base-content/60'>
+                    Artist Name
+                  </div>
                 </div>
                 <span className='text-xs text-base-content/50'>3:45</span>
               </div>
@@ -413,7 +452,10 @@ export const MediaTabs: Story = {
         <TabPanel value='documents'>
           <div className='space-y-2'>
             {[1, 2, 3, 4].map(i => (
-              <div key={i} className='p-3 bg-base-200 rounded-lg flex items-center gap-3'>
+              <div
+                key={i}
+                className='p-3 bg-base-200 rounded-lg flex items-center gap-3'
+              >
                 <FileText className='h-5 w-5 text-base-content/50' />
                 <div className='flex-1'>
                   <div className='text-sm font-medium'>Document {i}.pdf</div>
@@ -435,41 +477,47 @@ export const ShoppingTabs: Story = {
   render: () => {
     const [cartCount] = useState(3);
     const [wishlistCount] = useState(5);
-    
+
     return (
       <div className='card bg-base-100 shadow-xl'>
         <div className='card-body'>
           <h2 className='card-title mb-4'>My Shopping</h2>
-          
+
           <Tabs defaultValue='orders' variant='bordered'>
             <TabList>
               <Tab value='orders'>My Orders</Tab>
-              <Tab value='cart' icon={
-                <div className='relative'>
-                  <ShoppingCart className='h-4 w-4' />
-                  {cartCount > 0 && (
-                    <span className='absolute -top-2 -right-2 badge badge-xs badge-primary'>
-                      {cartCount}
-                    </span>
-                  )}
-                </div>
-              }>
+              <Tab
+                value='cart'
+                icon={
+                  <div className='relative'>
+                    <ShoppingCart className='h-4 w-4' />
+                    {cartCount > 0 && (
+                      <span className='absolute -top-2 -right-2 badge badge-xs badge-primary'>
+                        {cartCount}
+                      </span>
+                    )}
+                  </div>
+                }
+              >
                 Cart
               </Tab>
-              <Tab value='wishlist' icon={
-                <div className='relative'>
-                  <Heart className='h-4 w-4' />
-                  {wishlistCount > 0 && (
-                    <span className='absolute -top-2 -right-2 badge badge-xs badge-secondary'>
-                      {wishlistCount}
-                    </span>
-                  )}
-                </div>
-              }>
+              <Tab
+                value='wishlist'
+                icon={
+                  <div className='relative'>
+                    <Heart className='h-4 w-4' />
+                    {wishlistCount > 0 && (
+                      <span className='absolute -top-2 -right-2 badge badge-xs badge-secondary'>
+                        {wishlistCount}
+                      </span>
+                    )}
+                  </div>
+                }
+              >
                 Wishlist
               </Tab>
             </TabList>
-            
+
             <TabPanels>
               <TabPanel value='orders'>
                 <div className='space-y-3'>
@@ -477,7 +525,9 @@ export const ShoppingTabs: Story = {
                     <div className='flex justify-between items-start'>
                       <div>
                         <p className='font-semibold'>Order #12345</p>
-                        <p className='text-sm text-base-content/60'>Delivered on Dec 15, 2023</p>
+                        <p className='text-sm text-base-content/60'>
+                          Delivered on Dec 15, 2023
+                        </p>
                       </div>
                       <span className='badge badge-success'>Delivered</span>
                     </div>
@@ -486,18 +536,23 @@ export const ShoppingTabs: Story = {
                     <div className='flex justify-between items-start'>
                       <div>
                         <p className='font-semibold'>Order #12344</p>
-                        <p className='text-sm text-base-content/60'>Expected by Dec 20, 2023</p>
+                        <p className='text-sm text-base-content/60'>
+                          Expected by Dec 20, 2023
+                        </p>
                       </div>
                       <span className='badge badge-warning'>In Transit</span>
                     </div>
                   </div>
                 </div>
               </TabPanel>
-              
+
               <TabPanel value='cart'>
                 <div className='space-y-3'>
                   {[1, 2, 3].map(i => (
-                    <div key={i} className='flex gap-3 p-3 bg-base-200 rounded-lg'>
+                    <div
+                      key={i}
+                      className='flex gap-3 p-3 bg-base-200 rounded-lg'
+                    >
                       <div className='w-16 h-16 bg-base-300 rounded'></div>
                       <div className='flex-1'>
                         <p className='font-medium'>Product Name {i}</p>
@@ -511,7 +566,7 @@ export const ShoppingTabs: Story = {
                   <button className='btn btn-primary w-full'>Checkout</button>
                 </div>
               </TabPanel>
-              
+
               <TabPanel value='wishlist'>
                 <div className='grid grid-cols-2 gap-3'>
                   {[1, 2, 3, 4, 5].map(i => (
@@ -538,7 +593,7 @@ export const FormTabs: Story = {
     <div className='card bg-base-100 shadow-xl'>
       <div className='card-body'>
         <h2 className='card-title mb-4'>Account Settings</h2>
-        
+
         <Tabs defaultValue='personal' variant='lifted'>
           <TabList>
             <Tab value='personal'>Personal Info</Tab>
@@ -546,7 +601,7 @@ export const FormTabs: Story = {
             <Tab value='notifications'>Notifications</Tab>
             <Tab value='billing'>Billing</Tab>
           </TabList>
-          
+
           <TabPanels>
             <TabPanel value='personal'>
               <form className='space-y-4'>
@@ -554,18 +609,26 @@ export const FormTabs: Story = {
                   <label className='label'>
                     <span className='label-text'>Full Name</span>
                   </label>
-                  <input type='text' className='input input-bordered' placeholder='John Doe' />
+                  <input
+                    type='text'
+                    className='input input-bordered'
+                    placeholder='John Doe'
+                  />
                 </div>
                 <div className='form-control'>
                   <label className='label'>
                     <span className='label-text'>Email</span>
                   </label>
-                  <input type='email' className='input input-bordered' placeholder='john@example.com' />
+                  <input
+                    type='email'
+                    className='input input-bordered'
+                    placeholder='john@example.com'
+                  />
                 </div>
                 <button className='btn btn-primary'>Save Changes</button>
               </form>
             </TabPanel>
-            
+
             <TabPanel value='password'>
               <form className='space-y-4'>
                 <div className='form-control'>
@@ -589,7 +652,7 @@ export const FormTabs: Story = {
                 <button className='btn btn-primary'>Update Password</button>
               </form>
             </TabPanel>
-            
+
             <TabPanel value='notifications'>
               <div className='space-y-4'>
                 <label className='flex items-center gap-3'>
@@ -607,14 +670,16 @@ export const FormTabs: Story = {
                 <button className='btn btn-primary'>Save Preferences</button>
               </div>
             </TabPanel>
-            
+
             <TabPanel value='billing'>
               <div className='space-y-4'>
                 <div className='border border-base-300 rounded-lg p-4'>
                   <p className='font-semibold'>Visa ending in 4242</p>
                   <p className='text-sm text-base-content/60'>Expires 12/25</p>
                 </div>
-                <button className='btn btn-outline btn-sm'>Add Payment Method</button>
+                <button className='btn btn-outline btn-sm'>
+                  Add Payment Method
+                </button>
               </div>
             </TabPanel>
           </TabPanels>
@@ -631,7 +696,7 @@ export const KeepMountedExample: Story = {
         These tab panels stay mounted even when not visible (keepMounted=true).
         Check the console to see that all panels are rendered.
       </p>
-      
+
       <Tabs defaultValue='tab1' variant='bordered'>
         <TabList>
           <Tab value='tab1'>Tab 1</Tab>

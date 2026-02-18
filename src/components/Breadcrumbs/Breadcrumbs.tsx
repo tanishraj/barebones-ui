@@ -10,8 +10,9 @@ export interface BreadcrumbsItem {
   icon?: React.ReactNode;
 }
 
-export interface BreadcrumbsProps
-  extends VariantProps<typeof breadcrumbVariants> {
+export interface BreadcrumbsProps extends VariantProps<
+  typeof breadcrumbVariants
+> {
   items: BreadcrumbsItem[];
   maxWidth?: string;
   className?: string;

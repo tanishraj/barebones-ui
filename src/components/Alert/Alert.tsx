@@ -12,7 +12,8 @@ import { alertStyles } from './Alert.styles';
 import { AlertVariant } from './types';
 
 interface AlertProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof alertStyles> {
   icon?: React.FC<React.SVGProps<SVGSVGElement>>;
   title?: string;

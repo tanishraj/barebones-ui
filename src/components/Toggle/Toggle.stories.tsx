@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { FileCheck01, FileX01 } from '@untitled-ui/icons-react';
 
 import Toggle from './Toggle';

@@ -20,10 +20,8 @@ export const Carousel: FC<CarouselProps> = ({
   );
   return (
     <div className={carouselClassName}>
-      {Children.map(children, (child, index) => (
-        <div key={index} className='carousel-item'>
-          {child}
-        </div>
+      {Children.map(children, child => (
+        <div className='carousel-item'>{child}</div>
       ))}
     </div>
   );

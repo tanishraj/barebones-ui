@@ -6,7 +6,8 @@ import { Label, LabelPosition } from '../Label';
 import { cn } from '../../utils';
 
 export interface ColorPickerProps
-  extends VariantProps<typeof colorPickerStyles>,
+  extends
+    VariantProps<typeof colorPickerStyles>,
     VariantProps<typeof inputStyles>,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'onChange'> {
   label?: string;
