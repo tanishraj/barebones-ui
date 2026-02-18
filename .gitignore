@@ -26,3 +26,7 @@ coverage
 *.sw?
 
 *storybook.log
+
+# Playground
+playground
+index.html
