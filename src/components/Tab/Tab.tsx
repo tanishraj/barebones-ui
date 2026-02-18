@@ -1,15 +1,32 @@
 import { type VariantProps } from 'class-variance-authority';
-import React, { forwardRef, useState, useEffect, useCallback, createContext, useContext, ReactNode } from 'react';
+import {
+  forwardRef,
+  useState,
+  useEffect,
+  useCallback,
+  createContext,
+  useContext,
+  ReactNode,
+} from 'react';
 
 import { tabsStyles, tabStyles, tabContentStyles } from './Tab.styles';
 import { cn } from '../../utils';
+
+type TabsStyleVariants = VariantProps<typeof tabsStyles>;
+type TabsVariant = NonNullable<TabsStyleVariants['variant']>;
+type TabsSize = NonNullable<TabsStyleVariants['size']>;
+
+type TabsStyleProps = {
+  variant?: TabsVariant;
+  size?: TabsSize;
+};
 
 // Context for managing tab state
 interface TabContextValue {
   activeTab: string | number;
   setActiveTab: (value: string | number) => void;
-  variant?: 'default' | 'boxed' | 'bordered' | 'lifted';
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  variant?: TabsVariant;
+  size?: TabsSize;
 }
 
 const TabContext = createContext<TabContextValue | undefined>(undefined);
@@ -23,7 +40,7 @@ const useTabContext = () => {
 };
 
 // Tabs Container Component
-export type TabsProps = VariantProps<typeof tabsStyles> & {
+export type TabsProps = TabsStyleProps & {
   children: ReactNode;
   defaultValue?: string | number;
   value?: string | number;
@@ -40,7 +57,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
       value,
       onChange,
       className,
-      variant,
+      variant = 'default',
       size,
       orientation = 'horizontal',
       ...props
@@ -48,7 +65,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
     ref,
   ) => {
     const [activeTab, setActiveTabState] = useState<string | number>(
-      value ?? defaultValue ?? 0
+      value ?? defaultValue ?? 0,
     );
 
     useEffect(() => {
@@ -57,27 +74,35 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
       }
     }, [value]);
 
-    const setActiveTab = useCallback((newValue: string | number) => {
-      if (value === undefined) {
-        setActiveTabState(newValue);
-      }
-      onChange?.(newValue);
-    }, [value, onChange]);
+    const setActiveTab = useCallback(
+      (newValue: string | number) => {
+        if (value === undefined) {
+          setActiveTabState(newValue);
+        }
+        onChange?.(newValue);
+      },
+      [value, onChange],
+    );
+
+    const normalizedVariant = variant ?? 'default';
+    const normalizedSize = size ?? undefined;
 
     const tabsClassName = cn(
-      tabsStyles({ variant, size }),
+      tabsStyles({ variant: normalizedVariant, size: normalizedSize }),
       orientation === 'vertical' && 'flex-col items-stretch',
       className,
     );
 
     return (
-      <TabContext.Provider value={{ activeTab, setActiveTab, variant, size }}>
-        <div
-          ref={ref}
-          role='tablist'
-          className={tabsClassName}
-          {...props}
-        >
+      <TabContext.Provider
+        value={{
+          activeTab,
+          setActiveTab,
+          variant: normalizedVariant,
+          size: normalizedSize,
+        }}
+      >
+        <div ref={ref} role='tablist' className={tabsClassName} {...props}>
           {children}
         </div>
       </TabContext.Provider>
@@ -96,7 +121,7 @@ export type TabListProps = {
 export const TabList = forwardRef<HTMLDivElement, TabListProps>(
   ({ children, className, ...props }, ref) => {
     const { variant } = useTabContext();
-    
+
     return (
       <div
         ref={ref}
@@ -127,18 +152,7 @@ export type TabProps = VariantProps<typeof tabStyles> & {
 };
 
 export const Tab = forwardRef<HTMLButtonElement, TabProps>(
-  (
-    {
-      children,
-      value,
-      disabled,
-      className,
-      icon,
-      onClick,
-      ...props
-    },
-    ref,
-  ) => {
+  ({ children, value, disabled, className, icon, onClick, ...props }, ref) => {
     const { activeTab, setActiveTab } = useTabContext();
     const tabValue = value ?? children?.toString() ?? '';
     const isActive = activeTab === tabValue;
@@ -167,11 +181,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
         onClick={handleClick}
         {...props}
       >
-        {icon && (
-          <span className='mr-2 inline-flex items-center'>
-            {icon}
-          </span>
-        )}
+        {icon && <span className='mr-2 inline-flex items-center'>{icon}</span>}
         {children}
       </button>
     );
@@ -189,11 +199,7 @@ export type TabPanelsProps = {
 export const TabPanels = forwardRef<HTMLDivElement, TabPanelsProps>(
   ({ children, className, ...props }, ref) => {
     return (
-      <div
-        ref={ref}
-        className={cn('mt-4', className)}
-        {...props}
-      >
+      <div ref={ref} className={cn('mt-4', className)} {...props}>
         {children}
       </div>
     );
@@ -211,16 +217,7 @@ export type TabPanelProps = {
 };
 
 export const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
-  (
-    {
-      children,
-      value,
-      className,
-      keepMounted = false,
-      ...props
-    },
-    ref,
-  ) => {
+  ({ children, value, className, keepMounted = false, ...props }, ref) => {
     const { activeTab } = useTabContext();
     const panelValue = value ?? children?.toString() ?? '';
     const isVisible = activeTab === panelValue;
@@ -260,7 +257,7 @@ export type SimpleTabItem = {
   icon?: ReactNode;
 };
 
-export type SimpleTabsProps = VariantProps<typeof tabsStyles> & {
+export type SimpleTabsProps = TabsStyleProps & {
   items: SimpleTabItem[];
   defaultValue?: string | number;
   value?: string | number;
@@ -288,7 +285,8 @@ export const SimpleTabs = forwardRef<HTMLDivElement, SimpleTabsProps>(
     },
     ref,
   ) => {
-    const defaultVal = defaultValue ?? value ?? items[0]?.value ?? items[0]?.label ?? 0;
+    const defaultVal =
+      defaultValue ?? value ?? items[0]?.value ?? items[0]?.label ?? 0;
 
     return (
       <div className={cn('w-full', className)} ref={ref} {...props}>
@@ -300,7 +298,9 @@ export const SimpleTabs = forwardRef<HTMLDivElement, SimpleTabsProps>(
           size={size}
           orientation={orientation}
         >
-          <TabList className={orientation === 'vertical' ? 'flex-col w-48' : ''}>
+          <TabList
+            className={orientation === 'vertical' ? 'flex-col w-48' : ''}
+          >
             {items.map((item, index) => (
               <Tab
                 key={item.value ?? item.label ?? index}
@@ -313,8 +313,10 @@ export const SimpleTabs = forwardRef<HTMLDivElement, SimpleTabsProps>(
               </Tab>
             ))}
           </TabList>
-          
-          <TabPanels className={orientation === 'vertical' ? 'flex-1 ml-4' : ''}>
+
+          <TabPanels
+            className={orientation === 'vertical' ? 'flex-1 ml-4' : ''}
+          >
             {items.map((item, index) => (
               <TabPanel
                 key={item.value ?? item.label ?? index}
