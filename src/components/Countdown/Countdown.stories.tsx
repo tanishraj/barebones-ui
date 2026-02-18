@@ -1,4 +1,4 @@
-import { Meta, StoryFn } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 
 import { Countdown } from './Countdown';

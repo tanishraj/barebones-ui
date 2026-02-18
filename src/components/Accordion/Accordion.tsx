@@ -12,7 +12,8 @@ import {
 import { AccordionItem } from './types';
 
 export interface AccordionProps
-  extends VariantProps<typeof accordionStyles>,
+  extends
+    VariantProps<typeof accordionStyles>,
     VariantProps<typeof titleStyles>,
     VariantProps<typeof borderStyles>,
     React.HTMLAttributes<HTMLDivElement> {

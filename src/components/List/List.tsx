@@ -22,8 +22,13 @@ ListColComponent.displayName = 'ListCol';
 export const ListRow = ListRowComponent;
 export const ListCol = ListColComponent;
 
-// Create final exports with compound components
-export const List = Object.assign(ListComponent, {
-  Row: ListRowComponent,
-  Col: ListColComponent,
-});
+type ListCompoundComponent = typeof ListComponent & {
+  Row: typeof ListRowComponent;
+  Col: typeof ListColComponent;
+};
+
+const List = ListComponent as ListCompoundComponent;
+List.Row = ListRowComponent;
+List.Col = ListColComponent;
+
+export { List };

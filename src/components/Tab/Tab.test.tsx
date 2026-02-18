@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
 import { Tabs, Tab, TabList, TabPanels, TabPanel, SimpleTabs } from './Tab';
 
 describe('Tab Components', () => {
@@ -15,7 +16,7 @@ describe('Tab Components', () => {
             <TabPanel value='tab1'>Content 1</TabPanel>
             <TabPanel value='tab2'>Content 2</TabPanel>
           </TabPanels>
-        </Tabs>
+        </Tabs>,
       );
 
       expect(screen.getByText('Tab 1')).toBeInTheDocument();
@@ -35,7 +36,7 @@ describe('Tab Components', () => {
             <TabPanel value='tab1'>Content 1</TabPanel>
             <TabPanel value='tab2'>Content 2</TabPanel>
           </TabPanels>
-        </Tabs>
+        </Tabs>,
       );
 
       expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
@@ -53,7 +54,7 @@ describe('Tab Components', () => {
             <TabPanel value='tab1'>Content 1</TabPanel>
             <TabPanel value='tab2'>Content 2</TabPanel>
           </TabPanels>
-        </Tabs>
+        </Tabs>,
       );
 
       expect(screen.getByText('Content 1')).toBeInTheDocument();
@@ -71,7 +72,7 @@ describe('Tab Components', () => {
           <TabList>
             <Tab value='tab1'>Tab 1</Tab>
           </TabList>
-        </Tabs>
+        </Tabs>,
       );
 
       const tabsElement = container.querySelector('.tabs');
@@ -84,7 +85,7 @@ describe('Tab Components', () => {
           <TabList>
             <Tab value='tab1'>Tab 1</Tab>
           </TabList>
-        </Tabs>
+        </Tabs>,
       );
 
       const tabsElement = container.querySelector('.tabs');
@@ -103,7 +104,7 @@ describe('Tab Components', () => {
             <TabPanel value='tab1'>Content 1</TabPanel>
             <TabPanel value='tab2'>Content 2</TabPanel>
           </TabPanels>
-        </Tabs>
+        </Tabs>,
       );
 
       expect(screen.getByText('Content 1')).toBeInTheDocument();
@@ -121,7 +122,7 @@ describe('Tab Components', () => {
             <TabPanel value='tab1'>Content 1</TabPanel>
             <TabPanel value='tab2'>Content 2</TabPanel>
           </TabPanels>
-        </Tabs>
+        </Tabs>,
       );
 
       expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
@@ -136,7 +137,7 @@ describe('Tab Components', () => {
           <TabList>
             <Tab value='tab1'>Tab Label</Tab>
           </TabList>
-        </Tabs>
+        </Tabs>,
       );
 
       expect(screen.getByText('Tab Label')).toBeInTheDocument();
@@ -149,7 +150,7 @@ describe('Tab Components', () => {
             <Tab value='tab1'>Active Tab</Tab>
             <Tab value='tab2'>Inactive Tab</Tab>
           </TabList>
-        </Tabs>
+        </Tabs>,
       );
 
       const activeTab = screen.getByText('Active Tab');
@@ -164,9 +165,11 @@ describe('Tab Components', () => {
         <Tabs defaultValue='tab1'>
           <TabList>
             <Tab value='tab1'>Tab 1</Tab>
-            <Tab value='tab2' disabled>Disabled Tab</Tab>
+            <Tab value='tab2' disabled>
+              Disabled Tab
+            </Tab>
           </TabList>
-        </Tabs>
+        </Tabs>,
       );
 
       const disabledTab = screen.getByText('Disabled Tab');
@@ -179,17 +182,19 @@ describe('Tab Components', () => {
         <Tabs defaultValue='tab1'>
           <TabList>
             <Tab value='tab1'>Tab 1</Tab>
-            <Tab value='tab2' disabled>Disabled Tab</Tab>
+            <Tab value='tab2' disabled>
+              Disabled Tab
+            </Tab>
           </TabList>
           <TabPanels>
             <TabPanel value='tab1'>Content 1</TabPanel>
             <TabPanel value='tab2'>Content 2</TabPanel>
           </TabPanels>
-        </Tabs>
+        </Tabs>,
       );
 
       fireEvent.click(screen.getByText('Disabled Tab'));
-      
+
       expect(screen.getByText('Content 1')).toBeInTheDocument();
       expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
     });
@@ -202,7 +207,7 @@ describe('Tab Components', () => {
               Tab with Icon
             </Tab>
           </TabList>
-        </Tabs>
+        </Tabs>,
       );
 
       expect(screen.getByTestId('tab-icon')).toBeInTheDocument();
@@ -211,13 +216,15 @@ describe('Tab Components', () => {
 
     it('calls onClick handler when clicked', () => {
       const handleClick = jest.fn();
-      
+
       render(
         <Tabs defaultValue='tab1'>
           <TabList>
-            <Tab value='tab1' onClick={handleClick}>Tab 1</Tab>
+            <Tab value='tab1' onClick={handleClick}>
+              Tab 1
+            </Tab>
           </TabList>
-        </Tabs>
+        </Tabs>,
       );
 
       fireEvent.click(screen.getByText('Tab 1'));
@@ -230,9 +237,11 @@ describe('Tab Components', () => {
           <TabList>
             <Tab value='tab1'>Active Tab</Tab>
             <Tab value='tab2'>Inactive Tab</Tab>
-            <Tab value='tab3' disabled>Disabled Tab</Tab>
+            <Tab value='tab3' disabled>
+              Disabled Tab
+            </Tab>
           </TabList>
-        </Tabs>
+        </Tabs>,
       );
 
       const activeTab = screen.getByText('Active Tab');
@@ -241,10 +250,10 @@ describe('Tab Components', () => {
 
       expect(activeTab).toHaveAttribute('role', 'tab');
       expect(activeTab).toHaveAttribute('aria-selected', 'true');
-      
+
       expect(inactiveTab).toHaveAttribute('role', 'tab');
       expect(inactiveTab).toHaveAttribute('aria-selected', 'false');
-      
+
       expect(disabledTab).toHaveAttribute('aria-disabled', 'true');
     });
   });
@@ -256,7 +265,7 @@ describe('Tab Components', () => {
           <TabPanels>
             <TabPanel value='tab1'>Panel Content</TabPanel>
           </TabPanels>
-        </Tabs>
+        </Tabs>,
       );
 
       expect(screen.getByText('Panel Content')).toBeInTheDocument();
@@ -269,7 +278,7 @@ describe('Tab Components', () => {
             <TabPanel value='tab1'>Active Panel</TabPanel>
             <TabPanel value='tab2'>Inactive Panel</TabPanel>
           </TabPanels>
-        </Tabs>
+        </Tabs>,
       );
 
       expect(screen.getByText('Active Panel')).toBeInTheDocument();
@@ -281,9 +290,11 @@ describe('Tab Components', () => {
         <Tabs defaultValue='tab1'>
           <TabPanels>
             <TabPanel value='tab1'>Active Panel</TabPanel>
-            <TabPanel value='tab2' keepMounted>Kept Mounted Panel</TabPanel>
+            <TabPanel value='tab2' keepMounted>
+              Kept Mounted Panel
+            </TabPanel>
           </TabPanels>
-        </Tabs>
+        </Tabs>,
       );
 
       expect(screen.getByText('Active Panel')).toBeInTheDocument();
@@ -296,9 +307,11 @@ describe('Tab Components', () => {
         <Tabs defaultValue='tab1'>
           <TabPanels>
             <TabPanel value='tab1'>Active Panel</TabPanel>
-            <TabPanel value='tab2' keepMounted>Inactive Panel</TabPanel>
+            <TabPanel value='tab2' keepMounted>
+              Inactive Panel
+            </TabPanel>
           </TabPanels>
-        </Tabs>
+        </Tabs>,
       );
 
       const activePanel = screen.getByText('Active Panel').parentElement;
@@ -306,7 +319,7 @@ describe('Tab Components', () => {
 
       expect(activePanel).toHaveAttribute('role', 'tabpanel');
       expect(activePanel).toHaveAttribute('aria-hidden', 'false');
-      
+
       expect(inactivePanel).toHaveAttribute('role', 'tabpanel');
       expect(inactivePanel).toHaveAttribute('aria-hidden', 'true');
     });
@@ -356,17 +369,17 @@ describe('Tab Components', () => {
 
       const disabledTab = screen.getByText('Tab 3');
       expect(disabledTab).toBeDisabled();
-      
+
       fireEvent.click(disabledTab);
       expect(screen.queryByText('Content 3')).not.toBeInTheDocument();
     });
 
     it('renders tab icons', () => {
       const itemsWithIcons = [
-        { 
-          label: 'Tab with Icon', 
+        {
+          label: 'Tab with Icon',
           content: 'Content',
-          icon: <span data-testid='tab-icon'>🏠</span>
+          icon: <span data-testid='tab-icon'>🏠</span>,
         },
       ];
 
@@ -377,13 +390,8 @@ describe('Tab Components', () => {
 
     it('handles onChange callback', () => {
       const handleChange = jest.fn();
-      
-      render(
-        <SimpleTabs 
-          items={items} 
-          onChange={handleChange}
-        />
-      );
+
+      render(<SimpleTabs items={items} onChange={handleChange} />);
 
       fireEvent.click(screen.getByText('Tab 2'));
       expect(handleChange).toHaveBeenCalledWith('tab2');
@@ -391,11 +399,7 @@ describe('Tab Components', () => {
 
     it('applies variant and size props', () => {
       const { container } = render(
-        <SimpleTabs 
-          items={items} 
-          variant='boxed'
-          size='lg'
-        />
+        <SimpleTabs items={items} variant='boxed' size='lg' />,
       );
 
       const tabsElement = container.querySelector('.tabs');
@@ -411,7 +415,7 @@ describe('Tab Components', () => {
             <Tab value='tab1'>Tab 1</Tab>
             <Tab value='tab2'>Tab 2</Tab>
           </TabList>
-        </Tabs>
+        </Tabs>,
       );
 
       const tabsElement = container.querySelector('.tabs');

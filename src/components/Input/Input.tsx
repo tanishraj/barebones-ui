@@ -4,7 +4,10 @@ import { forwardRef } from 'react';
 import { inputStyles } from './Input.styles';
 import { cn } from '../../utils';
 
-export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> &
+export type InputProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'size'
+> &
   VariantProps<typeof inputStyles> & {
     label?: string;
     labelPosition?: 'top' | 'left';
@@ -44,12 +47,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const inputElement = (
       <div className='relative w-full'>
-        {(startAdornment || endAdornment) ? (
-          <label className={cn(
-            'input flex items-center gap-2',
-            inputClassName,
-            !props.value && !props.defaultValue && props.placeholder && 'placeholder-shown',
-          )}>
+        {startAdornment || endAdornment ? (
+          <label
+            className={cn(
+              'input flex items-center gap-2',
+              inputClassName,
+              !props.value &&
+                !props.defaultValue &&
+                props.placeholder &&
+                'placeholder-shown',
+            )}
+          >
             {startAdornment && (
               <span className='flex items-center text-base-content/70'>
                 {startAdornment}
@@ -77,15 +85,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
         )}
-        
+
         {/* Helper text */}
         {(helper || error || success) && (
           <div className='label'>
-            <span className={cn(
-              'label-text-alt',
-              error && 'text-error',
-              success && 'text-success',
-            )}>
+            <span
+              className={cn(
+                'label-text-alt',
+                error && 'text-error',
+                success && 'text-success',
+              )}
+            >
               {error || success || helper}
             </span>
           </div>

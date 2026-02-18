@@ -1,7 +1,17 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+import {
+  Mail,
+  Lock,
+  Search,
+  User,
+  Eye,
+  Calendar,
+  Phone,
+  Globe,
+} from 'lucide-react';
+
 import { Input } from './Input';
-import { Mail, Lock, Search, User, Eye, Calendar, Phone, Globe } from 'lucide-react';
 
 const meta: Meta<typeof Input> = {
   title: 'Components/Input',
@@ -10,7 +20,8 @@ const meta: Meta<typeof Input> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Input component based on DaisyUI with various sizes, colors, and states.',
+        component:
+          'Input component based on DaisyUI with various sizes, colors, and states.',
       },
     },
   },
@@ -23,7 +34,17 @@ const meta: Meta<typeof Input> = {
     },
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'accent', 'neutral', 'info', 'success', 'warning', 'error', 'ghost'],
+      options: [
+        'primary',
+        'secondary',
+        'accent',
+        'neutral',
+        'info',
+        'success',
+        'warning',
+        'error',
+        'ghost',
+      ],
       description: 'Color variant of the input',
     },
     bordered: {
@@ -177,10 +198,7 @@ export const WithAdornments: Story = {
         endAdornment='.00'
         type='number'
       />
-      <Input
-        placeholder='Website'
-        startAdornment='https://'
-      />
+      <Input placeholder='Website' startAdornment='https://' />
     </div>
   ),
 };
@@ -224,16 +242,8 @@ export const InputTypes: Story = {
 export const DisabledState: Story = {
   render: () => (
     <div className='flex flex-col gap-4 w-64'>
-      <Input
-        placeholder='Disabled input'
-        disabled
-        value='Cannot edit this'
-      />
-      <Input
-        label='Disabled with label'
-        placeholder='Disabled'
-        disabled
-      />
+      <Input placeholder='Disabled input' disabled value='Cannot edit this' />
+      <Input label='Disabled with label' placeholder='Disabled' disabled />
       <Input
         placeholder='Disabled with icon'
         startAdornment={<Mail className='h-4 w-4' />}
@@ -247,32 +257,31 @@ export const ControlledInput: Story = {
   render: () => {
     const [value, setValue] = useState('');
     const [email, setEmail] = useState('');
-    
+
     return (
       <div className='flex flex-col gap-4 w-64'>
         <div>
           <Input
             label='Controlled Input'
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={e => setValue(e.target.value)}
             placeholder='Type something...'
             helper={`Character count: ${value.length}`}
           />
-          <button 
-            className='btn btn-sm mt-2'
-            onClick={() => setValue('')}
-          >
+          <button className='btn btn-sm mt-2' onClick={() => setValue('')}>
             Clear
           </button>
         </div>
-        
+
         <Input
           label='Email Validation'
           type='email'
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={e => setEmail(e.target.value)}
           placeholder='Enter email'
-          error={email && !email.includes('@') ? 'Invalid email format' : undefined}
+          error={
+            email && !email.includes('@') ? 'Invalid email format' : undefined
+          }
           success={email && email.includes('@') ? 'Valid email!' : undefined}
         />
       </div>
@@ -285,14 +294,14 @@ export const FormExample: Story = {
     <form className='card w-96 bg-base-100 shadow-xl'>
       <div className='card-body'>
         <h2 className='card-title'>Sign Up Form</h2>
-        
+
         <Input
           label='Full Name'
           placeholder='John Doe'
           startAdornment={<User className='h-4 w-4' />}
           required
         />
-        
+
         <Input
           label='Email'
           type='email'
@@ -300,7 +309,7 @@ export const FormExample: Story = {
           startAdornment={<Mail className='h-4 w-4' />}
           required
         />
-        
+
         <Input
           label='Password'
           type='password'
@@ -309,30 +318,34 @@ export const FormExample: Story = {
           helper='Minimum 8 characters'
           required
         />
-        
+
         <Input
           label='Phone Number'
           type='tel'
           placeholder='+1 (555) 000-0000'
           startAdornment={<Phone className='h-4 w-4' />}
         />
-        
+
         <Input
           label='Birth Date'
           type='date'
           startAdornment={<Calendar className='h-4 w-4' />}
         />
-        
+
         <Input
           label='Website'
           type='url'
           placeholder='https://yoursite.com'
           startAdornment={<Globe className='h-4 w-4' />}
         />
-        
+
         <div className='card-actions justify-end mt-4'>
-          <button type='button' className='btn btn-ghost'>Cancel</button>
-          <button type='submit' className='btn btn-primary'>Sign Up</button>
+          <button type='button' className='btn btn-ghost'>
+            Cancel
+          </button>
+          <button type='submit' className='btn btn-primary'>
+            Sign Up
+          </button>
         </div>
       </div>
     </form>
@@ -343,7 +356,7 @@ export const ComplexValidation: Story = {
   render: () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    
+
     const passwordValidation = () => {
       if (!password) return {};
       if (password.length < 8) return { error: 'Password too short' };
@@ -351,43 +364,56 @@ export const ComplexValidation: Story = {
       if (!/[0-9]/.test(password)) return { error: 'Need a number' };
       return { success: 'Strong password!' };
     };
-    
+
     const confirmValidation = () => {
       if (!confirmPassword) return {};
-      if (confirmPassword !== password) return { error: 'Passwords do not match' };
+      if (confirmPassword !== password)
+        return { error: 'Passwords do not match' };
       return { success: 'Passwords match!' };
     };
-    
+
     return (
       <div className='flex flex-col gap-4 w-80'>
         <Input
           label='New Password'
           type='password'
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
           placeholder='Enter password'
           startAdornment={<Lock className='h-4 w-4' />}
           {...passwordValidation()}
         />
-        
+
         <Input
           label='Confirm Password'
           type='password'
           value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          onChange={e => setConfirmPassword(e.target.value)}
           placeholder='Confirm password'
           startAdornment={<Lock className='h-4 w-4' />}
           {...confirmValidation()}
         />
-        
+
         <div className='text-xs space-y-1 mt-2'>
-          <div className={password.length >= 8 ? 'text-success' : 'text-base-content/50'}>
+          <div
+            className={
+              password.length >= 8 ? 'text-success' : 'text-base-content/50'
+            }
+          >
             ✓ At least 8 characters
           </div>
-          <div className={/[A-Z]/.test(password) ? 'text-success' : 'text-base-content/50'}>
+          <div
+            className={
+              /[A-Z]/.test(password) ? 'text-success' : 'text-base-content/50'
+            }
+          >
             ✓ One uppercase letter
           </div>
-          <div className={/[0-9]/.test(password) ? 'text-success' : 'text-base-content/50'}>
+          <div
+            className={
+              /[0-9]/.test(password) ? 'text-success' : 'text-base-content/50'
+            }
+          >
             ✓ One number
           </div>
         </div>
@@ -399,18 +425,12 @@ export const ComplexValidation: Story = {
 export const CustomStyling: Story = {
   render: () => (
     <div className='flex flex-col gap-4 w-64'>
-      <Input
-        placeholder='Custom class'
-        className='!rounded-full'
-      />
+      <Input placeholder='Custom class' className='!rounded-full' />
       <Input
         placeholder='With custom border'
         className='!border-2 !border-dashed !border-primary'
       />
-      <Input
-        placeholder='With shadow'
-        className='shadow-lg'
-      />
+      <Input placeholder='With shadow' className='shadow-lg' />
       <Input
         placeholder='Gradient border'
         bordered={false}

@@ -49,6 +49,9 @@ const formatFileSize = (bytes: number): string => {
   return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
 };
 
+const getFileKey = (file: File) =>
+  `${file.name}-${file.size}-${file.lastModified}-${file.type}`;
+
 export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
   (
     {
@@ -71,6 +74,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       accept,
       multiple,
       buttonText,
+      'aria-label': ariaLabel,
       ...props
     },
     ref,
@@ -157,8 +161,11 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       onClear?.();
     };
 
-    const handleRemoveFile = (index: number) => {
-      const newFiles = selectedFiles.filter((_, i) => i !== index);
+    const handleRemoveFile = (fileKey: string) => {
+      const fileIndex = selectedFiles.findIndex(
+        file => getFileKey(file) === fileKey,
+      );
+      const newFiles = selectedFiles.filter((_, i) => i !== fileIndex);
       setSelectedFiles(newFiles);
 
       if (newFiles.length === 0) {
@@ -178,6 +185,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
         <input
           type='file'
           className={fileInputClassName}
+          aria-label={ariaLabel ?? buttonText}
           disabled={disabled}
           ref={combinedRef}
           accept={accept || acceptedFileTypes?.join(',')}
@@ -212,9 +220,9 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
         {/* File List */}
         {showFileList && selectedFiles.length > 0 && (
           <div className='mt-2 space-y-1'>
-            {selectedFiles.map((file, index) => (
+            {selectedFiles.map(file => (
               <div
-                key={`${file.name}-${index}`}
+                key={getFileKey(file)}
                 className='flex items-center justify-between p-2 bg-base-200 rounded-lg'
               >
                 <div className='flex items-center gap-2'>
@@ -229,7 +237,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                 {!disabled && (
                   <button
                     type='button'
-                    onClick={() => handleRemoveFile(index)}
+                    onClick={() => handleRemoveFile(getFileKey(file))}
                     className='btn btn-ghost btn-xs'
                     aria-label={`Remove ${file.name}`}
                   >

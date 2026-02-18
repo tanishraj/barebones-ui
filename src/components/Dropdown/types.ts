@@ -4,6 +4,7 @@ import { HTMLProps } from 'react';
 import { dropdownStyles } from './Dropdown.styles';
 
 export type DropdownMenuItem = {
+  key?: string;
   label: React.ReactNode;
   onClick?: () => void;
   className?: HTMLProps<HTMLDivElement>['className'];

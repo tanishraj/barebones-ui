@@ -26,6 +26,14 @@ export const DropdownMenu = ({
   menuClassName = '',
   tabIndex,
 }: DropdownMenuProps) => {
+  const getItemKey = (item: DropdownMenuItem) => {
+    if (item.key) return item.key;
+    if (typeof item.label === 'string' || typeof item.label === 'number') {
+      return String(item.label);
+    }
+    return `menu-item-${item.className ?? ''}-${item.disabled ? 'disabled' : 'enabled'}`;
+  };
+
   return (
     <ul
       tabIndex={tabIndex}
@@ -36,8 +44,8 @@ export const DropdownMenu = ({
         menuClassName,
       )}
     >
-      {items.map((item, index) => (
-        <li key={index}>
+      {items.map(item => (
+        <li key={getItemKey(item)}>
           <a onClick={item.onClick}>{item.label}</a>
         </li>
       ))}

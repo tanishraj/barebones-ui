@@ -5,8 +5,7 @@ import clsx from 'clsx';
 import { badgeStyles } from './Badge.styles';
 
 export interface BadgeProps
-  extends HTMLAttributes<HTMLSpanElement>,
-    VariantProps<typeof badgeStyles> {
+  extends HTMLAttributes<HTMLSpanElement>, VariantProps<typeof badgeStyles> {
   children: ReactNode;
 }
 

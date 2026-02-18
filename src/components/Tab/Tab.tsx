@@ -2,7 +2,6 @@ import { type VariantProps } from 'class-variance-authority';
 import {
   forwardRef,
   useState,
-  useEffect,
   useCallback,
   createContext,
   useContext,
@@ -64,20 +63,15 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
     },
     ref,
   ) => {
-    const [activeTab, setActiveTabState] = useState<string | number>(
-      value ?? defaultValue ?? 0,
-    );
-
-    useEffect(() => {
-      if (value !== undefined) {
-        setActiveTabState(value);
-      }
-    }, [value]);
+    const [uncontrolledActiveTab, setUncontrolledActiveTab] = useState<
+      string | number
+    >(value ?? defaultValue ?? 0);
+    const activeTab = value ?? uncontrolledActiveTab;
 
     const setActiveTab = useCallback(
       (newValue: string | number) => {
         if (value === undefined) {
-          setActiveTabState(newValue);
+          setUncontrolledActiveTab(newValue);
         }
         onChange?.(newValue);
       },

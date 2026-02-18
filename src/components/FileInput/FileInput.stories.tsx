@@ -1,7 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { FileInput } from './FileInput';
 import { Upload, Camera, Music, FileText, Film } from 'lucide-react';
+
+import { FileInput } from './FileInput';
 
 const meta: Meta<typeof FileInput> = {
   title: 'Components/FileInput',
@@ -10,7 +11,8 @@ const meta: Meta<typeof FileInput> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'File input component based on DaisyUI with preview, file list, and validation features.',
+        component:
+          'File input component based on DaisyUI with preview, file list, and validation features.',
       },
     },
   },
@@ -23,7 +25,17 @@ const meta: Meta<typeof FileInput> = {
     },
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'accent', 'neutral', 'info', 'success', 'warning', 'error', 'ghost'],
+      options: [
+        'primary',
+        'secondary',
+        'accent',
+        'neutral',
+        'info',
+        'success',
+        'warning',
+        'error',
+        'ghost',
+      ],
       description: 'Color variant of the file input',
     },
     bordered: {
@@ -161,11 +173,7 @@ export const FileTypeRestrictions: Story = {
         helper='Only PDF files'
         showFileList
       />
-      <FileInput
-        label='Audio Files'
-        accept='audio/*'
-        helper='MP3, WAV, etc.'
-      />
+      <FileInput label='Audio Files' accept='audio/*' helper='MP3, WAV, etc.' />
       <FileInput
         label='Video Files'
         accept='video/*'
@@ -184,10 +192,7 @@ export const FileTypeRestrictions: Story = {
 export const ValidationStates: Story = {
   render: () => (
     <div className='flex flex-col gap-4 w-80'>
-      <FileInput
-        label='With Success'
-        success='File uploaded successfully!'
-      />
+      <FileInput label='With Success' success='File uploaded successfully!' />
       <FileInput
         label='With Error'
         error='File upload failed. Please try again.'
@@ -205,14 +210,8 @@ export const ValidationStates: Story = {
 export const LabelPositions: Story = {
   render: () => (
     <div className='flex flex-col gap-6 w-96'>
-      <FileInput
-        label='Top Label (Default)'
-        labelPosition='top'
-      />
-      <FileInput
-        label='Left Label'
-        labelPosition='left'
-      />
+      <FileInput label='Top Label (Default)' labelPosition='top' />
+      <FileInput label='Left Label' labelPosition='left' />
     </div>
   ),
 };
@@ -220,15 +219,8 @@ export const LabelPositions: Story = {
 export const DisabledState: Story = {
   render: () => (
     <div className='flex flex-col gap-4 w-80'>
-      <FileInput
-        label='Disabled Input'
-        disabled
-      />
-      <FileInput
-        label='Disabled with Files'
-        disabled
-        value='document.pdf'
-      />
+      <FileInput label='Disabled Input' disabled />
+      <FileInput label='Disabled with Files' disabled value='document.pdf' />
     </div>
   ),
 };
@@ -274,7 +266,7 @@ export const ControlledComponent: Story = {
           multiple
           helper={uploadStatus}
         />
-        <button 
+        <button
           className='btn btn-primary w-full'
           onClick={handleUpload}
           disabled={!files || files.length === 0}
@@ -318,7 +310,7 @@ export const ImageUploader: Story = {
             <Camera className='h-5 w-5' />
             Profile Picture
           </h2>
-          
+
           {preview && (
             <div className='flex justify-center my-4'>
               <div className='avatar'>
@@ -328,7 +320,7 @@ export const ImageUploader: Story = {
               </div>
             </div>
           )}
-          
+
           <FileInput
             label='Choose Image'
             accept='image/*'
@@ -336,9 +328,9 @@ export const ImageUploader: Story = {
             helper='JPG, PNG or GIF (max 5MB)'
             maxFileSize={5 * 1024 * 1024}
           />
-          
+
           <div className='card-actions justify-end mt-4'>
-            <button 
+            <button
               className={`btn btn-primary ${uploading ? 'loading' : ''}`}
               onClick={handleUpload}
               disabled={!preview || uploading}
@@ -357,7 +349,7 @@ export const DocumentUploadForm: Story = {
     <form className='card w-96 bg-base-100 shadow-xl'>
       <div className='card-body'>
         <h2 className='card-title'>Submit Application</h2>
-        
+
         <FileInput
           label='Resume/CV *'
           accept='.pdf,.doc,.docx'
@@ -366,7 +358,7 @@ export const DocumentUploadForm: Story = {
           required
           showFileList
         />
-        
+
         <FileInput
           label='Cover Letter'
           accept='.pdf,.doc,.docx'
@@ -374,7 +366,7 @@ export const DocumentUploadForm: Story = {
           maxFileSize={2 * 1024 * 1024}
           showFileList
         />
-        
+
         <FileInput
           label='Portfolio'
           accept='.pdf,.zip'
@@ -382,7 +374,7 @@ export const DocumentUploadForm: Story = {
           maxFileSize={10 * 1024 * 1024}
           showFileList
         />
-        
+
         <FileInput
           label='References'
           accept='.pdf,.doc,.docx'
@@ -391,10 +383,14 @@ export const DocumentUploadForm: Story = {
           multiple
           showFileList
         />
-        
+
         <div className='card-actions justify-end mt-4'>
-          <button type='button' className='btn btn-ghost'>Cancel</button>
-          <button type='submit' className='btn btn-primary'>Submit</button>
+          <button type='button' className='btn btn-ghost'>
+            Cancel
+          </button>
+          <button type='submit' className='btn btn-primary'>
+            Submit
+          </button>
         </div>
       </div>
     </form>
@@ -406,54 +402,64 @@ export const MediaUploader: Story = {
     const [selectedType, setSelectedType] = useState('image');
 
     const getAcceptType = () => {
-      switch(selectedType) {
-        case 'image': return 'image/*';
-        case 'video': return 'video/*';
-        case 'audio': return 'audio/*';
-        case 'document': return '.pdf,.doc,.docx,.txt';
-        default: return '*';
+      switch (selectedType) {
+        case 'image':
+          return 'image/*';
+        case 'video':
+          return 'video/*';
+        case 'audio':
+          return 'audio/*';
+        case 'document':
+          return '.pdf,.doc,.docx,.txt';
+        default:
+          return '*';
       }
     };
 
     const getIcon = () => {
-      switch(selectedType) {
-        case 'image': return <Camera className='h-4 w-4' />;
-        case 'video': return <Film className='h-4 w-4' />;
-        case 'audio': return <Music className='h-4 w-4' />;
-        case 'document': return <FileText className='h-4 w-4' />;
-        default: return <Upload className='h-4 w-4' />;
+      switch (selectedType) {
+        case 'image':
+          return <Camera className='h-4 w-4' />;
+        case 'video':
+          return <Film className='h-4 w-4' />;
+        case 'audio':
+          return <Music className='h-4 w-4' />;
+        case 'document':
+          return <FileText className='h-4 w-4' />;
+        default:
+          return <Upload className='h-4 w-4' />;
       }
     };
 
     return (
       <div className='w-96 space-y-4'>
         <div className='tabs tabs-boxed'>
-          <button 
+          <button
             className={`tab ${selectedType === 'image' ? 'tab-active' : ''}`}
             onClick={() => setSelectedType('image')}
           >
             Images
           </button>
-          <button 
+          <button
             className={`tab ${selectedType === 'video' ? 'tab-active' : ''}`}
             onClick={() => setSelectedType('video')}
           >
             Videos
           </button>
-          <button 
+          <button
             className={`tab ${selectedType === 'audio' ? 'tab-active' : ''}`}
             onClick={() => setSelectedType('audio')}
           >
             Audio
           </button>
-          <button 
+          <button
             className={`tab ${selectedType === 'document' ? 'tab-active' : ''}`}
             onClick={() => setSelectedType('document')}
           >
             Documents
           </button>
         </div>
-        
+
         <div className='card bg-base-100 shadow-xl'>
           <div className='card-body'>
             <div className='flex items-center gap-2 mb-2'>
@@ -462,7 +468,7 @@ export const MediaUploader: Story = {
                 Upload {selectedType}
               </span>
             </div>
-            
+
             <FileInput
               accept={getAcceptType()}
               showPreview={selectedType === 'image'}
@@ -470,7 +476,7 @@ export const MediaUploader: Story = {
               multiple
               helper={`Select ${selectedType} files to upload`}
             />
-            
+
             <button className='btn btn-primary mt-4'>
               <Upload className='h-4 w-4' />
               Upload Files
@@ -485,14 +491,8 @@ export const MediaUploader: Story = {
 export const CustomStyling: Story = {
   render: () => (
     <div className='flex flex-col gap-4 w-80'>
-      <FileInput
-        label='Rounded'
-        className='!rounded-full'
-      />
-      <FileInput
-        label='With Shadow'
-        className='shadow-lg'
-      />
+      <FileInput label='Rounded' className='!rounded-full' />
+      <FileInput label='With Shadow' className='shadow-lg' />
       <FileInput
         label='Custom Border'
         className='!border-2 !border-dashed !border-primary'

@@ -5,8 +5,7 @@ import { cn } from '../../utils';
 import { statsStyles } from './Stat.styles';
 
 export interface StatsProps
-  extends HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof statsStyles> {}
+  extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof statsStyles> {}
 
 export const Stats = forwardRef<HTMLDivElement, StatsProps>(
   ({ className, direction, shadow, ...props }, ref) => {

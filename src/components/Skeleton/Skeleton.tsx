@@ -5,7 +5,8 @@ import { skeletonVariants } from './Skeleton.styles';
 import { cn } from '../../utils';
 
 export interface SkeletonProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof skeletonVariants> {}
 
 const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
