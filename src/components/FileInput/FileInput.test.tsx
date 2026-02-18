@@ -188,7 +188,7 @@ describe('FileInput', () => {
     const imageFile = createMockFile('test.jpg', 2048, 'image/jpeg');
 
     vi.spyOn(FileReader.prototype, 'readAsDataURL').mockImplementation(
-      function (_blob: Blob) {
+      function () {
         Object.defineProperty(this, 'result', {
           value: 'data:image/jpeg;base64,test',
           configurable: true,
@@ -240,7 +240,7 @@ describe('FileInput', () => {
     const imageFile = createMockFile('test.jpg', 2048, 'image/jpeg');
 
     vi.spyOn(FileReader.prototype, 'readAsDataURL').mockImplementation(
-      function (_blob: Blob) {
+      function () {
         Object.defineProperty(this, 'result', {
           value: 'data:image/jpeg;base64,test',
           configurable: true,

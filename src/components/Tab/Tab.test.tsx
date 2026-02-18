@@ -315,7 +315,9 @@ describe('Tab Components', () => {
         </Tabs>,
       );
 
-      const activePanel = screen.getByText('Active Panel').closest('[role="tabpanel"]');
+      const activePanel = screen
+        .getByText('Active Panel')
+        .closest('[role="tabpanel"]');
       const inactivePanel = screen
         .getByText('Inactive Panel')
         .closest('[role="tabpanel"]');
